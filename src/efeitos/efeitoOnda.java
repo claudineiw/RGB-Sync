@@ -1,4 +1,4 @@
-package rgb;
+package efeitos;
 
 import ca.fiercest.aurasdk.AuraRGBLight;
 import ca.fiercest.aurasdk.AuraSDK;
@@ -8,15 +8,16 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import rgb.botoesLogitech;
 
 
 public class efeitoOnda implements Runnable{
     AuraSDK AsusAura;    
-    boolean allDone = false;   
+    public boolean allDone = false;   
      int r=255;
      int g=0;
      int b=0;
-    public  efeitoOnda(AuraSDK AsusAura){
+     public  efeitoOnda(AuraSDK AsusAura){
        
         this.AsusAura=AsusAura;
     }

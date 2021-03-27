@@ -1,14 +1,15 @@
-package rgb;
+package efeitos;
 
 import ca.fiercest.aurasdk.AuraRGBLight;
 import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.aurasdk.Color;
 import com.logitech.gaming.LogiLED;
 import java.util.List;
+import rgb.botoesLogitech;
 
 public class efeitoArcoIris implements Runnable{
     AuraSDK AsusAura;    
-    boolean allDone = false;    
+    public boolean allDone = false;    
     public  efeitoArcoIris(AuraSDK AsusAura){
        
         this.AsusAura=AsusAura;

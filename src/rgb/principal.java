@@ -5,6 +5,12 @@
  */
 package rgb;
 
+import efeitos.efeitoOnda;
+import efeitos.efeitoDecremental;
+import efeitos.efeitoMusica;
+import efeitos.efeitoPorImagemDaTela;
+import efeitos.efeitoArcoIris;
+import efeitos.efeitoStrobol;
 import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.aurasdk.Color;
 import com.logitech.gaming.LogiLED;
@@ -15,7 +21,6 @@ import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

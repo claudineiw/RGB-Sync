@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rgb;
+package efeitos;
 
 import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.aurasdk.Color;
@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import rgb.botoesLogitech;
 
 
 /**
@@ -33,7 +34,7 @@ public class efeitoPorImagemDaTela implements Runnable{
         int altura;
         int[] dataBuffInt;
         int[][] matrix;
-        boolean allDone = false;   
+       public  boolean allDone = false;   
         int [][] botao;
         java.awt.Color colorJava;
         Color colorAsus;

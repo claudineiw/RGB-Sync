@@ -1,4 +1,4 @@
-package rgb;
+package efeitos;
 
 import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.aurasdk.Color;
@@ -8,7 +8,7 @@ import javax.swing.JColorChooser;
 public class efeitoDecremental implements Runnable{
     AuraSDK AsusAura;
     JColorChooser color;
-    boolean allDone = false;    
+    public boolean allDone = false;    
     
     public  efeitoDecremental(JColorChooser color,AuraSDK AsusAura){
         this.color=color;

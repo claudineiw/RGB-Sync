@@ -1,4 +1,4 @@
-package rgb;
+package efeitos;
 
 import sound.Note;
 import sound.Sound;
@@ -37,7 +37,7 @@ public class efeitoMusica implements Runnable{
 	private static final int MIDI_EVENT_VELOCITY = 127;
         private  TargetDataLine line;
         private  AuraSDK AsusAura;
-        boolean allDone = false;   
+        public boolean allDone = false;   
     
      public  efeitoMusica(AuraSDK AsusAura){       
         this.AsusAura=AsusAura;

@@ -3,19 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rgb;
+package efeitos;
 
 import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.aurasdk.Color;
 import com.logitech.gaming.LogiLED;
-import javax.swing.JColorChooser;
 
 
 
 
 public class efeitoStrobol implements Runnable{
     AuraSDK AsusAura;  
-    boolean allDone = false;    
+    public boolean allDone = false;    
     
     public  efeitoStrobol(AuraSDK AsusAura){        
         this.AsusAura=AsusAura;
