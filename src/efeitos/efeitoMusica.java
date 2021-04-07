@@ -3,7 +3,7 @@ package efeitos;
 import sound.Note;
 import sound.Sound;
 import ca.fiercest.aurasdk.AuraSDK;
-import ca.fiercest.aurasdk.Color;
+import ca.fiercest.aurasdk.AsusColor;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -46,7 +46,7 @@ public class efeitoMusica implements Runnable{
         @Override
 	public void run(){	
         LogiLED.LogiLedInit();              
-        Color cor = new Color(255, 0,0);         
+        AsusColor cor = new AsusColor(255, 0,0);         
         AsusAura.setAllColors(cor);          
 
             AudioFormat format = getAudioFormat();        
@@ -101,7 +101,7 @@ public class efeitoMusica implements Runnable{
                         int red = new Double(redD).intValue()+10;
                         int green = new Double(greenD).intValue()+10;
                         int blue = new Double(blueD).intValue()+10;                 
-                        cor = new Color(red,green,blue);         
+                        cor = new AsusColor(red,green,blue);         
                         AsusAura.setAllColors(cor);                          
                         LogiLED.LogiLedSetLighting(red,green,blue); 
                         }

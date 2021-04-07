@@ -2,31 +2,32 @@ package efeitos;
 
 import ca.fiercest.aurasdk.AuraRGBLight;
 import ca.fiercest.aurasdk.AuraSDK;
-import ca.fiercest.aurasdk.Color;
+import ca.fiercest.aurasdk.AsusColor;
 import com.logitech.gaming.LogiLED;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import rgb.botoesLogitech;
+import rgb.LogitechConversao;
 
 
 public class efeitoOnda implements Runnable{
     AuraSDK AsusAura;    
     public boolean allDone = false;   
-     int r=255;
-     int g=0;
-     int b=0;
+     private int r=255;
+     private int g=0;
+     private int b=0;
+     LogitechConversao logitechconversao;
      public  efeitoOnda(AuraSDK AsusAura){
-       
+       this.logitechconversao= new LogitechConversao();
         this.AsusAura=AsusAura;
     }
     
     @Override
     public void run(){   
-        botoesLogitech botoes = new botoesLogitech();
+        LogitechConversao botoes = new LogitechConversao();
         int [][] listaBotoes=botoes.getBotoes();
-        Color cor = new Color(r, g, b);  
+        AsusColor cor = new AsusColor(r, g, b);  
          List<AuraRGBLight> luzes=AsusAura.getAllLights(); 
         while(!allDone){                 
              if (allDone) {                    
@@ -43,8 +44,9 @@ public class efeitoOnda implements Runnable{
                  for(int y=0;y<listaBotoes[i].length;y++){
                      if (allDone) {                    
                     return;
-                } 
-                     LogiLED.LogiLedSetLightingForKeyWithScanCode(listaBotoes[i][y], r, g, b);
+                }   
+                     logitechconversao.setRGB(r, g, b);
+                     LogiLED.LogiLedSetLightingForKeyWithScanCode(listaBotoes[i][y], logitechconversao.getR(),logitechconversao.getG(), logitechconversao.getB());
                  }
                  time();
              }             
@@ -65,7 +67,7 @@ public class efeitoOnda implements Runnable{
             }
     }
     
-    public Color trocarCor(){               
+    public AsusColor trocarCor(){               
                     if(r==255 && g==0 && b==0){
                         r=255;
                         g=255;
@@ -90,7 +92,7 @@ public class efeitoOnda implements Runnable{
                             b=0;
                         }
                        
-          return new Color(r, g, b);
+          return new AsusColor(r, g, b);
     }
             
 }

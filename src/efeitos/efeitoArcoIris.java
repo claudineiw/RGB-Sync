@@ -2,17 +2,18 @@ package efeitos;
 
 import ca.fiercest.aurasdk.AuraRGBLight;
 import ca.fiercest.aurasdk.AuraSDK;
-import ca.fiercest.aurasdk.Color;
+import ca.fiercest.aurasdk.AsusColor;
 import com.logitech.gaming.LogiLED;
 import java.util.List;
-import rgb.botoesLogitech;
+import rgb.LogitechConversao;
 
 public class efeitoArcoIris implements Runnable{
     AuraSDK AsusAura;    
     public boolean allDone = false;    
-    public  efeitoArcoIris(AuraSDK AsusAura){
-       
+    LogitechConversao logitechConversao;
+    public  efeitoArcoIris(AuraSDK AsusAura){       
         this.AsusAura=AsusAura;
+        this.logitechConversao = new LogitechConversao();
     }
     
     @Override
@@ -23,7 +24,7 @@ public class efeitoArcoIris implements Runnable{
        int g=0;
        int b=0;
        
-        Color cor = new Color(r, g, b);
+        AsusColor cor = new AsusColor(r, g, b);
          
                
         while(!allDone){                 
@@ -34,44 +35,45 @@ public class efeitoArcoIris implements Runnable{
              
              for(int y=0;y<23;y++){      
                  try{
-                 cor = new Color(r, g, b); 
+                 cor = new AsusColor(r, g, b); 
                  try{
-                 LogiLED.LogiLedSetLightingForKeyWithScanCode(botoesLogitech.primeiro[y], r, g, b);
+                     logitechConversao.setRGB(r, g, b);
+                 LogiLED.LogiLedSetLightingForKeyWithScanCode(LogitechConversao.primeiro[y], logitechConversao.getR(), logitechConversao.getG(), logitechConversao.getB());
                  }catch(Exception ex){
                  
              }
-                 //LogiLED.LogiLedSaveLightingForKey(botoesLogitech.primeiro[y]);   
+                  
                  try{
-                  LogiLED.LogiLedSetLightingForKeyWithScanCode(botoesLogitech.segundo[y], r, g, b);
+                  LogiLED.LogiLedSetLightingForKeyWithScanCode(LogitechConversao.segundo[y],logitechConversao.getR(), logitechConversao.getG(), logitechConversao.getB());
                   }catch(Exception ex){
                  
              }
-                 //LogiLED.LogiLedSaveLightingForKey(botoesLogitech.segundo[y]);
+                
                  try{
-                  LogiLED.LogiLedSetLightingForKeyWithScanCode(botoesLogitech.terceiro[y], r, g, b);
+                  LogiLED.LogiLedSetLightingForKeyWithScanCode(LogitechConversao.terceiro[y], logitechConversao.getR(), logitechConversao.getG(), logitechConversao.getB());
                   }catch(Exception ex){
                  
              }
-                 //LogiLED.LogiLedSaveLightingForKey(botoesLogitech.terceiro[y]);
+                
                  try{
-                  LogiLED.LogiLedSetLightingForKeyWithScanCode(botoesLogitech.quarto[y], r, g, b);
+                  LogiLED.LogiLedSetLightingForKeyWithScanCode(LogitechConversao.quarto[y], logitechConversao.getR(), logitechConversao.getG(), logitechConversao.getB());
                   }catch(Exception ex){
                  
              }
-                 //LogiLED.LogiLedSaveLightingForKey(botoesLogitech.quarto[y]);
+                 
                  try{
-                  LogiLED.LogiLedSetLightingForKeyWithScanCode(botoesLogitech.quinto[y], r, g, b);
+                  LogiLED.LogiLedSetLightingForKeyWithScanCode(LogitechConversao.quinto[y], logitechConversao.getR(), logitechConversao.getG(), logitechConversao.getB());
                   }catch(Exception ex){
                  
              }
-                 //LogiLED.LogiLedSaveLightingForKey(botoesLogitech.quinto[y]);
+               
                  try{
-                  LogiLED.LogiLedSetLightingForKeyWithScanCode(botoesLogitech.sexto[y], r, g, b);
+                  LogiLED.LogiLedSetLightingForKeyWithScanCode(LogitechConversao.sexto[y], logitechConversao.getR(), logitechConversao.getG(), logitechConversao.getB());
                   
                   }catch(Exception ex){
                  
              }
-                 //LogiLED.LogiLedSaveLightingForKey(botoesLogitech.sexto[y]);  
+              
              }catch(Exception ex){
                  
              }
@@ -101,7 +103,7 @@ public class efeitoArcoIris implements Runnable{
                  if (allDone) {                      
                     break;
                 }
-                    cor = new Color(r, g, b);
+                    cor = new AsusColor(r, g, b);
                     try{
                     luzes.get(i).setColor(cor);   
                     luzes.get(i+1).setColor(cor);  

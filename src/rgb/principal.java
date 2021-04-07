@@ -12,8 +12,9 @@ import efeitos.efeitoPorImagemDaTela;
 import efeitos.efeitoArcoIris;
 import efeitos.efeitoStrobol;
 import ca.fiercest.aurasdk.AuraSDK;
-import ca.fiercest.aurasdk.Color;
+import ca.fiercest.aurasdk.AsusColor;
 import com.logitech.gaming.LogiLED;
+
 import java.awt.AWTException;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
@@ -23,7 +24,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import openHardware.hardware;
+import openHardware.openHardwareMonitorCon;
 
 
 /**
@@ -39,16 +41,21 @@ efeitoArcoIris efeitoArcoIris;
 efeitoOnda efeitoOnda;
 efeitoMusica efeitomMusica;
 efeitoPorImagemDaTela efeitoPorImagem;
+openHardwareMonitorCon power;
     /**
      * Creates new form principal
      */
-    public principal(){      
-         initComponents();             
+    public principal(){     
+            
+         initComponents();       
+         power = new openHardwareMonitorCon(tempCPU,tempGPU);             
+         Thread th = new Thread(power);
+         th.start(); 
          AsusAura = new AuraSDK();  
          LogiLED.LogiLedInit(); 
-         Color cor = new Color(255, 0,0);         
+         AsusColor cor = new AsusColor(255, 0,0);    
          AsusAura.setAllColors(cor);          
-         LogiLED.LogiLedSetLighting(cor.getR(),cor.getG(),cor.getB());    
+         LogiLED.LogiLedSetLighting(cor.getR(),cor.getG(),cor.getB());            
          this.setVisible(true);
          jColor.requestFocus();
     }
@@ -70,11 +77,16 @@ efeitoPorImagemDaTela efeitoPorImagem;
         btnEfeitoDecremental = new javax.swing.JButton();
         btnAplicarCorSelecionada = new javax.swing.JButton();
         btnEfeitoPorImagemNaTela = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jColor = new javax.swing.JColorChooser();
         btnSair = new javax.swing.JButton();
         btnHide = new javax.swing.JButton();
         btnMinimizar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        tempCPU = new javax.swing.JLabel();
+        tempGPU = new javax.swing.JLabel();
+        tempCPU1 = new javax.swing.JLabel();
+        tempGPU1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImages(null);
@@ -139,6 +151,14 @@ efeitoPorImagemDaTela efeitoPorImagem;
         });
         jPanel1.add(btnEfeitoPorImagemNaTela);
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1);
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 340, 660, 120));
 
         jColor.removeChooserPanel(jColor.getChooserPanels()[4]);
@@ -176,6 +196,18 @@ efeitoPorImagemDaTela efeitoPorImagem;
         getContentPane().add(btnMinimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 0, 30, 30));
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 0, -1, -1));
 
+        tempCPU.setText("CPU");
+        getContentPane().add(tempCPU, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        tempGPU.setText("GPU");
+        getContentPane().add(tempGPU, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, -1, -1));
+
+        tempCPU1.setText("CPU");
+        getContentPane().add(tempCPU1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        tempGPU1.setText("GPU");
+        getContentPane().add(tempGPU1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, -1, -1));
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -183,7 +215,7 @@ efeitoPorImagemDaTela efeitoPorImagem;
     private void btnAplicarCorSelecionadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAplicarCorSelecionadaActionPerformed
       pararEfeito();
             java.awt.Color nova = jColor.getSelectionModel().getSelectedColor();            
-            Color cor = new Color(nova.getRed(), nova.getGreen(), nova.getBlue());         
+            AsusColor cor = new AsusColor(nova.getRed(), nova.getGreen(), nova.getBlue());         
             AsusAura.setAllColors(cor);             
             LogiLED.LogiLedSetLighting(cor.getR(),cor.getG(),cor.getB());   
             
@@ -251,6 +283,10 @@ efeitoPorImagemDaTela efeitoPorImagem;
         th.start(); 
        
     }//GEN-LAST:event_btnEfeitoPorImagemNaTelaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+          
+    }//GEN-LAST:event_jButton1ActionPerformed
     
     
        
@@ -270,7 +306,7 @@ efeitoPorImagemDaTela efeitoPorImagem;
         trayIcon.addActionListener( new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-              show();
+              setVisible(true);
               tray.remove(trayIcon);
             }
         });
@@ -278,7 +314,7 @@ efeitoPorImagemDaTela efeitoPorImagem;
         abrir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                show();
+                setVisible(true);
                 tray.remove(trayIcon);
             }
         });
@@ -341,8 +377,13 @@ efeitoPorImagemDaTela efeitoPorImagem;
     private javax.swing.JButton btnHide;
     private javax.swing.JButton btnMinimizar;
     private javax.swing.JButton btnSair;
+    private javax.swing.JButton jButton1;
     private javax.swing.JColorChooser jColor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel tempCPU;
+    private javax.swing.JLabel tempCPU1;
+    private javax.swing.JLabel tempGPU;
+    private javax.swing.JLabel tempGPU1;
     // End of variables declaration//GEN-END:variables
 }
