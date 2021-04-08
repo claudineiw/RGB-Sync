@@ -1,0 +1,7 @@
+Usado para efeito luminozo de audio.
+instale e configure.
+
+Em Reproducao: Marque Cable input como Default
+em Gravacao :  Marque Cable output como Default. Na opcao escutar selecione a fonte de saida e audio.
+
+Pode se usar qualquer emulador de postas que desejar.
