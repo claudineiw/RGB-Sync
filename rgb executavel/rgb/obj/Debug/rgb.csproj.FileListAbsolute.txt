@@ -1,0 +1,9 @@
+C:\Users\Claud\source\repos\rgb\rgb\bin\Debug\rgb.exe.config
+C:\Users\Claud\source\repos\rgb\rgb\bin\Debug\rgb.exe
+C:\Users\Claud\source\repos\rgb\rgb\bin\Debug\rgb.pdb
+C:\Users\Claud\source\repos\rgb\rgb\obj\Debug\rgb.Properties.Resources.resources
+C:\Users\Claud\source\repos\rgb\rgb\obj\Debug\rgb.csproj.GenerateResource.cache
+C:\Users\Claud\source\repos\rgb\rgb\obj\Debug\rgb.csproj.CoreCompileInputs.cache
+C:\Users\Claud\source\repos\rgb\rgb\obj\Debug\rgb.exe
+C:\Users\Claud\source\repos\rgb\rgb\obj\Debug\rgb.pdb
+C:\Users\Claud\source\repos\rgb\rgb\obj\Debug\rgb.csprojAssemblyReference.cache
