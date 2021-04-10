@@ -94,18 +94,21 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
         txtTemp3 = new javax.swing.JFormattedTextField();
         jCbDispositivo = new javax.swing.JComboBox<>();
         painelSuperior = new javax.swing.JPanel();
-        btnHide = new javax.swing.JButton();
-        btnMinimizar = new javax.swing.JButton();
         tempCPU = new javax.swing.JLabel();
         tempGPU = new javax.swing.JLabel();
         tempCPUDescricao = new javax.swing.JLabel();
         tempGPUDescricao = new javax.swing.JLabel();
         btnSair = new javax.swing.JButton();
+        btnHide = new javax.swing.JButton();
+        btnMinimizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImages(null);
+        setMaximumSize(new java.awt.Dimension(460, 270));
+        setMinimumSize(new java.awt.Dimension(460, 270));
         setName("RGBPrincipal"); // NOI18N
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(460, 270));
         setResizable(false);
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -123,7 +126,7 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
         jColor.getChooserPanels()[0].getComponent(0).setVisible(false);
         painelCores.add(jColor);
 
-        getContentPane().add(painelCores, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 210, 220));
+        getContentPane().add(painelCores, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 250, 220));
 
         painelOpcoes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -133,7 +136,7 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                 jCbXEfeitosActionPerformed(evt);
             }
         });
-        painelOpcoes.add(jCbXEfeitos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 160, -1));
+        painelOpcoes.add(jCbXEfeitos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 170, -1));
 
         btnAplicarEfeito.setText("Aplicar");
         btnAplicarEfeito.addActionListener(new java.awt.event.ActionListener() {
@@ -141,21 +144,21 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                 btnAplicarEfeitoActionPerformed(evt);
             }
         });
-        painelOpcoes.add(btnAplicarEfeito, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, -1, -1));
+        painelOpcoes.add(btnAplicarEfeito, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, -1, -1));
 
         painelInternoTemperatuas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lbTemp4.setText("Temp4");
-        painelInternoTemperatuas.add(lbTemp4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, -1, -1));
+        painelInternoTemperatuas.add(lbTemp4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
 
         lbTemp1.setText("Temp1");
-        painelInternoTemperatuas.add(lbTemp1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        painelInternoTemperatuas.add(lbTemp1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, -1));
 
         lbTemp2.setText("Temp2");
-        painelInternoTemperatuas.add(lbTemp2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, -1, -1));
+        painelInternoTemperatuas.add(lbTemp2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
 
         lbTemp3.setText("Temp3");
-        painelInternoTemperatuas.add(lbTemp3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, -1, -1));
+        painelInternoTemperatuas.add(lbTemp3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
 
         txtTemp4.setText("0");
         txtTemp4.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -163,7 +166,7 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                 txtTemp4KeyPressed(evt);
             }
         });
-        painelInternoTemperatuas.add(txtTemp4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 30, -1));
+        painelInternoTemperatuas.add(txtTemp4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, 30, -1));
 
         txtTemp1.setText("0");
         txtTemp1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -171,7 +174,7 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                 txtTemp1KeyPressed(evt);
             }
         });
-        painelInternoTemperatuas.add(txtTemp1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 30, -1));
+        painelInternoTemperatuas.add(txtTemp1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 30, -1));
 
         txtTemp2.setText("0");
         txtTemp2.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -179,7 +182,7 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                 txtTemp2KeyPressed(evt);
             }
         });
-        painelInternoTemperatuas.add(txtTemp2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 30, -1));
+        painelInternoTemperatuas.add(txtTemp2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 30, -1));
 
         txtTemp3.setText("0");
         txtTemp3.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -187,34 +190,16 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                 txtTemp3KeyPressed(evt);
             }
         });
-        painelInternoTemperatuas.add(txtTemp3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 30, -1));
+        painelInternoTemperatuas.add(txtTemp3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, 30, -1));
 
         jCbDispositivo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CPU", "GPU" }));
-        painelInternoTemperatuas.add(jCbDispositivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 0, -1, -1));
+        painelInternoTemperatuas.add(jCbDispositivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, -1));
 
-        painelOpcoes.add(painelInternoTemperatuas, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 160, 140));
+        painelOpcoes.add(painelInternoTemperatuas, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 170, 140));
 
-        getContentPane().add(painelOpcoes, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, 180, 220));
+        getContentPane().add(painelOpcoes, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 40, 190, 220));
 
         painelSuperior.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnHide.setBackground(new java.awt.Color(60, 63, 255,0));
-        btnHide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/m_hide.png"))); // NOI18N
-        btnHide.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHideActionPerformed(evt);
-            }
-        });
-        painelSuperior.add(btnHide, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 0, 30, 30));
-
-        btnMinimizar.setBackground(new java.awt.Color(60, 63, 255,0));
-        btnMinimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/m_minimize.png"))); // NOI18N
-        btnMinimizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMinimizarActionPerformed(evt);
-            }
-        });
-        painelSuperior.add(btnMinimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 30, 30));
 
         tempCPU.setText("0");
         painelSuperior.add(tempCPU, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 30, -1));
@@ -235,9 +220,27 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                 btnSairActionPerformed(evt);
             }
         });
-        painelSuperior.add(btnSair, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 0, 30, 30));
+        painelSuperior.add(btnSair, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 0, 30, 30));
 
-        getContentPane().add(painelSuperior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 40));
+        btnHide.setBackground(new java.awt.Color(60, 63, 255,0));
+        btnHide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/m_hide.png"))); // NOI18N
+        btnHide.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHideActionPerformed(evt);
+            }
+        });
+        painelSuperior.add(btnHide, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 0, 30, 30));
+
+        btnMinimizar.setBackground(new java.awt.Color(60, 63, 255,0));
+        btnMinimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/m_minimize.png"))); // NOI18N
+        btnMinimizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMinimizarActionPerformed(evt);
+            }
+        });
+        painelSuperior.add(btnMinimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 0, 30, 30));
+
+        getContentPane().add(painelSuperior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 460, 40));
 
         pack();
         setLocationRelativeTo(null);
