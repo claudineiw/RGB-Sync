@@ -19,6 +19,7 @@ import efeitos.efeitoPorTemperatura;
 import java.awt.AWTException;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.Robot;
@@ -78,11 +79,6 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        painelCores = new javax.swing.JPanel();
-        jColor = new javax.swing.JColorChooser();
-        painelOpcoes = new javax.swing.JPanel();
-        jCbXEfeitos = new javax.swing.JComboBox<>();
-        btnAplicarEfeito = new javax.swing.JButton();
         painelInternoTemperatuas = new javax.swing.JPanel();
         lbTemp4 = new javax.swing.JLabel();
         lbTemp1 = new javax.swing.JLabel();
@@ -93,6 +89,8 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
         txtTemp2 = new javax.swing.JFormattedTextField();
         txtTemp3 = new javax.swing.JFormattedTextField();
         jCbDispositivo = new javax.swing.JComboBox<>();
+        painelCores = new javax.swing.JPanel();
+        jColor = new javax.swing.JColorChooser();
         painelSuperior = new javax.swing.JPanel();
         tempCPU = new javax.swing.JLabel();
         tempGPU = new javax.swing.JLabel();
@@ -101,6 +99,94 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
         btnSair = new javax.swing.JButton();
         btnHide = new javax.swing.JButton();
         btnMinimizar = new javax.swing.JButton();
+        painelOpcoes = new javax.swing.JPanel();
+        jCbXEfeitos = new javax.swing.JComboBox<>();
+        btnAplicarEfeito = new javax.swing.JButton();
+
+        lbTemp4.setText("Temp4");
+
+        lbTemp1.setText("Temp1");
+
+        lbTemp2.setText("Temp2");
+
+        lbTemp3.setText("Temp3");
+
+        txtTemp4.setText("0");
+        txtTemp4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTemp4KeyPressed(evt);
+            }
+        });
+
+        txtTemp1.setText("0");
+        txtTemp1.setPreferredSize(new java.awt.Dimension(11, 21));
+        txtTemp1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTemp1KeyPressed(evt);
+            }
+        });
+
+        txtTemp2.setText("0");
+        txtTemp2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTemp2KeyPressed(evt);
+            }
+        });
+
+        txtTemp3.setText("0");
+        txtTemp3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTemp3KeyPressed(evt);
+            }
+        });
+
+        jCbDispositivo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CPU", "GPU" }));
+
+        javax.swing.GroupLayout painelInternoTemperatuasLayout = new javax.swing.GroupLayout(painelInternoTemperatuas);
+        painelInternoTemperatuas.setLayout(painelInternoTemperatuasLayout);
+        painelInternoTemperatuasLayout.setHorizontalGroup(
+            painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelInternoTemperatuasLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbTemp1)
+                    .addComponent(lbTemp2)
+                    .addComponent(lbTemp3)
+                    .addComponent(lbTemp4))
+                .addGap(11, 11, 11)
+                .addGroup(painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtTemp1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTemp4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTemp2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTemp3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addComponent(jCbDispositivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        painelInternoTemperatuasLayout.setVerticalGroup(
+            painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelInternoTemperatuasLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelInternoTemperatuasLayout.createSequentialGroup()
+                        .addComponent(lbTemp1)
+                        .addGap(4, 4, 4)
+                        .addComponent(lbTemp2)
+                        .addGap(4, 4, 4)
+                        .addComponent(lbTemp3)
+                        .addGap(4, 4, 4)
+                        .addComponent(lbTemp4))
+                    .addComponent(txtTemp1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(painelInternoTemperatuasLayout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(txtTemp4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(painelInternoTemperatuasLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(txtTemp2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(painelInternoTemperatuasLayout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(txtTemp3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCbDispositivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImages(null);
@@ -127,77 +213,6 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
         painelCores.add(jColor);
 
         getContentPane().add(painelCores, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 250, 220));
-
-        painelOpcoes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jCbXEfeitos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecionada", "Musica", "Tela", "Stroob", "ArcoIris", "Onda", "Decremental", "Temperatura" }));
-        jCbXEfeitos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCbXEfeitosActionPerformed(evt);
-            }
-        });
-        painelOpcoes.add(jCbXEfeitos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 170, -1));
-
-        btnAplicarEfeito.setText("Aplicar");
-        btnAplicarEfeito.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAplicarEfeitoActionPerformed(evt);
-            }
-        });
-        painelOpcoes.add(btnAplicarEfeito, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, -1, -1));
-
-        painelInternoTemperatuas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lbTemp4.setText("Temp4");
-        painelInternoTemperatuas.add(lbTemp4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
-
-        lbTemp1.setText("Temp1");
-        painelInternoTemperatuas.add(lbTemp1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, -1));
-
-        lbTemp2.setText("Temp2");
-        painelInternoTemperatuas.add(lbTemp2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
-
-        lbTemp3.setText("Temp3");
-        painelInternoTemperatuas.add(lbTemp3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
-
-        txtTemp4.setText("0");
-        txtTemp4.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtTemp4KeyPressed(evt);
-            }
-        });
-        painelInternoTemperatuas.add(txtTemp4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, 30, -1));
-
-        txtTemp1.setText("0");
-        txtTemp1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtTemp1KeyPressed(evt);
-            }
-        });
-        painelInternoTemperatuas.add(txtTemp1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 30, -1));
-
-        txtTemp2.setText("0");
-        txtTemp2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtTemp2KeyPressed(evt);
-            }
-        });
-        painelInternoTemperatuas.add(txtTemp2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 30, -1));
-
-        txtTemp3.setText("0");
-        txtTemp3.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtTemp3KeyPressed(evt);
-            }
-        });
-        painelInternoTemperatuas.add(txtTemp3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, 30, -1));
-
-        jCbDispositivo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CPU", "GPU" }));
-        painelInternoTemperatuas.add(jCbDispositivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, -1));
-
-        painelOpcoes.add(painelInternoTemperatuas, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 170, 140));
-
-        getContentPane().add(painelOpcoes, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 40, 190, 220));
 
         painelSuperior.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -241,6 +256,26 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
         painelSuperior.add(btnMinimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 0, 30, 30));
 
         getContentPane().add(painelSuperior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 460, 40));
+
+        painelOpcoes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jCbXEfeitos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecionada", "Musica", "Tela", "Stroob", "ArcoIris", "Onda", "Decremental", "Temperatura" }));
+        jCbXEfeitos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCbXEfeitosActionPerformed(evt);
+            }
+        });
+        painelOpcoes.add(jCbXEfeitos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 170, -1));
+
+        btnAplicarEfeito.setText("Aplicar");
+        btnAplicarEfeito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAplicarEfeitoActionPerformed(evt);
+            }
+        });
+        painelOpcoes.add(btnAplicarEfeito, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, -1, -1));
+
+        getContentPane().add(painelOpcoes, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 40, 190, 220));
 
         pack();
         setLocationRelativeTo(null);
@@ -384,6 +419,7 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                  painelInternoTemperatuas.setVisible(false);
                 break;
             case "Temperatura":
+                painelOpcoes.add(painelInternoTemperatuas, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 170, 140));               
                        painelInternoTemperatuas.setVisible(true);         
                 break;
         }
