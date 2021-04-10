@@ -5,7 +5,11 @@
 
 version: 2
 updates:
-  - package-ecosystem: "" # See documentation for possible values
-    directory: "/Aplicacao Java/" # Location of package manifests
+  - package-ecosystem: "npm"
+    directory: "/Aplicacao Java/"
     schedule:
       interval: "daily"
+    # Specify labels for npm pull requests
+    labels:
+      - "npm"
+      - "dependencies"
