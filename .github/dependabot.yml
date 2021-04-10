@@ -6,7 +6,7 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directory: "/Aplicacao Java/"
+    directory: "/Aplicacao Java/manifest.mf"
     schedule:
       interval: "daily"
     # Specify labels for npm pull requests
