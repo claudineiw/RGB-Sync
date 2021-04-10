@@ -19,7 +19,7 @@ public class openHardwareMonitorCon implements Runnable{
     private TypeToken tt;
     public static List<hardware> listaHardware;
     Gson gson;
-    public boolean alldone=false;
+    public boolean allDone=false;
     public JLabel tempCPU ;
     public JLabel tempGPU ;
     public openHardwareMonitorCon(JLabel tempCPU,JLabel tempGPU) {    
@@ -58,7 +58,7 @@ public class openHardwareMonitorCon implements Runnable{
     String script = "tempGpuECpu.ps1";
     String scriptParams = "-Parameter value";
     scriptParams=""; 
-    while(!alldone){       
+    while(!allDone){       
     BufferedReader srcReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(script)));
     PowerShellResponse response=null;
     if (scriptParams != null && !scriptParams.equals("")) {
