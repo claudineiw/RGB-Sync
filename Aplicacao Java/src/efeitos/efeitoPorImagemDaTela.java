@@ -31,7 +31,7 @@ public class efeitoPorImagemDaTela implements Runnable{
         int altura;
         int[] dataBuffInt;
         int[][] matrix;
-       public  boolean allDone = false;   
+        public  boolean allDone = false;   
         int [][] botao;
         java.awt.Color colorJava;
         AsusColor colorAsus;

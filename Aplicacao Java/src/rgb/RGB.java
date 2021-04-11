@@ -1,22 +1,17 @@
 package rgb;
-
-
 import javax.swing.UIManager;
 import java.awt.Toolkit;
 import java.io.IOException;
-
 import java.net.URL;
 import javax.swing.UnsupportedLookAndFeelException;
-import openHardware.openHardwareMonitorCon;
 
 
 
 
 
 public class RGB {
-    public static void main(String[] args) throws IOException{    
-      
-
+    
+    public static void main(String[] args) throws IOException{       
    try {  
        UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatDraculaIJTheme");
             URL url = RGB.class.getResource("/imagens/icone.png");      

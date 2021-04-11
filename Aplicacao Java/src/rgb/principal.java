@@ -12,6 +12,7 @@ import efeitos.efeitoPorImagemDaTela;
 import efeitos.efeitoArcoIris;
 import efeitos.efeitoStrobol;
 import ca.fiercest.aurasdk.AuraSDK;
+import capturaImagem.capturaTela;
 import com.logitech.gaming.LogiLED;
 import com.sun.glass.events.KeyEvent;
 import efeitos.efeitoCorSelecionada;
@@ -19,7 +20,6 @@ import efeitos.efeitoPorTemperatura;
 import java.awt.AWTException;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.Robot;
@@ -50,6 +50,7 @@ efeitoPorImagemDaTela efeitoPorImagem;
 efeitoCorSelecionada efeitoCorSelecionada;
 openHardwareMonitorCon power;
 efeitoPorTemperatura efeitoPorTemperatura;
+capturaTela capturaTela;
 private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101,102,103,104,105};
     /**
      * Creates new form principal
@@ -89,6 +90,9 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
         txtTemp2 = new javax.swing.JFormattedTextField();
         txtTemp3 = new javax.swing.JFormattedTextField();
         jCbDispositivo = new javax.swing.JComboBox<>();
+        painelnternoImagens = new javax.swing.JPanel();
+        molduraPainelInternoImagem = new javax.swing.JPanel();
+        lbImagem = new javax.swing.JLabel();
         painelCores = new javax.swing.JPanel();
         jColor = new javax.swing.JColorChooser();
         painelSuperior = new javax.swing.JPanel();
@@ -100,8 +104,8 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
         btnHide = new javax.swing.JButton();
         btnMinimizar = new javax.swing.JButton();
         painelOpcoes = new javax.swing.JPanel();
-        jCbXEfeitos = new javax.swing.JComboBox<>();
         btnAplicarEfeito = new javax.swing.JButton();
+        jCbXEfeitos = new javax.swing.JComboBox<>();
 
         lbTemp4.setText("Temp4");
 
@@ -188,13 +192,21 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                     .addComponent(jCbDispositivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
+        painelnternoImagens.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        molduraPainelInternoImagem.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        molduraPainelInternoImagem.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        molduraPainelInternoImagem.add(lbImagem, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 7, 340, 250));
+
+        painelnternoImagens.add(molduraPainelInternoImagem, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 360, 270));
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImages(null);
-        setMaximumSize(new java.awt.Dimension(460, 270));
-        setMinimumSize(new java.awt.Dimension(460, 270));
+        setMaximumSize(new java.awt.Dimension(700, 400));
+        setMinimumSize(new java.awt.Dimension(700, 400));
         setName("RGBPrincipal"); // NOI18N
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(460, 270));
+        setPreferredSize(new java.awt.Dimension(700, 400));
         setResizable(false);
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -235,7 +247,7 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                 btnSairActionPerformed(evt);
             }
         });
-        painelSuperior.add(btnSair, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 0, 30, 30));
+        painelSuperior.add(btnSair, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 0, 30, 30));
 
         btnHide.setBackground(new java.awt.Color(60, 63, 255,0));
         btnHide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/m_hide.png"))); // NOI18N
@@ -244,7 +256,7 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                 btnHideActionPerformed(evt);
             }
         });
-        painelSuperior.add(btnHide, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 0, 30, 30));
+        painelSuperior.add(btnHide, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 0, 30, 30));
 
         btnMinimizar.setBackground(new java.awt.Color(60, 63, 255,0));
         btnMinimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/m_minimize.png"))); // NOI18N
@@ -253,19 +265,12 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                 btnMinimizarActionPerformed(evt);
             }
         });
-        painelSuperior.add(btnMinimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 0, 30, 30));
+        painelSuperior.add(btnMinimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 0, 30, 30));
 
-        getContentPane().add(painelSuperior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 460, 40));
+        getContentPane().add(painelSuperior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, 40));
 
         painelOpcoes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jCbXEfeitos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecionada", "Musica", "Tela", "Stroob", "ArcoIris", "Onda", "Decremental", "Temperatura" }));
-        jCbXEfeitos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCbXEfeitosActionPerformed(evt);
-            }
-        });
-        painelOpcoes.add(jCbXEfeitos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 170, -1));
+        getContentPane().add(painelOpcoes, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 40, 420, 340));
 
         btnAplicarEfeito.setText("Aplicar");
         btnAplicarEfeito.addActionListener(new java.awt.event.ActionListener() {
@@ -273,9 +278,15 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                 btnAplicarEfeitoActionPerformed(evt);
             }
         });
-        painelOpcoes.add(btnAplicarEfeito, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, -1, -1));
+        getContentPane().add(btnAplicarEfeito, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 330, -1, -1));
 
-        getContentPane().add(painelOpcoes, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 40, 190, 220));
+        jCbXEfeitos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecionada", "Musica", "Tela", "Stroob", "ArcoIris", "Onda", "Decremental", "Temperatura" }));
+        jCbXEfeitos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCbXEfeitosActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jCbXEfeitos, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 170, -1));
 
         pack();
         setLocationRelativeTo(null);
@@ -316,8 +327,7 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                  th = new Thread(efeitomMusica);
                  th.start(); 
                 break;
-            case "Tela":
-                 
+            case "Tela":                    
                     efeitoPorImagem = new efeitoPorImagemDaTela(AsusAura);
                     th = new Thread(efeitoPorImagem);
                     th.start(); 
@@ -394,33 +404,49 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
     }//GEN-LAST:event_txtTemp4KeyPressed
 
     private void jCbXEfeitosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCbXEfeitosActionPerformed
-        
+                try{
+                    capturaTela.allDone=true;
+                }catch(Exception ex){
+                                        
+                }
                  switch(jCbXEfeitos.getSelectedItem().toString()){
             case "Musica":                 
                     painelInternoTemperatuas.setVisible(false);
+                    painelnternoImagens.setVisible(false);
                 break;
-            case "Tela":
-                  painelInternoTemperatuas.setVisible(false);
+            case "Tela":                   
+                    capturaTela = new capturaTela(lbImagem);
+                    Thread thCapturaTela = new Thread(capturaTela);
+                    thCapturaTela.start();
+                    painelOpcoes.add(painelnternoImagens, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 420, 340));   
+                    painelInternoTemperatuas.setVisible(false);
+                   painelnternoImagens.setVisible(true);
                     
                 break;
             case "Stroob":
                  painelInternoTemperatuas.setVisible(false);
+                  painelnternoImagens.setVisible(false);
                   break;
             case "ArcoIris":                  
                painelInternoTemperatuas.setVisible(false);
+                painelnternoImagens.setVisible(false);
                 break;
             case "Onda":                  
                     painelInternoTemperatuas.setVisible(false);
+                     painelnternoImagens.setVisible(false);
                 break;
             case "Decremental":                
                   painelInternoTemperatuas.setVisible(false);
+                   painelnternoImagens.setVisible(false);
                 break;
             case "Selecionada":                
                  painelInternoTemperatuas.setVisible(false);
+                  painelnternoImagens.setVisible(false);
                 break;
             case "Temperatura":
                 painelOpcoes.add(painelInternoTemperatuas, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 170, 140));               
-                       painelInternoTemperatuas.setVisible(true);         
+                painelInternoTemperatuas.setVisible(true);     
+                 painelnternoImagens.setVisible(false);
                 break;
         }
     }//GEN-LAST:event_jCbXEfeitosActionPerformed
@@ -531,14 +557,17 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
     private javax.swing.JComboBox<String> jCbDispositivo;
     private javax.swing.JComboBox<String> jCbXEfeitos;
     private javax.swing.JColorChooser jColor;
+    private javax.swing.JLabel lbImagem;
     private javax.swing.JLabel lbTemp1;
     private javax.swing.JLabel lbTemp2;
     private javax.swing.JLabel lbTemp3;
     private javax.swing.JLabel lbTemp4;
+    private javax.swing.JPanel molduraPainelInternoImagem;
     private javax.swing.JPanel painelCores;
     private javax.swing.JPanel painelInternoTemperatuas;
     private javax.swing.JPanel painelOpcoes;
     private javax.swing.JPanel painelSuperior;
+    private javax.swing.JPanel painelnternoImagens;
     private javax.swing.JLabel tempCPU;
     private javax.swing.JLabel tempCPUDescricao;
     private javax.swing.JLabel tempGPU;
