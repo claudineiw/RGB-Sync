@@ -15,7 +15,6 @@ import java.awt.image.BufferedImage;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.Icon;
 import javax.swing.JLabel;
 
 /**
@@ -32,15 +31,18 @@ public class capturaTela implements Runnable{
 
     @Override
     public void run() {
-        while(!allDone){
+        while(!allDone){           
             
             try {
+                Thread.sleep(500);
                image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
          } catch (AWTException ex) {
              Logger.getLogger(efeitoPorImagemDaTela.class.getName()).log(Level.SEVERE, null, ex);
-         }        
-        Image img = image.getScaledInstance(340, 250, BufferedImage.SCALE_SMOOTH);
-        image = new BufferedImage(340, 250, TYPE_INT_ARGB);
+         }  catch (InterruptedException ex) {        
+                Logger.getLogger(capturaTela.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        Image img = image.getScaledInstance(360, 270, BufferedImage.SCALE_SMOOTH);
+        image = new BufferedImage(360, 270, TYPE_INT_ARGB);
         image.getGraphics().drawImage(img, 0, 0 , null);        
         lbImagem.setIcon(new javax.swing.ImageIcon(image));
         }

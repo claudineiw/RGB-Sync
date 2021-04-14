@@ -32,12 +32,8 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import openHardware.openHardwareMonitorCon;
 import org.apache.commons.lang3.ArrayUtils;
+import org.netbeans.lib.awtextra.AbsoluteConstraints;
 
-
-/**
- *
- * @author Claud
- */
 public class principal extends javax.swing.JFrame {
 AuraSDK AsusAura;
 static TrayIcon trayIcon;
@@ -107,13 +103,15 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
         btnAplicarEfeito = new javax.swing.JButton();
         jCbXEfeitos = new javax.swing.JComboBox<>();
 
-        lbTemp4.setText("Temp4");
+        painelInternoTemperatuas.setPreferredSize(new java.awt.Dimension(370, 310));
 
-        lbTemp1.setText("Temp1");
+        lbTemp4.setText("Temperatura 04");
 
-        lbTemp2.setText("Temp2");
+        lbTemp1.setText("Temperatura 01");
 
-        lbTemp3.setText("Temp3");
+        lbTemp2.setText("Temperatura 02");
+
+        lbTemp3.setText("Temperatura 03");
 
         txtTemp4.setText("0");
         txtTemp4.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -151,62 +149,62 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
         painelInternoTemperatuasLayout.setHorizontalGroup(
             painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelInternoTemperatuasLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addGap(99, 99, 99)
                 .addGroup(painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbTemp1)
-                    .addComponent(lbTemp2)
-                    .addComponent(lbTemp3)
-                    .addComponent(lbTemp4))
-                .addGap(11, 11, 11)
-                .addGroup(painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtTemp1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTemp4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTemp2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTemp3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
-                .addComponent(jCbDispositivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(painelInternoTemperatuasLayout.createSequentialGroup()
+                        .addGroup(painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbTemp1)
+                            .addComponent(lbTemp2)
+                            .addComponent(lbTemp3)
+                            .addComponent(lbTemp4))
+                        .addGap(11, 11, 11)
+                        .addGroup(painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTemp1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTemp4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTemp2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTemp3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(painelInternoTemperatuasLayout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jCbDispositivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(139, Short.MAX_VALUE))
         );
         painelInternoTemperatuasLayout.setVerticalGroup(
             painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelInternoTemperatuasLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(painelInternoTemperatuasLayout.createSequentialGroup()
-                        .addComponent(lbTemp1)
-                        .addGap(4, 4, 4)
-                        .addComponent(lbTemp2)
-                        .addGap(4, 4, 4)
-                        .addComponent(lbTemp3)
-                        .addGap(4, 4, 4)
-                        .addComponent(lbTemp4))
-                    .addComponent(txtTemp1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(painelInternoTemperatuasLayout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(txtTemp4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(painelInternoTemperatuasLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(txtTemp2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(painelInternoTemperatuasLayout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(txtTemp3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jCbDispositivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(60, 60, 60)
+                .addComponent(jCbDispositivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtTemp1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbTemp1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtTemp2, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                    .addComponent(lbTemp2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtTemp3, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                    .addComponent(lbTemp3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtTemp4, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                    .addComponent(lbTemp4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         painelnternoImagens.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         molduraPainelInternoImagem.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         molduraPainelInternoImagem.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        molduraPainelInternoImagem.add(lbImagem, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 7, 340, 250));
+        molduraPainelInternoImagem.add(lbImagem, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 270));
 
-        painelnternoImagens.add(molduraPainelInternoImagem, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 360, 270));
+        painelnternoImagens.add(molduraPainelInternoImagem, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 360, 270));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImages(null);
-        setMaximumSize(new java.awt.Dimension(700, 400));
         setMinimumSize(new java.awt.Dimension(700, 400));
         setName("RGBPrincipal"); // NOI18N
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(700, 400));
         setResizable(false);
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -327,7 +325,8 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                  th = new Thread(efeitomMusica);
                  th.start(); 
                 break;
-            case "Tela":                    
+            case "Tela":         
+                    capturaTela.allDone=true;                
                     efeitoPorImagem = new efeitoPorImagemDaTela(AsusAura);
                     th = new Thread(efeitoPorImagem);
                     th.start(); 
@@ -404,7 +403,8 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
     }//GEN-LAST:event_txtTemp4KeyPressed
 
     private void jCbXEfeitosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCbXEfeitosActionPerformed
-                try{
+    AbsoluteConstraints absoluteConstraints = new org.netbeans.lib.awtextra.AbsoluteConstraints(0,0, 420, 340);       
+        try{
                     capturaTela.allDone=true;
                 }catch(Exception ex){
                                         
@@ -418,7 +418,7 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                     capturaTela = new capturaTela(lbImagem);
                     Thread thCapturaTela = new Thread(capturaTela);
                     thCapturaTela.start();
-                    painelOpcoes.add(painelnternoImagens, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 420, 340));   
+                    painelOpcoes.add(painelnternoImagens, absoluteConstraints);   
                     painelInternoTemperatuas.setVisible(false);
                    painelnternoImagens.setVisible(true);
                     
@@ -444,7 +444,7 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                   painelnternoImagens.setVisible(false);
                 break;
             case "Temperatura":
-                painelOpcoes.add(painelInternoTemperatuas, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 170, 140));               
+                painelOpcoes.add(painelInternoTemperatuas,absoluteConstraints);               
                 painelInternoTemperatuas.setVisible(true);     
                  painelnternoImagens.setVisible(false);
                 break;

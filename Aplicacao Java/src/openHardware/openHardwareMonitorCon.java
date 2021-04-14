@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -58,45 +60,49 @@ public class openHardwareMonitorCon implements Runnable{
     String script = "tempGpuECpu.ps1";
     String scriptParams = "-Parameter value";
     scriptParams=""; 
-    while(!allDone){       
-    BufferedReader srcReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(script)));
-    PowerShellResponse response=null;
-    if (scriptParams != null && !scriptParams.equals("")) {
-        response = powerShell.executeScript(srcReader, scriptParams);
-    } else {
-        response =  powerShell.executeScript(srcReader);
-    }    
-    listaHardware = gson.fromJson(response.getCommandOutput(), tt.getType());  
-    for(hardware hd:listaHardware){
-        if(hd.getTipo().contains("Gpu")){
-            tempGPU.setText(String.valueOf(hd.getTemp()));
-            if(hd.getTemp()<50){
-                tempGPU.setForeground(Color.green);
-            }else{
-                if(hd.getTemp()>=50 && hd.getTemp()<70){
-                    tempGPU.setForeground(Color.yellow);
-                }else{
-                    if(hd.getTemp()>=70){
-                        tempGPU.setForeground(Color.red);
+    while(!allDone){     
+        try {
+            Thread.sleep(500);
+            BufferedReader srcReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(script)));
+            PowerShellResponse response=null;
+            if (scriptParams != null && !scriptParams.equals("")) {
+                response = powerShell.executeScript(srcReader, scriptParams);
+            } else {
+                response =  powerShell.executeScript(srcReader);
+            }
+            listaHardware = gson.fromJson(response.getCommandOutput(), tt.getType());
+            for(hardware hd:listaHardware){
+                if(hd.getTipo().contains("Gpu")){
+                    tempGPU.setText(String.valueOf(hd.getTemp()));
+                    if(hd.getTemp()<50){
+                        tempGPU.setForeground(Color.green);
+                    }else{
+                        if(hd.getTemp()>=50 && hd.getTemp()<70){
+                            tempGPU.setForeground(Color.yellow);
+                        }else{
+                            if(hd.getTemp()>=70){
+                                tempGPU.setForeground(Color.red);
+                            }
+                        }
                     }
                 }
-            }
+                if(hd.getTipo().contains("CPU")){
+                    tempCPU.setText(String.valueOf(hd.getTemp()));
+                    if(hd.getTemp()<50){
+                        tempCPU.setForeground(Color.green);
+                    }else{
+                        if(hd.getTemp()>=50 && hd.getTemp()<70){
+                            tempCPU.setForeground(Color.yellow);
+                        }else{
+                            if(hd.getTemp()>=70){
+                                tempCPU.setForeground(Color.red);
+                            }
+                        }
+                    }
+                }
+            }   } catch (InterruptedException ex) {
+            Logger.getLogger(openHardwareMonitorCon.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(hd.getTipo().contains("CPU")){
-            tempCPU.setText(String.valueOf(hd.getTemp()));
-              if(hd.getTemp()<50){
-                tempCPU.setForeground(Color.green);
-            }else{
-                if(hd.getTemp()>=50 && hd.getTemp()<70){
-                    tempCPU.setForeground(Color.yellow);
-                }else{
-                    if(hd.getTemp()>=70){
-                        tempCPU.setForeground(Color.red);
-                    }
-                }
-            }
-        }   
-    }
     
     
     }
