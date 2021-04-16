@@ -20,7 +20,9 @@ import efeitos.efeitoPorTemperatura;
 import java.awt.AWTException;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.MenuItem;
+import java.awt.Point;
 import java.awt.PopupMenu;
 import java.awt.Robot;
 import java.awt.SystemTray;
@@ -29,6 +31,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import openHardware.openHardwareMonitorCon;
 import org.apache.commons.lang3.ArrayUtils;
@@ -48,22 +51,18 @@ openHardwareMonitorCon power;
 efeitoPorTemperatura efeitoPorTemperatura;
 capturaTela capturaTela;
 private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101,102,103,104,105};
-    /**
-     * Creates new form principal
-     */
+ 
+
     public principal(){ 
-         initComponents(); 
+         initComponents();    
          
          LogiLED.LogiLedInit(); 
-         AsusAura = new AuraSDK();
-         
+         AsusAura = new AuraSDK();         
          power = new openHardwareMonitorCon(tempCPU,tempGPU);             
          Thread th = new Thread(power);
-         th.start(); 
-         
+         th.start();          
 	 jColor.setColor(Color.RED);         
-         btnAplicarEfeito.doClick(); 
-         painelInternoTemperatuas.setVisible(false);
+         btnAplicarEfeito.doClick();        
          this.setVisible(true);
     }
 
@@ -86,11 +85,16 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
         txtTemp2 = new javax.swing.JFormattedTextField();
         txtTemp3 = new javax.swing.JFormattedTextField();
         jCbDispositivo = new javax.swing.JComboBox<>();
-        painelnternoImagens = new javax.swing.JPanel();
-        molduraPainelInternoImagem = new javax.swing.JPanel();
+        painelInternoImagens = new javax.swing.JPanel();
+        lbMouse = new javax.swing.JLabel();
+        lbTeclado = new javax.swing.JLabel();
         lbImagem = new javax.swing.JLabel();
+        painelPrincipal = new javax.swing.JLayeredPane();
+        painelLateralEsquerda = new javax.swing.JPanel();
         painelCores = new javax.swing.JPanel();
         jColor = new javax.swing.JColorChooser();
+        jCbXEfeitos = new javax.swing.JComboBox<>();
+        btnAplicarEfeito = new javax.swing.JButton();
         painelSuperior = new javax.swing.JPanel();
         tempCPU = new javax.swing.JLabel();
         tempGPU = new javax.swing.JLabel();
@@ -99,9 +103,7 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
         btnSair = new javax.swing.JButton();
         btnHide = new javax.swing.JButton();
         btnMinimizar = new javax.swing.JButton();
-        painelOpcoes = new javax.swing.JPanel();
-        btnAplicarEfeito = new javax.swing.JButton();
-        jCbXEfeitos = new javax.swing.JComboBox<>();
+        painelOpcoes = new javax.swing.JLayeredPane();
 
         painelInternoTemperatuas.setPreferredSize(new java.awt.Dimension(370, 310));
 
@@ -192,13 +194,37 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                 .addContainerGap(86, Short.MAX_VALUE))
         );
 
-        painelnternoImagens.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        painelInternoImagens.setMaximumSize(new java.awt.Dimension(360, 270));
+        painelInternoImagens.setMinimumSize(new java.awt.Dimension(360, 270));
+        painelInternoImagens.setPreferredSize(new java.awt.Dimension(360, 270));
+        painelInternoImagens.setSize(360,270);
+        painelInternoImagens.setRequestFocusEnabled(false);
+        painelInternoImagens.setVerifyInputWhenFocusTarget(false);
+        painelInternoImagens.setLayout(null);
 
-        molduraPainelInternoImagem.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        molduraPainelInternoImagem.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        molduraPainelInternoImagem.add(lbImagem, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 270));
+        lbMouse.setBackground(new java.awt.Color(60, 63, 255));
+        lbMouse.setForeground(new java.awt.Color(187, 187, 255));
+        lbMouse.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbMouse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Logitech/g903.png"))); // NOI18N
+        lbMouse.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                lbMouseMouseDragged(evt);
+            }
+        });
+        painelInternoImagens.add(lbMouse);
+        lbMouse.setBounds(281, 120, 60, 40);
 
-        painelnternoImagens.add(molduraPainelInternoImagem, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 360, 270));
+        lbTeclado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbTeclado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Logitech/g915.png"))); // NOI18N
+        lbTeclado.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                lbTecladoMouseDragged(evt);
+            }
+        });
+        painelInternoImagens.add(lbTeclado);
+        lbTeclado.setBounds(120, 210, 110, 50);
+        painelInternoImagens.add(lbImagem);
+        lbImagem.setBounds(0, 0, 360, 270);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImages(null);
@@ -211,7 +237,8 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                 formMouseDragged(evt);
             }
         });
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        painelCores.setLayout(null);
 
         jColor.removeChooserPanel(jColor.getChooserPanels()[4]);
         jColor.removeChooserPanel(jColor.getChooserPanels()[3]);
@@ -221,22 +248,55 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
         jColor.remove(0);
         jColor.getChooserPanels()[0].getComponent(0).setVisible(false);
         painelCores.add(jColor);
+        jColor.setBounds(0, 0, 240, 210);
 
-        getContentPane().add(painelCores, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 250, 220));
+        jCbXEfeitos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecionada", "Musica", "Tela", "Stroob", "ArcoIris", "Onda", "Decremental", "Temperatura" }));
+        jCbXEfeitos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCbXEfeitosActionPerformed(evt);
+            }
+        });
 
-        painelSuperior.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        btnAplicarEfeito.setText("Aplicar");
+        btnAplicarEfeito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAplicarEfeitoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout painelLateralEsquerdaLayout = new javax.swing.GroupLayout(painelLateralEsquerda);
+        painelLateralEsquerda.setLayout(painelLateralEsquerdaLayout);
+        painelLateralEsquerdaLayout.setHorizontalGroup(
+            painelLateralEsquerdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelLateralEsquerdaLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(painelCores, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(painelLateralEsquerdaLayout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(jCbXEfeitos, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(painelLateralEsquerdaLayout.createSequentialGroup()
+                .addGap(89, 89, 89)
+                .addComponent(btnAplicarEfeito))
+        );
+        painelLateralEsquerdaLayout.setVerticalGroup(
+            painelLateralEsquerdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelLateralEsquerdaLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(painelCores, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jCbXEfeitos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAplicarEfeito)
+                .addContainerGap())
+        );
 
         tempCPU.setText("0");
-        painelSuperior.add(tempCPU, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 30, -1));
 
         tempGPU.setText("0");
-        painelSuperior.add(tempGPU, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 30, -1));
 
         tempCPUDescricao.setText("CPU");
-        painelSuperior.add(tempCPUDescricao, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         tempGPUDescricao.setText("GPU");
-        painelSuperior.add(tempGPUDescricao, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, -1, -1));
 
         btnSair.setBackground(new java.awt.Color(60, 63, 255,0));
         btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/m_fechar.png"))); // NOI18N
@@ -245,7 +305,6 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                 btnSairActionPerformed(evt);
             }
         });
-        painelSuperior.add(btnSair, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 0, 30, 30));
 
         btnHide.setBackground(new java.awt.Color(60, 63, 255,0));
         btnHide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/m_hide.png"))); // NOI18N
@@ -254,7 +313,6 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                 btnHideActionPerformed(evt);
             }
         });
-        painelSuperior.add(btnHide, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 0, 30, 30));
 
         btnMinimizar.setBackground(new java.awt.Color(60, 63, 255,0));
         btnMinimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/m_minimize.png"))); // NOI18N
@@ -263,28 +321,85 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                 btnMinimizarActionPerformed(evt);
             }
         });
-        painelSuperior.add(btnMinimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 0, 30, 30));
 
-        getContentPane().add(painelSuperior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, 40));
+        javax.swing.GroupLayout painelSuperiorLayout = new javax.swing.GroupLayout(painelSuperior);
+        painelSuperior.setLayout(painelSuperiorLayout);
+        painelSuperiorLayout.setHorizontalGroup(
+            painelSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelSuperiorLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(tempCPUDescricao)
+                .addGap(6, 6, 6)
+                .addComponent(tempCPU, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60)
+                .addComponent(tempGPUDescricao)
+                .addGap(6, 6, 6)
+                .addComponent(tempGPU, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(420, 420, 420)
+                .addComponent(btnMinimizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(btnHide, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        painelSuperiorLayout.setVerticalGroup(
+            painelSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnMinimizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(btnHide, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(painelSuperiorLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(painelSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tempCPUDescricao)
+                    .addComponent(tempCPU)
+                    .addComponent(tempGPUDescricao)
+                    .addComponent(tempGPU)))
+        );
 
+        painelOpcoes.setBackground(new java.awt.Color(60, 63, 255,0));
         painelOpcoes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(painelOpcoes, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 40, 420, 340));
 
-        btnAplicarEfeito.setText("Aplicar");
-        btnAplicarEfeito.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAplicarEfeitoActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnAplicarEfeito, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 330, -1, -1));
+        painelPrincipal.setLayer(painelLateralEsquerda, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        painelPrincipal.setLayer(painelSuperior, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        painelPrincipal.setLayer(painelOpcoes, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jCbXEfeitos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecionada", "Musica", "Tela", "Stroob", "ArcoIris", "Onda", "Decremental", "Temperatura" }));
-        jCbXEfeitos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCbXEfeitosActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jCbXEfeitos, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 170, -1));
+        javax.swing.GroupLayout painelPrincipalLayout = new javax.swing.GroupLayout(painelPrincipal);
+        painelPrincipal.setLayout(painelPrincipalLayout);
+        painelPrincipalLayout.setHorizontalGroup(
+            painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelPrincipalLayout.createSequentialGroup()
+                .addComponent(painelSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(painelPrincipalLayout.createSequentialGroup()
+                .addComponent(painelLateralEsquerda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(painelOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
+        );
+        painelPrincipalLayout.setVerticalGroup(
+            painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelPrincipalLayout.createSequentialGroup()
+                .addComponent(painelSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(painelLateralEsquerda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(painelPrincipalLayout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(painelOpcoes)))
+                .addContainerGap(31, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(painelPrincipal)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(painelPrincipal)
+        );
 
         pack();
         setLocationRelativeTo(null);
@@ -313,7 +428,7 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
       int x=evt.getXOnScreen()-(int)this.getWidth()/2;
       int y=evt.getYOnScreen()-(int)this.getHeight()/2;
-       this.setLocation(x,y);
+      this.setLocation(x,y);
     }//GEN-LAST:event_formMouseDragged
 
     private void btnAplicarEfeitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAplicarEfeitoActionPerformed
@@ -403,55 +518,64 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
     }//GEN-LAST:event_txtTemp4KeyPressed
 
     private void jCbXEfeitosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCbXEfeitosActionPerformed
-    AbsoluteConstraints absoluteConstraints = new org.netbeans.lib.awtextra.AbsoluteConstraints(0,0, 420, 340);       
-        try{
-                    capturaTela.allDone=true;
+     AbsoluteConstraints absoluteConstraints = new org.netbeans.lib.awtextra.AbsoluteConstraints(0,0, 360, 270); 
+     painelOpcoes.removeAll();     
+     painelOpcoes.repaint();
+                try{
+                capturaTela.allDone=true;
                 }catch(Exception ex){
                                         
                 }
                  switch(jCbXEfeitos.getSelectedItem().toString()){
             case "Musica":                 
-                    painelInternoTemperatuas.setVisible(false);
-                    painelnternoImagens.setVisible(false);
+                   
                 break;
-            case "Tela":                   
+            case "Tela":    
                     capturaTela = new capturaTela(lbImagem);
                     Thread thCapturaTela = new Thread(capturaTela);
-                    thCapturaTela.start();
-                    painelOpcoes.add(painelnternoImagens, absoluteConstraints);   
-                    painelInternoTemperatuas.setVisible(false);
-                   painelnternoImagens.setVisible(true);
-                    
+                    thCapturaTela.start();  
+                    painelOpcoes.add(painelInternoImagens, absoluteConstraints);       
                 break;
             case "Stroob":
-                 painelInternoTemperatuas.setVisible(false);
-                  painelnternoImagens.setVisible(false);
+                
                   break;
             case "ArcoIris":                  
-               painelInternoTemperatuas.setVisible(false);
-                painelnternoImagens.setVisible(false);
+              
                 break;
             case "Onda":                  
-                    painelInternoTemperatuas.setVisible(false);
-                     painelnternoImagens.setVisible(false);
+                    
                 break;
             case "Decremental":                
-                  painelInternoTemperatuas.setVisible(false);
-                   painelnternoImagens.setVisible(false);
+                 
                 break;
             case "Selecionada":                
-                 painelInternoTemperatuas.setVisible(false);
-                  painelnternoImagens.setVisible(false);
+                
                 break;
-            case "Temperatura":
-                painelOpcoes.add(painelInternoTemperatuas,absoluteConstraints);               
-                painelInternoTemperatuas.setVisible(true);     
-                 painelnternoImagens.setVisible(false);
+            case "Temperatura": 
+                painelOpcoes.add(painelInternoTemperatuas,absoluteConstraints);  
                 break;
         }
     }//GEN-LAST:event_jCbXEfeitosActionPerformed
+
+    private void lbTecladoMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbTecladoMouseDragged
+        alocarPerifericos(lbTeclado);
+             
+    }//GEN-LAST:event_lbTecladoMouseDragged
+
+    private void lbMouseMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbMouseMouseDragged
+        alocarPerifericos(lbMouse);
+    }//GEN-LAST:event_lbMouseMouseDragged
     
-    
+    private void alocarPerifericos(JLabel obj){
+         Point local=painelInternoImagens.getMousePosition();
+        if(local != null){
+        int x=new Double(local.getX()).intValue()-(int)obj.getWidth()/2;
+        int y=new Double(local.getY()).intValue()-(int)obj.getHeight()/2;           
+        if(x>0 && y> 0 && x<painelInternoImagens.getWidth()-(int)obj.getWidth() && y<painelInternoImagens.getHeight()-(int)obj.getHeight()){
+           obj.setLocation(x,y); 
+        }
+        }
+    }
        private void somenteDigitos(java.awt.event.KeyEvent evt) {
            if(!ArrayUtils.contains(numerais,evt.getKeyCode())){         
           if(evt.getKeyCode()!=8 && evt.getKeyCode()!=127){
@@ -558,16 +682,19 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
     private javax.swing.JComboBox<String> jCbXEfeitos;
     private javax.swing.JColorChooser jColor;
     private javax.swing.JLabel lbImagem;
+    private javax.swing.JLabel lbMouse;
+    private javax.swing.JLabel lbTeclado;
     private javax.swing.JLabel lbTemp1;
     private javax.swing.JLabel lbTemp2;
     private javax.swing.JLabel lbTemp3;
     private javax.swing.JLabel lbTemp4;
-    private javax.swing.JPanel molduraPainelInternoImagem;
     private javax.swing.JPanel painelCores;
+    private javax.swing.JPanel painelInternoImagens;
     private javax.swing.JPanel painelInternoTemperatuas;
-    private javax.swing.JPanel painelOpcoes;
+    private javax.swing.JPanel painelLateralEsquerda;
+    private javax.swing.JLayeredPane painelOpcoes;
+    private javax.swing.JLayeredPane painelPrincipal;
     private javax.swing.JPanel painelSuperior;
-    private javax.swing.JPanel painelnternoImagens;
     private javax.swing.JLabel tempCPU;
     private javax.swing.JLabel tempCPUDescricao;
     private javax.swing.JLabel tempGPU;
