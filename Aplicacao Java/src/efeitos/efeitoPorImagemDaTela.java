@@ -15,7 +15,6 @@ import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 import java.awt.image.DataBufferByte;
 import java.util.logging.Level;
 import java.util.logging.Logger;

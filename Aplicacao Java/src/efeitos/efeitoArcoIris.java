@@ -12,7 +12,7 @@ public class efeitoArcoIris implements Runnable{
     public boolean allDone = false;    
     logitechMetodosAuxiliares logitechConversao;
     ArrayList<int []> cores;
-    AsusColor cor;
+    AsusColor cor;    
     public  efeitoArcoIris(AuraSDK AsusAura,ArrayList<int []> cores){       
         this.AsusAura=AsusAura;
         this.logitechConversao = new logitechMetodosAuxiliares();
@@ -25,17 +25,13 @@ public class efeitoArcoIris implements Runnable{
     
     @Override
     public void run(){   
-          
-        while(!allDone){   
-                 int cont=0;
+          int conta=0;
+          int interacao=0;
+        while(!allDone){  
+            conta=interacao;
                  if (allDone) {return;}   
-                 for(int y=0;y<23;y++){
-                 int [] corSelecionada = cores.get(cont);
-                 cont++;
-                 if(cont>=cores.size()){
-                     cont=0;
-                 }
-                 logitechConversao.setRGB(corSelecionada[0], corSelecionada[1], corSelecionada[2]);
+                 for(int y=0;y<23;y++){                   
+                 logitechConversao.setRGB(cores.get(conta)[0],cores.get(conta)[1],cores.get(conta)[2]);           
                  for(int [] sequencia : logitechConversao.getBotoes()){  
                      if (allDone) {return;}   
                      try {
@@ -43,29 +39,50 @@ public class efeitoArcoIris implements Runnable{
                      } catch (Exception ex) {                       
                      }
                  }
+                 if(conta>=cores.size()-1){
+                     conta=0;
+                 }else{
+                     conta++;
                  }
-                  
-            /* List<AuraRGBLight> luzes=AsusAura.getAllLights();
+                 }          
+            conta=interacao;
+             
              try{    
-                 for(int i=0;i<luzes.size();i+=10){    
+                 List<AuraRGBLight> luzes=AsusAura.getAllLights();                
+                 for(int i=0;i<luzes.size();i+=15){    
                         if (allDone) {                      
                             break;
-                       }
-                   for(int [] corSelecionada: cores){
-                        cor = new AsusColor(corSelecionada[0], corSelecionada[1], corSelecionada[2]);
+                       }                   
+                        
                         try{
+                            cor = new AsusColor(cores.get(conta)[0],cores.get(conta)[1],cores.get(conta)[2]);
                             if (allDone) {return;}   
-                            luzes.get(i).setColor(cor);   
-                            luzes.get(i+1).setColor(cor);  
-                            luzes.get(i+2).setColor(cor);  
-                            luzes.get(i+3).setColor(cor);  
-                            luzes.get(i+4).setColor(cor);   
-                        }catch(Exception ex){}      
+                            for(int y=i;y<i+10;y++){
+                               luzes.get(y).setColor(cor); 
+                            }                               
+                        }catch(Exception ex){}   
+                        
+                        
+                        
+                        if(conta>=cores.size()-1){
+                     conta=0;
+                 }else{
+                     conta++;
+                 }
                   }
-            }
+            
              }catch(Exception ex){
                  
-             }   */              
+             }   
+             
+             
+             if(interacao>=cores.size()-1){
+                     interacao=0;
+                 }else{
+                     interacao++;
+                 }
+                  
+             
              }
     }
 }

@@ -52,31 +52,31 @@ public class efeitoPorTemperatura implements Runnable{
                 AsusColor cor = new AsusColor(nova.getRed(), nova.getGreen(), nova.getBlue());         
                 AsusAura.setAllColors(cor);  
                 logitechConversao.setRGB(cor.getR(),cor.getG(),cor.getB());
-                LogiLED.LogiLedSetLighting(logitechConversao.getR(),logitechConversao.getG(),logitechConversao.getB());
+                logitechConversao.setAllLight();
             }else if(temperaturaLocal >= vtemp1 && temperaturaLocal<vtemp2){
                 java.awt.Color nova =temp1.getForeground();
                 AsusColor cor = new AsusColor(nova.getRed(), nova.getGreen(), nova.getBlue());         
                 AsusAura.setAllColors(cor);  
                 logitechConversao.setRGB(cor.getR(),cor.getG(),cor.getB());
-                LogiLED.LogiLedSetLighting(logitechConversao.getR(),logitechConversao.getG(),logitechConversao.getB());
+                logitechConversao.setAllLight();
             }else if(temperaturaLocal >=vtemp2 && temperaturaLocal<vtemp3){
                 java.awt.Color nova =temp2.getForeground();
                 AsusColor cor = new AsusColor(nova.getRed(), nova.getGreen(), nova.getBlue());         
                 AsusAura.setAllColors(cor);  
                 logitechConversao.setRGB(cor.getR(),cor.getG(),cor.getB());
-                LogiLED.LogiLedSetLighting(logitechConversao.getR(),logitechConversao.getG(),logitechConversao.getB());
+                logitechConversao.setAllLight();
             }else if (temperaturaLocal >=vtemp3 && temperaturaLocal<vtemp4) {
                 java.awt.Color nova =temp3.getForeground();
                 AsusColor cor = new AsusColor(nova.getRed(), nova.getGreen(), nova.getBlue());         
                 AsusAura.setAllColors(cor);  
                 logitechConversao.setRGB(cor.getR(),cor.getG(),cor.getB());
-                LogiLED.LogiLedSetLighting(logitechConversao.getR(),logitechConversao.getG(),logitechConversao.getB());
+                logitechConversao.setAllLight();
             }else{
                 java.awt.Color nova =temp4.getForeground();
                 AsusColor cor = new AsusColor(nova.getRed(), nova.getGreen(), nova.getBlue());         
                 AsusAura.setAllColors(cor);  
                 logitechConversao.setRGB(cor.getR(),cor.getG(),cor.getB());
-                LogiLED.LogiLedSetLighting(logitechConversao.getR(),logitechConversao.getG(),logitechConversao.getB());
+                logitechConversao.setAllLight();
             }
         }
     }

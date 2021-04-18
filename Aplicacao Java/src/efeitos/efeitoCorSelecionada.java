@@ -3,7 +3,6 @@ package efeitos;
 
 import ca.fiercest.aurasdk.AsusColor;
 import ca.fiercest.aurasdk.AuraSDK;
-import com.logitech.gaming.LogiLED;
 import javax.swing.JColorChooser;
 import logitechMetodos.logitechMetodosAuxiliares;
 
@@ -25,7 +24,7 @@ public class efeitoCorSelecionada implements Runnable{
             AsusColor cor = new AsusColor(nova.getRed(), nova.getGreen(), nova.getBlue());         
             AsusAura.setAllColors(cor);  
             logitechConversao.setRGB(cor.getR(),cor.getG(),cor.getB());
-            LogiLED.LogiLedSetLighting(logitechConversao.getR(),logitechConversao.getG(),logitechConversao.getB());  
+            logitechConversao.setAllLight();
        }
     }
     

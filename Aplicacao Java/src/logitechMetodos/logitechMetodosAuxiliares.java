@@ -75,8 +75,11 @@ public class logitechMetodosAuxiliares {
         }
         try{
         LogiLED.LogiLedSetLightingForTargetZone(8, 0, r, g, b);
-        }catch(Exception ex){
-            
+        }catch(Exception ex){            
         }
+    }
+    
+    public void setAllLight(){
+         LogiLED.LogiLedSetLighting(r, g, b);
     }
 }

@@ -3,7 +3,6 @@ package efeitos;
 import ca.fiercest.aurasdk.AuraRGBLight;
 import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.aurasdk.AsusColor;
-import com.logitech.gaming.LogiLED;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
