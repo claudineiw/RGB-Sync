@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package efeitos;
 
 import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.aurasdk.AsusColor;
 import com.logitech.gaming.LogiLED;
-import rgb.LogitechConversao;
+import logitechMetodos.logitechMetodosAuxiliares;
 
 
 
@@ -16,10 +11,10 @@ import rgb.LogitechConversao;
 public class efeitoStrobol implements Runnable{
     private AuraSDK AsusAura;  
     public boolean allDone = false;    
-    LogitechConversao logitechConversao;
+    logitechMetodosAuxiliares logitechConversao;
     public  efeitoStrobol(AuraSDK AsusAura){        
         this.AsusAura=AsusAura;
-        this.logitechConversao = new LogitechConversao();
+        this.logitechConversao = new logitechMetodosAuxiliares();
     }
     
     @Override

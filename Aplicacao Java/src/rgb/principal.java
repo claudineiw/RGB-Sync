@@ -29,6 +29,7 @@ import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -57,11 +58,11 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
          initComponents();    
          
          LogiLED.LogiLedInit(); 
-         AsusAura = new AuraSDK();         
+         AsusAura = new AuraSDK();          
          power = new openHardwareMonitorCon(tempCPU,tempGPU);             
          Thread th = new Thread(power);
          th.start();          
-	 jColor.setColor(Color.RED);         
+	 jColorPrincipal.setColor(Color.RED);         
          btnAplicarEfeito.doClick();        
          this.setVisible(true);
     }
@@ -89,10 +90,14 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
         lbMouse = new javax.swing.JLabel();
         lbTeclado = new javax.swing.JLabel();
         lbImagem = new javax.swing.JLabel();
+        painelInternoArcoIris = new javax.swing.JPanel();
+        jcBCoresArcoIris = new javax.swing.JComboBox<>();
+        btnAdicionarCorArcoIris = new javax.swing.JButton();
+        btnRemoverCorArcoIris = new javax.swing.JButton();
         painelPrincipal = new javax.swing.JLayeredPane();
         painelLateralEsquerda = new javax.swing.JPanel();
         painelCores = new javax.swing.JPanel();
-        jColor = new javax.swing.JColorChooser();
+        jColorPrincipal = new javax.swing.JColorChooser();
         jCbXEfeitos = new javax.swing.JComboBox<>();
         btnAplicarEfeito = new javax.swing.JButton();
         painelSuperior = new javax.swing.JPanel();
@@ -205,26 +210,62 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
         lbMouse.setBackground(new java.awt.Color(60, 63, 255));
         lbMouse.setForeground(new java.awt.Color(187, 187, 255));
         lbMouse.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbMouse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Logitech/g903.png"))); // NOI18N
+        lbMouse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/mouse.png"))); // NOI18N
+        lbMouse.setName("lbMouse"); // NOI18N
         lbMouse.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 lbMouseMouseDragged(evt);
             }
         });
         painelInternoImagens.add(lbMouse);
-        lbMouse.setBounds(281, 120, 60, 40);
+        lbMouse.setBounds(290, 100, 60, 70);
+        lbMouse.getAccessibleContext().setAccessibleName("lbMouse");
 
         lbTeclado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbTeclado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Logitech/g915.png"))); // NOI18N
+        lbTeclado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/teclado 128.png"))); // NOI18N
+        lbTeclado.setName("lbTeclado"); // NOI18N
         lbTeclado.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 lbTecladoMouseDragged(evt);
             }
         });
         painelInternoImagens.add(lbTeclado);
-        lbTeclado.setBounds(120, 210, 110, 50);
+        lbTeclado.setBounds(120, 200, 130, 70);
+        lbTeclado.getAccessibleContext().setAccessibleName("lbTeclado");
+
         painelInternoImagens.add(lbImagem);
         lbImagem.setBounds(0, 0, 360, 270);
+
+        painelInternoArcoIris.setMaximumSize(new java.awt.Dimension(360, 270));
+        painelInternoArcoIris.setMinimumSize(new java.awt.Dimension(360, 270));
+        painelInternoArcoIris.setPreferredSize(new java.awt.Dimension(360, 270));
+        painelInternoArcoIris.setLayout(null);
+
+        jcBCoresArcoIris.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcBCoresArcoIrisActionPerformed(evt);
+            }
+        });
+        painelInternoArcoIris.add(jcBCoresArcoIris);
+        jcBCoresArcoIris.setBounds(100, 80, 144, 26);
+
+        btnAdicionarCorArcoIris.setText("Adicionar");
+        btnAdicionarCorArcoIris.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarCorArcoIrisActionPerformed(evt);
+            }
+        });
+        painelInternoArcoIris.add(btnAdicionarCorArcoIris);
+        btnAdicionarCorArcoIris.setBounds(60, 140, 84, 32);
+
+        btnRemoverCorArcoIris.setText("Remover");
+        btnRemoverCorArcoIris.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoverCorArcoIrisActionPerformed(evt);
+            }
+        });
+        painelInternoArcoIris.add(btnRemoverCorArcoIris);
+        btnRemoverCorArcoIris.setBounds(187, 141, 81, 32);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImages(null);
@@ -240,15 +281,15 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
 
         painelCores.setLayout(null);
 
-        jColor.removeChooserPanel(jColor.getChooserPanels()[4]);
-        jColor.removeChooserPanel(jColor.getChooserPanels()[3]);
-        jColor.removeChooserPanel(jColor.getChooserPanels()[2]);
-        jColor.removeChooserPanel(jColor.getChooserPanels()[0]);
-        jColor.getPreviewPanel().setVisible(false);
-        jColor.remove(0);
-        jColor.getChooserPanels()[0].getComponent(0).setVisible(false);
-        painelCores.add(jColor);
-        jColor.setBounds(0, 0, 240, 210);
+        jColorPrincipal.removeChooserPanel(jColorPrincipal.getChooserPanels()[4]);
+        jColorPrincipal.removeChooserPanel(jColorPrincipal.getChooserPanels()[3]);
+        jColorPrincipal.removeChooserPanel(jColorPrincipal.getChooserPanels()[2]);
+        jColorPrincipal.removeChooserPanel(jColorPrincipal.getChooserPanels()[0]);
+        jColorPrincipal.getPreviewPanel().setVisible(false);
+        jColorPrincipal.remove(0);
+        jColorPrincipal.getChooserPanels()[0].getComponent(0).setVisible(false);
+        painelCores.add(jColorPrincipal);
+        jColorPrincipal.setBounds(0, 0, 240, 210);
 
         jCbXEfeitos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecionada", "Musica", "Tela", "Stroob", "ArcoIris", "Onda", "Decremental", "Temperatura" }));
         jCbXEfeitos.addActionListener(new java.awt.event.ActionListener() {
@@ -442,7 +483,7 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                 break;
             case "Tela":         
                     capturaTela.allDone=true;                
-                    efeitoPorImagem = new efeitoPorImagemDaTela(AsusAura);
+                    efeitoPorImagem = new efeitoPorImagemDaTela(AsusAura,painelInternoImagens);
                     th = new Thread(efeitoPorImagem);
                     th.start(); 
                 break;
@@ -452,10 +493,16 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                   th.start(); 
                 
                   break;
-            case "ArcoIris":                  
-               efeitoArcoIris = new efeitoArcoIris(AsusAura);    
+            case "ArcoIris":  
+                if(jcBCoresArcoIris.getModel().getSize()>=0){
+                ArrayList<int []> cores = new ArrayList<int []>();
+                for(int i=0;i<jcBCoresArcoIris.getModel().getSize();i++){
+                     cores.add(separarCoresTexto(jcBCoresArcoIris.getItemAt(i)));
+                }
+                efeitoArcoIris = new efeitoArcoIris(AsusAura,cores);    
                 th = new Thread(efeitoArcoIris);
                 th.start(); 
+                }
                 break;
             case "Onda":                  
                     efeitoOnda = new efeitoOnda(AsusAura);
@@ -463,12 +510,12 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                     th.start(); 
                 break;
             case "Decremental":                
-                 efeitoDecremental = new efeitoDecremental(jColor,AsusAura);    
+                 efeitoDecremental = new efeitoDecremental(jColorPrincipal,AsusAura);    
                  th = new Thread(efeitoDecremental);
                  th.start();  
                 break;
             case "Selecionada":                
-                 efeitoCorSelecionada = new efeitoCorSelecionada(jColor,AsusAura);    
+                 efeitoCorSelecionada = new efeitoCorSelecionada(jColorPrincipal,AsusAura);    
                  th = new Thread(efeitoCorSelecionada);
                  th.start(); 
                 break;
@@ -496,25 +543,25 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
 
     private void txtTemp1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTemp1KeyPressed
         somenteDigitos(evt); 
-        lbTemp1.setForeground(jColor.getSelectionModel().getSelectedColor());
+        lbTemp1.setForeground(jColorPrincipal.getSelectionModel().getSelectedColor());
                 
     }//GEN-LAST:event_txtTemp1KeyPressed
 
     private void txtTemp2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTemp2KeyPressed
         somenteDigitos(evt);
-        lbTemp2.setForeground(jColor.getSelectionModel().getSelectedColor());
+        lbTemp2.setForeground(jColorPrincipal.getSelectionModel().getSelectedColor());
        
     }//GEN-LAST:event_txtTemp2KeyPressed
 
     private void txtTemp3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTemp3KeyPressed
         somenteDigitos(evt);
-        lbTemp3.setForeground(jColor.getSelectionModel().getSelectedColor());
+        lbTemp3.setForeground(jColorPrincipal.getSelectionModel().getSelectedColor());
        
     }//GEN-LAST:event_txtTemp3KeyPressed
 
     private void txtTemp4KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTemp4KeyPressed
       somenteDigitos(evt);
-      lbTemp4.setForeground(jColor.getSelectionModel().getSelectedColor());
+      lbTemp4.setForeground(jColorPrincipal.getSelectionModel().getSelectedColor());
     }//GEN-LAST:event_txtTemp4KeyPressed
 
     private void jCbXEfeitosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCbXEfeitosActionPerformed
@@ -540,7 +587,7 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                 
                   break;
             case "ArcoIris":                  
-              
+              painelOpcoes.add(painelInternoArcoIris, absoluteConstraints); 
                 break;
             case "Onda":                  
                     
@@ -565,6 +612,37 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
     private void lbMouseMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbMouseMouseDragged
         alocarPerifericos(lbMouse);
     }//GEN-LAST:event_lbMouseMouseDragged
+
+    private void btnAdicionarCorArcoIrisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarCorArcoIrisActionPerformed
+        Color cor=jColorPrincipal.getSelectionModel().getSelectedColor();     
+        jcBCoresArcoIris.addItem(cor.toString().replace("java.awt.Color",""));
+        
+        
+    }//GEN-LAST:event_btnAdicionarCorArcoIrisActionPerformed
+
+    private void jcBCoresArcoIrisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcBCoresArcoIrisActionPerformed
+       try{
+        String corSelecionada= jcBCoresArcoIris.getSelectedItem().toString();
+        int [] retorno = separarCoresTexto(corSelecionada);
+        jcBCoresArcoIris.setForeground(new Color(retorno[0],retorno[1],retorno[2]));
+       }catch(java.lang.NullPointerException ex){
+           
+       }
+    }//GEN-LAST:event_jcBCoresArcoIrisActionPerformed
+    
+    private  int[] separarCoresTexto(String corSelecionada){
+        int r=0;
+        int g=0;
+        int b=0;  
+        r=Integer.valueOf(corSelecionada.substring(corSelecionada.lastIndexOf("r=")+2,corSelecionada.indexOf(","))); 
+        g=Integer.valueOf(corSelecionada.substring(corSelecionada.lastIndexOf("g=")+2,corSelecionada.lastIndexOf(","))); 
+        b=Integer.valueOf(corSelecionada.substring(corSelecionada.lastIndexOf("b=")+2,corSelecionada.lastIndexOf("]"))); 
+        int [] retorno={r,g,b};
+        return retorno;
+    }
+    private void btnRemoverCorArcoIrisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverCorArcoIrisActionPerformed
+       jcBCoresArcoIris.removeItemAt(jcBCoresArcoIris.getSelectedIndex());
+    }//GEN-LAST:event_btnRemoverCorArcoIrisActionPerformed
     
     private void alocarPerifericos(JLabel obj){
          Point local=painelInternoImagens.getMousePosition();
@@ -674,13 +752,16 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
          }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdicionarCorArcoIris;
     private javax.swing.JButton btnAplicarEfeito;
     private javax.swing.JButton btnHide;
     private javax.swing.JButton btnMinimizar;
+    private javax.swing.JButton btnRemoverCorArcoIris;
     private javax.swing.JButton btnSair;
     private javax.swing.JComboBox<String> jCbDispositivo;
     private javax.swing.JComboBox<String> jCbXEfeitos;
-    private javax.swing.JColorChooser jColor;
+    private javax.swing.JColorChooser jColorPrincipal;
+    private javax.swing.JComboBox<String> jcBCoresArcoIris;
     private javax.swing.JLabel lbImagem;
     private javax.swing.JLabel lbMouse;
     private javax.swing.JLabel lbTeclado;
@@ -689,6 +770,7 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
     private javax.swing.JLabel lbTemp3;
     private javax.swing.JLabel lbTemp4;
     private javax.swing.JPanel painelCores;
+    private javax.swing.JPanel painelInternoArcoIris;
     private javax.swing.JPanel painelInternoImagens;
     private javax.swing.JPanel painelInternoTemperatuas;
     private javax.swing.JPanel painelLateralEsquerda;

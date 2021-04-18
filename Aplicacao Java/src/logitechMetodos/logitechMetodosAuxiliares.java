@@ -1,7 +1,9 @@
 
-package rgb;
+package logitechMetodos;
 
-public class LogitechConversao {
+import com.logitech.gaming.LogiLED;
+
+public class logitechMetodosAuxiliares {
    private int r;
    private int g;
    private int b;
@@ -19,7 +21,7 @@ public class LogitechConversao {
        {0xFFF4,0x2A,0x2C,0x2D,0x2E,0x2F,0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x148,0x4F,0x50,0x51,0x11C},
        {0xFFF5,0x1D,0x15B,0x38,0x39,0x138,0x15C,0x15D,0x11D,0x14B,0x150,0x14D,0x52,0x53}       
    };
-   public LogitechConversao(){        
+   public logitechMetodosAuxiliares(){        
     }
    public int [][] getBotoes(){
        return botoes;
@@ -41,4 +43,40 @@ public class LogitechConversao {
        return this.b;
    }
    
+   
+    public void porTecla(int tecla) throws Exception{        
+          LogiLED.LogiLedSetLightingForKeyWithScanCode(tecla,r,g,b);
+    }
+   
+    public void setCorMousemat(){
+        try{
+        LogiLED.LogiLedSetLightingForTargetZone(4, 0, r, g, b);
+        }catch(Exception ex){                  
+        }
+    }
+    
+    public void setCorMouse(){
+        try{
+          LogiLED.LogiLedSetLightingForTargetZone(3, 0, r, g, b);
+          }catch(Exception ex){
+            
+        }
+        try{
+          LogiLED.LogiLedSetLightingForTargetZone(3, 1, r, g, b);
+          }catch(Exception ex){
+            
+        }
+    }
+    public void setCorHeadSet(){
+        try{
+        LogiLED.LogiLedSetLightingForTargetZone(8, 1, r, g, b);
+        }catch(Exception ex){
+            
+        }
+        try{
+        LogiLED.LogiLedSetLightingForTargetZone(8, 0, r, g, b);
+        }catch(Exception ex){
+            
+        }
+    }
 }

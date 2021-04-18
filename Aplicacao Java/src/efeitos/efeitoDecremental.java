@@ -4,17 +4,17 @@ import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.aurasdk.AsusColor;
 import com.logitech.gaming.LogiLED;
 import javax.swing.JColorChooser;
-import rgb.LogitechConversao;
+import logitechMetodos.logitechMetodosAuxiliares;
 
 public class efeitoDecremental implements Runnable{
     AuraSDK AsusAura;
     JColorChooser color;
     public boolean allDone = false;    
-    LogitechConversao logitechConversao;
+    logitechMetodosAuxiliares logitechConversao;
     public  efeitoDecremental(JColorChooser color,AuraSDK AsusAura){
         this.color=color;
         this.AsusAura=AsusAura;
-        this.logitechConversao= new LogitechConversao();
+        this.logitechConversao= new logitechMetodosAuxiliares();
     }
     
     @Override

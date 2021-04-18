@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import rgb.LogitechConversao;
+import logitechMetodos.logitechMetodosAuxiliares;
 
 
 public class efeitoOnda implements Runnable{
@@ -17,15 +17,15 @@ public class efeitoOnda implements Runnable{
      private int r=255;
      private int g=0;
      private int b=0;
-     LogitechConversao logitechconversao;
+     logitechMetodosAuxiliares logitechconversao;
      public  efeitoOnda(AuraSDK AsusAura){
-       this.logitechconversao= new LogitechConversao();
+       this.logitechconversao= new logitechMetodosAuxiliares();
         this.AsusAura=AsusAura;
     }
     
     @Override
     public void run(){   
-        LogitechConversao botoes = new LogitechConversao();
+        logitechMetodosAuxiliares botoes = new logitechMetodosAuxiliares();
         int [][] listaBotoes=botoes.getBotoes();
         AsusColor cor = new AsusColor(r, g, b);  
          List<AuraRGBLight> luzes=AsusAura.getAllLights(); 
@@ -46,7 +46,11 @@ public class efeitoOnda implements Runnable{
                     return;
                 }   
                      logitechconversao.setRGB(r, g, b);
-                     LogiLED.LogiLedSetLightingForKeyWithScanCode(listaBotoes[i][y], logitechconversao.getR(),logitechconversao.getG(), logitechconversao.getB());
+                     try {
+                         logitechconversao.porTecla(listaBotoes[i][y]);
+                     } catch (Exception ex) {
+                         Logger.getLogger(efeitoOnda.class.getName()).log(Level.SEVERE, null, ex);
+                     }
                  }
                  time();
              }             

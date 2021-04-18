@@ -9,7 +9,7 @@ import ca.fiercest.aurasdk.AsusColor;
 import ca.fiercest.aurasdk.AuraSDK;
 import com.logitech.gaming.LogiLED;
 import javax.swing.JLabel;
-import rgb.LogitechConversao;
+import logitechMetodos.logitechMetodosAuxiliares;
 
 /**
  *
@@ -18,7 +18,7 @@ import rgb.LogitechConversao;
 public class efeitoPorTemperatura implements Runnable{
     AuraSDK AsusAura;
     public boolean allDone = false;    
-    LogitechConversao logitechConversao;
+    logitechMetodosAuxiliares logitechConversao;
     JLabel temp1;
     JLabel temp2;
     JLabel temp3;
@@ -39,7 +39,7 @@ public class efeitoPorTemperatura implements Runnable{
         this.vtemp4=vtemp4;
         this.temperatura=temperatura;
         this.AsusAura=AsusAura;
-        this.logitechConversao= new LogitechConversao();
+        this.logitechConversao= new logitechMetodosAuxiliares();
     }
 
     @Override

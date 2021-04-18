@@ -8,10 +8,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 
 
-
 public class RGB {
     
-    public static void main(String[] args) throws IOException{       
+    public static void main(String[] args) throws IOException{    
+        
    try {  
        UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatDraculaIJTheme");
             URL url = RGB.class.getResource("/imagens/icone.png");      
