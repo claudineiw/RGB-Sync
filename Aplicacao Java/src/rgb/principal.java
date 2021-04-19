@@ -467,8 +467,8 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
     }//GEN-LAST:event_btnMinimizarActionPerformed
 
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
-      int x=evt.getXOnScreen()-(int)this.getWidth()/2;
-      int y=evt.getYOnScreen()-(int)this.getHeight()/2;
+      int x=evt.getXOnScreen()-this.getWidth()/2;
+      int y=evt.getYOnScreen()-this.getHeight()/2;
       this.setLocation(x,y);
     }//GEN-LAST:event_formMouseDragged
 
@@ -647,9 +647,9 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
     private void alocarPerifericos(JLabel obj){
          Point local=painelInternoImagens.getMousePosition();
         if(local != null){
-        int x=new Double(local.getX()).intValue()-(int)obj.getWidth()/2;
-        int y=new Double(local.getY()).intValue()-(int)obj.getHeight()/2;           
-        if(x>0 && y> 0 && x<painelInternoImagens.getWidth()-(int)obj.getWidth() && y<painelInternoImagens.getHeight()-(int)obj.getHeight()){
+        int x=new Double(local.getX()).intValue()-obj.getWidth()/2;
+        int y=new Double(local.getY()).intValue()-obj.getHeight()/2;           
+        if(x>0 && y> 0 && x<painelInternoImagens.getWidth()-obj.getWidth() && y<painelInternoImagens.getHeight()-obj.getHeight()){
            obj.setLocation(x,y); 
         }
         }

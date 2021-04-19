@@ -53,11 +53,11 @@ public enum Note{
 
         
         
-	public final int getOctave(double frequency) {
+	public int getOctave(double frequency) {
 		return (int) Math.round(Math.log10(frequency/this.getFirstFrequency())/Note.LOG_2_BASE_10);
 	}
 	
-	public static final Note get(double frequency) {
+	public static Note get(double frequency) {
 		double value = Math.round(12.0 * Math.log10(frequency/440)/Note.LOG_2_BASE_10 + 49.0);
                 if(value<100){
                   valor= value;   

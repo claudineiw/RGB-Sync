@@ -1,10 +1,14 @@
 package sound;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-public final class Sound {
+public class Sound {
 
 	private Note note;
 	private int octave;
+        public Sound(double frequency) {
+            this.setNote(Note.get(frequency));
+            this.setOctave(this.getNote().getOctave(frequency));
+        }
 
     public Note getNote() {
         return note;
@@ -22,10 +26,6 @@ public final class Sound {
         this.octave = octave;
     }
 
-	public Sound(double frequency) {
-		this.setNote(Note.get(frequency));
-		this.setOctave(this.getNote().getOctave(frequency));
-	}
 	
 	@Override
 	public boolean equals(Object object) {

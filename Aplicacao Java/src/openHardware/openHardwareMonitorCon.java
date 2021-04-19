@@ -18,8 +18,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class openHardwareMonitorCon implements Runnable{
-    private TypeToken tt;
     public static List<hardware> listaHardware;
+    private TypeToken tt;
     Gson gson;
     public boolean allDone=false;
     public JLabel tempCPU ;
@@ -50,7 +50,6 @@ public class openHardwareMonitorCon implements Runnable{
 		}
 		catch (IOException e) {
                         JOptionPane.showMessageDialog(null,"Erro extrair dll");
-			System.out.println("Erro ao extrair dll"); 
 		}
         return null;
        }

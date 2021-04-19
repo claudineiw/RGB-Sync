@@ -37,14 +37,14 @@ public class efeitoDecremental implements Runnable{
             AsusAura.setAllColors(cor);             
             LogiLED.LogiLedSetLighting(red,green,blue); 
             if(red>0){  
-                red=red-(255/corPadrao.getR())*decrementar;
+                red -= (255/corPadrao.getR())*decrementar;
                 if(red<0){
                     red=0;
                 }
             }            
             
             if(green>0){
-                green=green-(255/corPadrao.getG())*decrementar;      
+                green -= (255/corPadrao.getG())*decrementar;      
                 if(green<0){
                     green=0;
                 }
@@ -52,7 +52,7 @@ public class efeitoDecremental implements Runnable{
            
             
             if(blue>0){
-                blue=blue-(255/corPadrao.getB())*decrementar;  
+                blue -= (255/corPadrao.getB())*decrementar;  
                 if(blue<0){
                     blue=0;
                 }

@@ -19,7 +19,9 @@ import com.logitech.gaming.LogiLED;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.sampled.Line;
 import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.Mixer;
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.transform.DftNormalization;
 import org.apache.commons.math3.transform.FastFourierTransformer;
@@ -35,108 +37,17 @@ public class efeitoMusica implements Runnable{
 	private static final int MIDI_SEQUENCE_RESOLUTION = 1;
 	private static final int MIDI_CHANNEL = 0;
 	private static final int MIDI_EVENT_VELOCITY = 127;
-        private  TargetDataLine line;
-        private  AuraSDK AsusAura;
-        public boolean allDone = false;   
-    
-     public  efeitoMusica(AuraSDK AsusAura){       
-        this.AsusAura=AsusAura;
-    }
-           
-        @Override
-	public void run(){	
-        LogiLED.LogiLedInit();              
-        AsusColor cor = new AsusColor(255, 0,0);         
-        AsusAura.setAllColors(cor);          
-
-            AudioFormat format = getAudioFormat();        
-            DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);             
-            try {
-                line = (TargetDataLine) AudioSystem.getLine(info);
-            } catch (LineUnavailableException ex) {
-                Logger.getLogger(efeitoMusica.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                line.open(format);
-            } catch (LineUnavailableException ex) {
-                Logger.getLogger(efeitoMusica.class.getName()).log(Level.SEVERE, null, ex);
-            }
-     
-            line.start();   
-  
-                AudioInputStream audioInputStream = new AudioInputStream(line);	
-		AudioFormat audioFormat = format;
-
-		int byteArrayLength = efeitoMusica.getByteArrayLength(audioFormat);
-		byte[] byteArray = new byte[byteArrayLength];		
-            try {
-                byteArray = efeitoMusica.readByteArray(audioInputStream, byteArray);
-            } catch (Exception ex) {
-                Logger.getLogger(efeitoMusica.class.getName()).log(Level.SEVERE, null, ex);
-            }
-		
-		
-                long time = efeitoMusica.TIMESLICE;
-                Sequence sequence = efeitoMusica.newSequence();		
-		Track track = sequence.createTrack();		
-		Map<Long, Set<Sound>> soundMap = new HashMap<>();
-		while (byteArray != null) {
-                    if (allDone) {  
-                        line.close();
-                        return;
-                 }       
-                    try{
-                    	Random gerador = new Random();        
-                        double[] amplitudeArray = efeitoMusica.getAmplitudeArray(audioInputStream, byteArray);  
-                        double[][] frequencyMatrix = efeitoMusica.getFrequencyMatrix(audioInputStream, amplitudeArray);                        
-                        if(byteArray[0]!=0 && byteArray[0]!=-1 && byteArray[0]!=1){ 	
-                        soundMap.put(time, efeitoMusica.getSoundList(frequencyMatrix)); 
-                        
-                        Double num = new Double((((Note.valor/100)+1)-((Note.valor/100)*2))*100);
-                        Integer porcentagem= num.intValue(); 
-                        
-                        double redD=((double)gerador.nextInt(porcentagem)/100)*porcentagem;
-                        double greenD=((double)gerador.nextInt(porcentagem)/100)*porcentagem;
-                        double blueD=((double)gerador.nextInt(porcentagem)/100)*porcentagem;
-                        int red = new Double(redD).intValue()+10;
-                        int green = new Double(greenD).intValue()+10;
-                        int blue = new Double(blueD).intValue()+10;                 
-                        cor = new AsusColor(red,green,blue);         
-                        AsusAura.setAllColors(cor);                          
-                        LogiLED.LogiLedSetLighting(red,green,blue); 
-                        }
-                        
-                        byteArray = this.readByteArray(audioInputStream, byteArray);                        
-                }catch(Exception ex){
-                       
-                }
-			
-		}
-		
-	}
-
-   AudioFormat getAudioFormat() {
-        float sampleRate = 48000;
-        int sampleSizeInBits = 16;
-        int channels = 2;
-        boolean signed = true;
-        boolean bigEndian = true;
-        AudioFormat format = new AudioFormat(sampleRate, sampleSizeInBits,
-                                             channels, signed, bigEndian);
-        return format;
-    }
    
-	private static final Sequence newSequence() {
+	private static Sequence newSequence() {
 		Sequence sequence = null;
 		try {
 			sequence = new Sequence(efeitoMusica.MIDI_SEQUENCE_DIVISION_TYPE, efeitoMusica.MIDI_SEQUENCE_RESOLUTION);
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return sequence;
 	}
 
-	private static final int getByteArrayLength(AudioFormat audioFormat) {
+	private static int getByteArrayLength(AudioFormat audioFormat) {
 		
 		double seconds = efeitoMusica.TIMESLICE/1000.0;
 		float frameRate = audioFormat.getFrameRate();
@@ -152,7 +63,7 @@ public class efeitoMusica implements Runnable{
 		
 	}
 
-	private static final byte[] readByteArray(AudioInputStream audioInputStream, byte[] byteArray) throws Exception {
+	private static byte[] readByteArray(AudioInputStream audioInputStream, byte[] byteArray) throws Exception {
 		
 		int readResult = audioInputStream.read(byteArray);
 		
@@ -173,7 +84,7 @@ public class efeitoMusica implements Runnable{
 		
 	}
 	
-	private static final double[] getAmplitudeArray(AudioInputStream audioInputStream, byte[] byteArray) throws Exception {
+	private static double[] getAmplitudeArray(AudioInputStream audioInputStream, byte[] byteArray) throws Exception {
 		
 		int byteArrayLength = byteArray.length;
 		int amplitudeLength = byteArrayLength/2;
@@ -212,7 +123,7 @@ public class efeitoMusica implements Runnable{
 		return amplitudeArray;
 	}
 	
-	private static final double[][] getFrequencyMatrix(AudioInputStream audioInputStream, double[] amplitudeArray) {
+	private static double[][] getFrequencyMatrix(AudioInputStream audioInputStream, double[] amplitudeArray) {
 		
 		Complex[] fftArray = efeitoMusica.FFT.transform(amplitudeArray, efeitoMusica.FFT_TRANSFORM_TYPE);
 		
@@ -236,7 +147,7 @@ public class efeitoMusica implements Runnable{
 		return frequencyMatrix;
 	}
 	
-	private static final Set<Sound> getSoundList(double[][] frequencyMatrix) {
+	private static Set<Sound> getSoundList(double[][] frequencyMatrix) {
 		
 		double[] maxFrequency = new double[2];
 		
@@ -270,4 +181,101 @@ public class efeitoMusica implements Runnable{
 		
 		return soundList;
 	}
+        private  TargetDataLine line;
+        private  AuraSDK AsusAura;
+        public boolean allDone = false;
+        public  efeitoMusica(AuraSDK AsusAura){
+            this.AsusAura=AsusAura;
+        }
+        @Override
+        public void run(){            
+            LogiLED.LogiLedInit();
+            AsusColor cor = new AsusColor(255, 0,0);
+            AsusAura.setAllColors(cor);
+            
+            AudioFormat format = getAudioFormat();
+            
+            DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
+            for(Mixer.Info in: AudioSystem.getMixerInfo()){
+                if(in.getName().contains("CABLE Output") && !in.getName().contains("Port")){
+                       for(Line.Info linha:      AudioSystem.getMixer(in).getTargetLineInfo()){
+                           info=(DataLine.Info) linha;
+                       }                     
+                }
+               
+            }
+            try {
+                line = (TargetDataLine) AudioSystem.getLine(info);
+               
+            } catch (LineUnavailableException ex) {
+                Logger.getLogger(efeitoMusica.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                line.open(format);
+            } catch (LineUnavailableException ex) {
+                Logger.getLogger(efeitoMusica.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            line.start();
+            
+            AudioInputStream audioInputStream = new AudioInputStream(line);
+            AudioFormat audioFormat = format;
+            
+            int byteArrayLength = efeitoMusica.getByteArrayLength(audioFormat);
+            byte[] byteArray = new byte[byteArrayLength];
+            try {
+                byteArray = efeitoMusica.readByteArray(audioInputStream, byteArray);
+            } catch (Exception ex) {
+                Logger.getLogger(efeitoMusica.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+            long time = efeitoMusica.TIMESLICE;
+            Sequence sequence = efeitoMusica.newSequence();
+            Track track = sequence.createTrack();
+            Map<Long, Set<Sound>> soundMap = new HashMap<>();
+            while (byteArray != null) {
+                if (allDone) {
+                    line.close();
+                    return;
+                }
+                try{
+                    Random gerador = new Random();
+                    double[] amplitudeArray = efeitoMusica.getAmplitudeArray(audioInputStream, byteArray);
+                    double[][] frequencyMatrix = efeitoMusica.getFrequencyMatrix(audioInputStream, amplitudeArray);
+                    if(byteArray[0]!=0 && byteArray[0]!=-1 && byteArray[0]!=1){
+                        soundMap.put(time, efeitoMusica.getSoundList(frequencyMatrix));
+                        
+                        Double num = new Double((((Note.valor/100)+1)-((Note.valor/100)*2))*100);
+                        Integer porcentagem= num.intValue();
+                        
+                        double redD=((double)gerador.nextInt(porcentagem)/100)*porcentagem;
+                        double greenD=((double)gerador.nextInt(porcentagem)/100)*porcentagem;
+                        double blueD=((double)gerador.nextInt(porcentagem)/100)*porcentagem;
+                        int red = new Double(redD).intValue()+10;
+                        int green = new Double(greenD).intValue()+10;
+                        int blue = new Double(blueD).intValue()+10;
+                        cor = new AsusColor(red,green,blue);
+                        AsusAura.setAllColors(cor);
+                        LogiLED.LogiLedSetLighting(red,green,blue);
+                    }
+                    
+                    byteArray = this.readByteArray(audioInputStream, byteArray);
+                }catch(Exception ex){
+                    
+                }
+                
+            }
+            
+        }
+        AudioFormat getAudioFormat() {
+            float sampleRate = 48000;
+            int sampleSizeInBits = 16;
+            int channels = 2;
+            boolean signed = true;
+            boolean bigEndian = true;
+            AudioFormat format = new AudioFormat(sampleRate, sampleSizeInBits,
+                    channels, signed, bigEndian);
+            return format;
+        }
 }
