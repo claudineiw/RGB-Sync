@@ -12,6 +12,7 @@ import efeitos.efeitoPorImagemDaTela;
 import efeitos.efeitoArcoIris;
 import efeitos.efeitoStrobol;
 import ca.fiercest.aurasdk.AuraSDK;
+import ca.fiercest.aurasdk.AuraSDKDevice;
 import capturaImagem.capturaTela;
 import com.logitech.gaming.LogiLED;
 import com.sun.glass.events.KeyEvent;
@@ -20,7 +21,6 @@ import efeitos.efeitoPorTemperatura;
 import java.awt.AWTException;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.MenuItem;
 import java.awt.Point;
 import java.awt.PopupMenu;
@@ -55,10 +55,13 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
  
 
     public principal(){ 
-         initComponents();    
-         
-         LogiLED.LogiLedInit(); 
-         AsusAura = new AuraSDK();          
+         initComponents();      
+           
+         LogiLED.LogiLedInit();          
+         AsusAura = new AuraSDK();        
+         for(AuraSDKDevice a:AsusAura.getDevices()){
+             System.out.println(a.getName());
+         }
          power = new openHardwareMonitorCon(tempCPU,tempGPU);             
          Thread th = new Thread(power);
          th.start();          
