@@ -47,9 +47,13 @@ public class efeitoPorImagemDaTela implements Runnable{
         logitechConversao = new logitechMetodosAuxiliares();
         botao =logitechConversao.getBotoes();  
             JLabel lbT= new JLabel();
+            JLabel lbM= new JLabel();
         for(Component comp:painelImagens.getComponents()){
             if(comp.getName().equals("lbTeclado")){
             lbT=(JLabel) comp;
+            }
+            if(comp.getName().equals("lbMouse")){
+             lbM=(JLabel) comp;
             }
            
         }
@@ -102,6 +106,9 @@ public class efeitoPorImagemDaTela implements Runnable{
                
             }
         }
+        colorJava = new java.awt.Color(matrix[lbM.getY()/10][lbM.getX()/7]);   
+        logitechConversao.setRGB(colorJava.getRed(),colorJava.getGreen(),colorJava.getBlue());
+        logitechConversao.setCorMouse();
         }
 }
 
