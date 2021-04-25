@@ -36,8 +36,7 @@ import javax.swing.JOptionPane;
 import OpenHardwareMonitor.openHardwareMonitorCon;
 import org.apache.commons.lang3.ArrayUtils;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
-import perifericosComputador.testePerifericos;
-
+import java.sql.*;
 public class principal extends javax.swing.JFrame {
 AuraSDK AsusAura;
 static TrayIcon trayIcon;
