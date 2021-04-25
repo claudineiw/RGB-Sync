@@ -15,57 +15,16 @@ import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
+import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import logitechMetodos.logitechMetodosAuxiliares;
 
 
 public class efeitoPorImagemDaTela implements Runnable{
-    private static int[][] convertTo2DWithoutUsingGetRGB(BufferedImage image) {
-        
-        final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
-        final int width = image.getWidth();
-        final int height = image.getHeight();
-        final boolean hasAlphaChannel = image.getAlphaRaster() != null;
-        
-        int[][] result = new int[height][width];
-        if (hasAlphaChannel) {
-            final int pixelLength = 4;
-            for (int pixel = 0, row = 0, col = 0; pixel + 3 < pixels.length; pixel += pixelLength) {
-                int argb = 0;
-                argb += (((int) pixels[pixel] & 0xff) << 24); // alpha
-                argb += ((int) pixels[pixel + 1] & 0xff); // blue
-                argb += (((int) pixels[pixel + 2] & 0xff) << 8); // green
-                argb += (((int) pixels[pixel + 3] & 0xff) << 16); // red
-                result[row][col] = argb;
-                col++;
-                if (col == width) {
-                    col = 0;
-                    row++;
-                }
-            }
-        } else {
-            final int pixelLength = 3;
-            for (int pixel = 0, row = 0, col = 0; pixel + 2 < pixels.length; pixel += pixelLength) {
-                int argb = 0;
-                argb += -16777216; // 255 alpha
-                argb += ((int) pixels[pixel] & 0xff); // blue
-                argb += (((int) pixels[pixel + 1] & 0xff) << 8); // green
-                argb += (((int) pixels[pixel + 2] & 0xff) << 16); // red
-                result[row][col] = argb;
-                col++;
-                if (col == width) {
-                    col = 0;
-                    row++;
-                }
-            }
-        }
-        
-        return result;
-    }
-        AuraSDK AsusAura;  
+           AuraSDK AsusAura;  
         BufferedImage image;
         int largura;
         int altura;
@@ -82,17 +41,23 @@ public class efeitoPorImagemDaTela implements Runnable{
         public efeitoPorImagemDaTela(AuraSDK AsusAura, JPanel painelImagens){
         this.AsusAura=AsusAura;
         this.painelImagens=painelImagens;
-    }
-        
-        
-        
+         }
         
         public void run(){ 
         logitechConversao = new logitechMetodosAuxiliares();
         botao =logitechConversao.getBotoes();  
-        while(!allDone){
-        for(Component comp: painelImagens.getComponents()){
+            JLabel lbT= new JLabel();
+        for(Component comp:painelImagens.getComponents()){
+            if(comp.getName().equals("lbTeclado")){
+            lbT=(JLabel) comp;
+            }
+           
         }
+        
+        while(!allDone){
+             
+        
+
         if (allDone) {                    
                     return;
                 } 
@@ -102,14 +67,13 @@ public class efeitoPorImagemDaTela implements Runnable{
              Logger.getLogger(efeitoPorImagemDaTela.class.getName()).log(Level.SEVERE, null, ex);
          }
         
-        Image img = image.getScaledInstance(50, 25, BufferedImage.SCALE_SMOOTH);
-        //image = new BufferedImage(50, 25, TYPE_INT_ARGB);
+        Image img = image.getScaledInstance(60, 30, BufferedImage.SCALE_SMOOTH);
+        image = new BufferedImage(60, 30, TYPE_INT_ARGB);
         image.getGraphics().drawImage(img, 0, 0 , null);
        // image  = image.getSubimage((int)image.getWidth()/4,(int)image.getHeight()/2,image.getWidth()/2, image.getHeight() / 2);             
         largura = image.getWidth();
         altura = image.getHeight();
-        dataBuffInt = image.getRGB(0, 0, largura, altura, null, 0, largura);
-        
+        dataBuffInt = image.getRGB(0, 0, largura, altura, null, 0, largura);            
         matrix = new int[altura][largura];   
         int index=0;
         for(int i=0;i<altura;i++){
@@ -118,16 +82,23 @@ public class efeitoPorImagemDaTela implements Runnable{
                 index++;
             }
         }
-      
+        
+            
+        
+        
         for(int i=0;i<botao.length;i++){
             for(int y=0;y<botao[i].length;y++){
                 if (allDone) {                    
                     return;
                 }             
-                colorJava = new java.awt.Color(matrix[i][y]);       
+                colorJava = new java.awt.Color(matrix[i+lbT.getY()/10][y+lbT.getX()/7]);       
                 //colorAsus = new Color(colorJava.getRed(),colorJava.getGreen(),colorJava.getBlue());
                 logitechConversao.setRGB(colorJava.getRed(),colorJava.getGreen(),colorJava.getBlue());
-                LogiLED.LogiLedSetLightingForKeyWithScanCode(botao[i][y],logitechConversao.getR(),logitechConversao.getG(),logitechConversao.getB());
+                try {
+                    logitechConversao.porTecla(botao[i][y]);
+                } catch (Exception ex) {
+                    Logger.getLogger(efeitoPorImagemDaTela.class.getName()).log(Level.SEVERE, null, ex);
+                }
                
             }
         }

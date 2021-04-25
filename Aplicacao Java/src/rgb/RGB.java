@@ -1,8 +1,8 @@
 package rgb;
-import javax.swing.UIManager;
-import java.awt.Toolkit;
 import java.io.IOException;
+import java.awt.Toolkit;
 import java.net.URL;
+import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 
@@ -10,7 +10,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class RGB {
     
-    public static void main(String[] args) throws IOException{    
+    public static void main(String[] args) throws IOException{           
         
    try {  
        UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatDraculaIJTheme");
@@ -19,7 +19,7 @@ public class RGB {
         }
         catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException ex) {
         }
-              
+            
     }
     
 }

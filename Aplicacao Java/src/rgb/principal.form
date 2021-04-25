@@ -206,6 +206,12 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="lbImagem">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="lbImagem" noResource="true"/>
+          </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="lbImagem"/>
+          </AccessibilityProperties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JLabel()"/>
           </AuxValues>
@@ -356,7 +362,7 @@
                           <Component id="painelOpcoes" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="31" max="32767" attributes="0"/>
+                  <EmptySpace pref="30" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

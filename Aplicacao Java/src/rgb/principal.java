@@ -12,7 +12,6 @@ import efeitos.efeitoPorImagemDaTela;
 import efeitos.efeitoArcoIris;
 import efeitos.efeitoStrobol;
 import ca.fiercest.aurasdk.AuraSDK;
-import ca.fiercest.aurasdk.AuraSDKDevice;
 import capturaImagem.capturaTela;
 import com.logitech.gaming.LogiLED;
 import com.sun.glass.events.KeyEvent;
@@ -34,9 +33,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import openHardware.openHardwareMonitorCon;
+import OpenHardwareMonitor.openHardwareMonitorCon;
 import org.apache.commons.lang3.ArrayUtils;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
+import perifericosComputador.testePerifericos;
 
 public class principal extends javax.swing.JFrame {
 AuraSDK AsusAura;
@@ -48,22 +48,24 @@ efeitoOnda efeitoOnda;
 efeitoMusica efeitomMusica;
 efeitoPorImagemDaTela efeitoPorImagem;
 efeitoCorSelecionada efeitoCorSelecionada;
-openHardwareMonitorCon power;
+openHardwareMonitorCon openHardwareMonitor;
 efeitoPorTemperatura efeitoPorTemperatura;
 capturaTela capturaTela;
 private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101,102,103,104,105};
  
 
     public principal(){ 
-         initComponents();      
-           
-         LogiLED.LogiLedInit();          
-         AsusAura = new AuraSDK();        
-         for(AuraSDKDevice a:AsusAura.getDevices()){
-             System.out.println(a.getName());
-         }
-         power = new openHardwareMonitorCon(tempCPU,tempGPU);             
-         Thread th = new Thread(power);
+         initComponents();  
+         
+         
+         
+         openHardwareMonitor = new openHardwareMonitorCon(tempCPU,tempGPU);   
+         
+         
+         LogiLED.LogiLedInit();     
+         AsusAura = new AuraSDK();
+                   
+         Thread th = new Thread(openHardwareMonitor);
          th.start();          
 	 jColorPrincipal.setColor(Color.RED);         
          btnAplicarEfeito.doClick();        
@@ -236,8 +238,10 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
         lbTeclado.setBounds(120, 200, 130, 70);
         lbTeclado.getAccessibleContext().setAccessibleName("lbTeclado");
 
+        lbImagem.setName("lbImagem"); // NOI18N
         painelInternoImagens.add(lbImagem);
         lbImagem.setBounds(0, 0, 360, 270);
+        lbImagem.getAccessibleContext().setAccessibleName("lbImagem");
 
         painelInternoArcoIris.setMaximumSize(new java.awt.Dimension(360, 270));
         painelInternoArcoIris.setMinimumSize(new java.awt.Dimension(360, 270));
@@ -429,7 +433,7 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
                     .addGroup(painelPrincipalLayout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addComponent(painelOpcoes)))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -453,7 +457,7 @@ private static int numerais[]={48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101
         this.dispose();
         pararEfeito();
          try{
-             power.allDone=true;
+             openHardwareMonitor.allDone=true;
          }catch(Exception ex){             
          }
         AsusAura.ReleaseControl();        
