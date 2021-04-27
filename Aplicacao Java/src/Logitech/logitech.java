@@ -17,6 +17,7 @@ public abstract class logitech extends com.logitech.gaming.LogiLED implements pe
     };
 
     public logitech(String nome, String ID, java.awt.Color cor, int[] zonasRGB, int tipoDoDispositivo) {
+        LogiLedInit();
         this.cor = new ColorLogitech(cor);
         this.nome = nome;
         this.ID = ID;
@@ -93,7 +94,7 @@ public abstract class logitech extends com.logitech.gaming.LogiLED implements pe
 
     ;
     
-    
+    @Override
     public void colorirTudo() {
         LogiLedSetLighting(cor.getR(), cor.getG(), cor.getB());
     }

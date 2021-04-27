@@ -1,5 +1,7 @@
 package perifericos;
 
+import static com.logitech.gaming.LogiLED.LogiLedSetLighting;
+
 public interface perifericos{         
     public void setNome(String nome);
     public String getNome();    
@@ -11,5 +13,5 @@ public interface perifericos{
     public void colorirDispositivo();
     public void limparCorDispositivo();
     public int [] getZonasRGB();
-   
+    public void colorirTudo();
 }
