@@ -1,5 +1,6 @@
 package efeitos;
 
+import Logitech.Teclado;
 import sound.Note;
 import sound.Sound;
 import ca.fiercest.aurasdk.AuraSDK;
@@ -15,7 +16,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.TargetDataLine;
-import com.logitech.gaming.LogiLED;
+import java.awt.Color;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -183,16 +184,16 @@ public class efeitoMusica implements Runnable{
 	}
         private  TargetDataLine line;
         private  AuraSDK AsusAura;
-        public boolean allDone = false;
+        public boolean allDone = false;        
         public  efeitoMusica(AuraSDK AsusAura){
             this.AsusAura=AsusAura;
         }
         @Override
-        public void run(){            
-            LogiLED.LogiLedInit();
-            AsusColor cor = new AsusColor(255, 0,0);
-            AsusAura.setAllColors(cor);
-            
+        public void run(){    
+            AsusAura.setAllColors(new AsusColor(255, 0,0));
+            Teclado tecladoLogitech = new Teclado("803","100", Color.red);
+            tecladoLogitech.setCor(Color.red);
+            tecladoLogitech.colorirTudo();
             AudioFormat format = getAudioFormat();
             
             DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
@@ -246,18 +247,19 @@ public class efeitoMusica implements Runnable{
                     if(byteArray[0]!=0 && byteArray[0]!=-1 && byteArray[0]!=1){
                         soundMap.put(time, efeitoMusica.getSoundList(frequencyMatrix));
                         
-                        Double num = new Double((((Note.valor/100)+1)-((Note.valor/100)*2))*100);
+                        Double num = new Double(((((Note.valor/100)+1)-((Note.valor/100)*2))*255));
                         Integer porcentagem= num.intValue();
                         
-                        double redD=((double)gerador.nextInt(porcentagem)/100)*porcentagem;
-                        double greenD=((double)gerador.nextInt(porcentagem)/100)*porcentagem;
-                        double blueD=((double)gerador.nextInt(porcentagem)/100)*porcentagem;
-                        int red = new Double(redD).intValue()+10;
-                        int green = new Double(greenD).intValue()+10;
-                        int blue = new Double(blueD).intValue()+10;
-                        cor = new AsusColor(red,green,blue);
-                        AsusAura.setAllColors(cor);
-                        LogiLED.LogiLedSetLighting(red,green,blue);
+                        double redD=((double)gerador.nextInt(porcentagem)/255)*porcentagem;
+                        double greenD=((double)gerador.nextInt(porcentagem)/255)*porcentagem;
+                        double blueD=((double)gerador.nextInt(porcentagem)/255)*porcentagem;
+                        int red = new Double(redD).intValue();
+                        int green = new Double(greenD).intValue();
+                        int blue = new Double(blueD).intValue();     
+        
+                        AsusAura.setAllColors(new AsusColor(red,0,0));
+                        tecladoLogitech.setCor(new Color(red,0,0));
+                        tecladoLogitech.colorirTudo();                       
                     }
                     
                     byteArray = this.readByteArray(audioInputStream, byteArray);

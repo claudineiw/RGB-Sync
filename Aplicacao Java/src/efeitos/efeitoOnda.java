@@ -1,13 +1,14 @@
 package efeitos;
 
+import Logitech.Teclado;
 import ca.fiercest.aurasdk.AuraRGBLight;
 import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.aurasdk.AsusColor;
+import java.awt.Color;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import logitechMetodos.logitechMetodosAuxiliares;
 
 
 public class efeitoOnda implements Runnable{
@@ -16,17 +17,15 @@ public class efeitoOnda implements Runnable{
      private int r=255;
      private int g=0;
      private int b=0;
-     logitechMetodosAuxiliares logitechconversao;
      public  efeitoOnda(AuraSDK AsusAura){
-       this.logitechconversao= new logitechMetodosAuxiliares();
         this.AsusAura=AsusAura;
     }
     
     @Override
     public void run(){   
-        logitechMetodosAuxiliares botoes = new logitechMetodosAuxiliares();
-        int [][] listaBotoes=botoes.getBotoes();
-        AsusColor cor = new AsusColor(r, g, b);  
+        Teclado tecladoLogitech = new Teclado("Teclado","100", Color.red);
+        int [][] listaBotoes=tecladoLogitech.getTeclas();
+        Color cor = new Color(r, g, b);  
          List<AuraRGBLight> luzes=AsusAura.getAllLights(); 
         while(!allDone){                 
              if (allDone) {                    
@@ -36,7 +35,7 @@ public class efeitoOnda implements Runnable{
                  if (allDone) {                    
                     return;
                 } 
-                luzes.get(i).setColor(cor);
+                luzes.get(i).setColor(new AsusColor(cor.getRed(),cor.getGreen(),cor.getBlue()));
             }
            
              for(int i=listaBotoes.length-1;i>=0;i--){    
@@ -44,9 +43,9 @@ public class efeitoOnda implements Runnable{
                      if (allDone) {                    
                     return;
                 }   
-                     logitechconversao.setRGB(r, g, b);
+                     tecladoLogitech.setCor(cor);
                      try {
-                         logitechconversao.porTecla(listaBotoes[i][y]);
+                         tecladoLogitech.colorirPorTecla(listaBotoes[i][y]);
                      } catch (Exception ex) {
                          Logger.getLogger(efeitoOnda.class.getName()).log(Level.SEVERE, null, ex);
                      }
@@ -70,7 +69,7 @@ public class efeitoOnda implements Runnable{
             }
     }
     
-    public AsusColor trocarCor(){               
+    public Color trocarCor(){               
                     if(r==255 && g==0 && b==0){
                         r=255;
                         g=255;
@@ -95,7 +94,7 @@ public class efeitoOnda implements Runnable{
                             b=0;
                         }
                        
-          return new AsusColor(r, g, b);
+          return new Color(r, g, b);
     }
             
 }
