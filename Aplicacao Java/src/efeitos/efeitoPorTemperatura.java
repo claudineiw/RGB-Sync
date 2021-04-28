@@ -5,10 +5,9 @@
  */
 package efeitos;
 
-import Logitech.Teclado;
+import Logitech.Logitech;
 import ca.fiercest.aurasdk.AsusColor;
 import ca.fiercest.aurasdk.AuraSDK;
-import java.awt.Color;
 import javax.swing.JLabel;
 
 /**
@@ -42,39 +41,39 @@ public class efeitoPorTemperatura implements Runnable{
 
     @Override
     public void run() {
-        Teclado tecladoLogitech= new Teclado("Teclado","100", Color.BLACK);
+        Logitech logitech = new Logitech();
         while(!allDone){
             int temperaturaLocal=Integer.valueOf(temperatura.getText());
             if(temperaturaLocal< vtemp1){
                 java.awt.Color nova =temp1.getForeground();
                 AsusColor cor = new AsusColor(nova.getRed(), nova.getGreen(), nova.getBlue());         
                 AsusAura.setAllColors(cor);  
-                tecladoLogitech.setCor(nova);
-                tecladoLogitech.colorirTudo();
+                logitech.setCor(nova);
+                logitech.colorirTudo();
             }else if(temperaturaLocal >= vtemp1 && temperaturaLocal<vtemp2){
                 java.awt.Color nova =temp1.getForeground();
                 AsusColor cor = new AsusColor(nova.getRed(), nova.getGreen(), nova.getBlue());         
                 AsusAura.setAllColors(cor);  
-                tecladoLogitech.setCor(nova);
-                tecladoLogitech.colorirTudo();
+                logitech.setCor(nova);
+                logitech.colorirTudo();
             }else if(temperaturaLocal >=vtemp2 && temperaturaLocal<vtemp3){
                 java.awt.Color nova =temp2.getForeground();
                 AsusColor cor = new AsusColor(nova.getRed(), nova.getGreen(), nova.getBlue());         
                 AsusAura.setAllColors(cor);  
-                tecladoLogitech.setCor(nova);
-                tecladoLogitech.colorirTudo();
+                logitech.setCor(nova);
+                logitech.colorirTudo();
             }else if (temperaturaLocal >=vtemp3 && temperaturaLocal<vtemp4) {
                 java.awt.Color nova =temp3.getForeground();
                 AsusColor cor = new AsusColor(nova.getRed(), nova.getGreen(), nova.getBlue());         
                 AsusAura.setAllColors(cor);  
-                tecladoLogitech.setCor(nova);
-                tecladoLogitech.colorirTudo();
+                logitech.setCor(nova);
+                logitech.colorirTudo();
             }else{
                 java.awt.Color nova =temp4.getForeground();
                 AsusColor cor = new AsusColor(nova.getRed(), nova.getGreen(), nova.getBlue());         
                 AsusAura.setAllColors(cor);  
-                tecladoLogitech.setCor(nova);
-                tecladoLogitech.colorirTudo();
+                logitech.setCor(nova);
+                logitech.colorirTudo();
             }
         }
     }

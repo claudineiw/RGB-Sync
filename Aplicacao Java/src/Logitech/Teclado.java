@@ -1,6 +1,6 @@
 package Logitech;
 
-public final class Teclado extends logitech implements perifericos.Teclado{
+public final class Teclado extends ILogitech implements perifericos.ITeclado{
 private final static int [] zonasRGB={0,1,2,3,4};
     public Teclado(String nome, String ID, java.awt.Color cor) {
         super(nome, ID, cor,zonasRGB,0);

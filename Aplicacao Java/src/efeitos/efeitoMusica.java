@@ -1,6 +1,6 @@
 package efeitos;
 
-import Logitech.Teclado;
+import Logitech.Logitech;
 import sound.Note;
 import sound.Sound;
 import ca.fiercest.aurasdk.AuraSDK;
@@ -191,9 +191,9 @@ public class efeitoMusica implements Runnable{
         @Override
         public void run(){    
             AsusAura.setAllColors(new AsusColor(255, 0,0));
-            Teclado tecladoLogitech = new Teclado("803","100", Color.red);
-            tecladoLogitech.setCor(Color.red);
-            tecladoLogitech.colorirTudo();
+            Logitech logitech = new Logitech();
+            logitech.setCor(Color.red);
+            logitech.colorirTudo();
             AudioFormat format = getAudioFormat();
             
             DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
@@ -258,8 +258,8 @@ public class efeitoMusica implements Runnable{
                         int blue = new Double(blueD).intValue();     
         
                         AsusAura.setAllColors(new AsusColor(red,0,0));
-                        tecladoLogitech.setCor(new Color(red,0,0));
-                        tecladoLogitech.colorirTudo();                       
+                        logitech.setCor(new Color(red,0,0));
+                        logitech.colorirTudo();                       
                     }
                     
                     byteArray = this.readByteArray(audioInputStream, byteArray);

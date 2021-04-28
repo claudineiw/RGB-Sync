@@ -11,6 +11,7 @@ public final class ColorLogitech {
        this.b=(cor.getBlue()*100)/255;  
     }
 
+
     public int getR() {
         return r;
     }

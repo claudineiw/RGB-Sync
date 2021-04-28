@@ -1,10 +1,9 @@
 
 package efeitos;
 
-import Logitech.Teclado;
+import Logitech.Logitech;
 import ca.fiercest.aurasdk.AsusColor;
 import ca.fiercest.aurasdk.AuraSDK;
-import java.awt.Color;
 import javax.swing.JColorChooser;
 
 public class efeitoCorSelecionada implements Runnable{
@@ -18,13 +17,13 @@ public class efeitoCorSelecionada implements Runnable{
     }
     @Override
     public void run() {
-        Teclado tecladoLogitech = new Teclado("803","100", Color.red);
+        Logitech logitech = new Logitech();
        while(!allDone){
             java.awt.Color nova = color.getSelectionModel().getSelectedColor();            
             AsusColor cor = new AsusColor(nova.getRed(), nova.getGreen(), nova.getBlue());         
             AsusAura.setAllColors(cor);  
-            tecladoLogitech.setCor(nova);
-            tecladoLogitech.colorirTudo();
+            logitech.setCor(nova);
+            logitech.colorirTudo();
        }
     }
     

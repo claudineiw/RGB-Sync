@@ -1,6 +1,6 @@
 package efeitos;
 
-import Logitech.Teclado;
+import Logitech.Logitech;
 import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.aurasdk.AsusColor;
 import java.util.logging.Level;
@@ -21,15 +21,15 @@ public class efeitoDecremental implements Runnable{
         java.awt.Color nova = color.getSelectionModel().getSelectedColor();  
         AsusColor cor = new AsusColor(nova.getRed(), nova.getGreen(), nova.getBlue());         
         AsusAura.setAllColors(cor);     
-        Teclado tecladoLogitech = new Teclado("803","100", nova);
-        tecladoLogitech.colorirTudo();
+        Logitech logitech = new Logitech();
+        logitech.colorirTudo();
         while(!allDone){    
              if (allDone) {                    
                     return;
                 }         
               
-            tecladoLogitech.setCor(nova);
-            tecladoLogitech.colorirTudo();            
+            logitech.setCor(nova);
+            logitech.colorirTudo();            
             
             if(nova.getGreen()<=30 && nova.getBlue()<=30 && nova.getRed()<=30){
                 nova = color.getSelectionModel().getSelectedColor();  

@@ -1,6 +1,6 @@
 package efeitos;
 
-import Logitech.Teclado;
+import Logitech.Logitech;
 import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.aurasdk.AsusColor;
 import java.awt.Color;
@@ -20,8 +20,8 @@ public class efeitoStrobol implements Runnable{
         Color color = new Color((int)(Math.random() * 0x1000000));
         AsusColor cor = new AsusColor(255,255,255);         
         AsusAura.setAllColors(cor);           
-        Teclado tecladoLogitech = new Teclado("Teclado", "100",color);
-        tecladoLogitech.colorirTudo();
+        Logitech logitech = new Logitech();
+        logitech.colorirTudo();
         while(!allDone){    
              if (allDone) {                    
                     return;
@@ -29,8 +29,8 @@ public class efeitoStrobol implements Runnable{
             color = new Color((int)(Math.random() * 0x1000000));
             cor = new AsusColor(color.getRed(),color.getGreen(),color.getBlue()); 
             AsusAura.setAllColors(cor);   
-            tecladoLogitech.setCor(color);
-            tecladoLogitech.colorirTudo();
+            logitech.setCor(color);
+            logitech.colorirTudo();
             
          if (allDone) {          
                     return;

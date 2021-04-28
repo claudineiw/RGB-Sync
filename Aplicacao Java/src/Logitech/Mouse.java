@@ -2,7 +2,7 @@ package Logitech;
 
 import java.awt.Color;
 
-public class Mouse extends logitech {
+public class Mouse extends ILogitech {
 private final static int [] zonasRGB={0,1};
     /**
      *
