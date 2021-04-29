@@ -1,6 +1,6 @@
 package Logitech;
 
-public abstract class ILogitech extends com.logitech.gaming.LogiLED implements perifericos.IPerifericos {
+public abstract class ILogitech extends com.logitech.gaming.LogiLED implements AAPerifericos.IPerifericos {
 
     private ColorLogitech cor;
     private String nome;

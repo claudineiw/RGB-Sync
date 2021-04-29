@@ -1,8 +1,8 @@
 package efeitos;
 
 import java.awt.Color;
-import perifericos.IPerifericos;
-import perifericos.colecaoPerifericos;
+import AAPerifericos.IPerifericos;
+import AAPerifericos.colecaoPerifericos;
 
 
 

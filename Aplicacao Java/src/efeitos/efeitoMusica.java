@@ -1,8 +1,8 @@
 package efeitos;
 
 import Logitech.Logitech;
-import sound.Note;
-import sound.Sound;
+import efeitosSound.Note;
+import efeitosSound.Sound;
 import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.aurasdk.AsusColor;
 import java.util.HashMap;
@@ -27,8 +27,8 @@ import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.transform.DftNormalization;
 import org.apache.commons.math3.transform.FastFourierTransformer;
 import org.apache.commons.math3.transform.TransformType;
-import perifericos.IPerifericos;
-import perifericos.colecaoPerifericos;
+import AAPerifericos.IPerifericos;
+import AAPerifericos.colecaoPerifericos;
 
 public class efeitoMusica implements Runnable{
 	

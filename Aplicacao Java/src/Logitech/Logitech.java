@@ -2,7 +2,7 @@ package Logitech;
 
 import java.awt.Color;
 
-public final class Logitech implements perifericos.IPerifericos{
+public final class Logitech implements AAPerifericos.IPerifericos{
     private final static int [] zonasRGB={0,1,2,3,4};
     
     private final ILogitech log = new ILogitech("", "", Color.red, zonasRGB, 0) {

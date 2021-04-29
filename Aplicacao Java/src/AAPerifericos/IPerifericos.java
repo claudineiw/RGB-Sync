@@ -1,4 +1,4 @@
-package perifericos;
+package AAPerifericos;
 
 import static com.logitech.gaming.LogiLED.LogiLedSetLighting;
 

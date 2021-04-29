@@ -2,8 +2,8 @@
 package efeitos;
 
 import javax.swing.JColorChooser;
-import perifericos.IPerifericos;
-import perifericos.colecaoPerifericos;
+import AAPerifericos.IPerifericos;
+import AAPerifericos.colecaoPerifericos;
 
 public class efeitoCorSelecionada implements Runnable{
     JColorChooser color;

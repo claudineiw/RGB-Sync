@@ -5,7 +5,7 @@ import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.aurasdk.AuraSDKDevice;
 
 
-public abstract class IAsus implements perifericos.IPerifericos{
+public abstract class IAsus implements AAPerifericos.IPerifericos{
     private AsusColor cor;
     private String nome;
     private String ID;

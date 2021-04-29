@@ -38,7 +38,7 @@ import javax.swing.JOptionPane;
 import OpenHardwareMonitor.openHardwareMonitorCon;
 import org.apache.commons.lang3.ArrayUtils;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
-import perifericos.colecaoPerifericos;
+import AAPerifericos.colecaoPerifericos;
 
 public class principal extends javax.swing.JFrame {
 AuraSDK AsusAura;

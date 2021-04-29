@@ -10,8 +10,8 @@ import ca.fiercest.aurasdk.AsusColor;
 import ca.fiercest.aurasdk.AuraSDK;
 import java.awt.Color;
 import javax.swing.JLabel;
-import perifericos.IPerifericos;
-import perifericos.colecaoPerifericos;
+import AAPerifericos.IPerifericos;
+import AAPerifericos.colecaoPerifericos;
 
 /**
  *

@@ -1,4 +1,4 @@
-package sound;
+package efeitosSound;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiEvent;
