@@ -61,15 +61,18 @@ public class efeitoPorImagemDaTela implements Runnable{
         }
         
         while(!allDone){
-             
+        
         if (allDone) {                    
                     return;
                 } 
          try {
+             Thread.sleep(500);
              image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
          } catch (AWTException ex) {
              Logger.getLogger(efeitoPorImagemDaTela.class.getName()).log(Level.SEVERE, null, ex);
-         }
+         }  catch (InterruptedException ex) {
+                Logger.getLogger(efeitoPorImagemDaTela.class.getName()).log(Level.SEVERE, null, ex);
+            }
         
         Image img = image.getScaledInstance(60, 30, BufferedImage.SCALE_SMOOTH);
         image = new BufferedImage(60, 30, TYPE_INT_ARGB);
