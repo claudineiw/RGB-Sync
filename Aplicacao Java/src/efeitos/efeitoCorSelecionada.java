@@ -1,29 +1,26 @@
 
 package efeitos;
 
-import Logitech.Logitech;
-import ca.fiercest.aurasdk.AsusColor;
-import ca.fiercest.aurasdk.AuraSDK;
 import javax.swing.JColorChooser;
+import perifericos.IPerifericos;
+import perifericos.colecaoPerifericos;
 
 public class efeitoCorSelecionada implements Runnable{
- AuraSDK AsusAura;
     JColorChooser color;
     public boolean allDone = false;    
-    
-    public  efeitoCorSelecionada(JColorChooser color,AuraSDK AsusAura){
+    colecaoPerifericos listaPerifericos;
+    public  efeitoCorSelecionada(JColorChooser color,colecaoPerifericos listaPerifericos){
         this.color=color;
-        this.AsusAura=AsusAura;
+        this.listaPerifericos=listaPerifericos;
     }
     @Override
-    public void run() {
-        Logitech logitech = new Logitech();
+    public void run() {        
        while(!allDone){
-            java.awt.Color nova = color.getSelectionModel().getSelectedColor();            
-            AsusColor cor = new AsusColor(nova.getRed(), nova.getGreen(), nova.getBlue());         
-            AsusAura.setAllColors(cor);  
-            logitech.setCor(nova);
-            logitech.colorirTudo();
+            java.awt.Color nova = color.getSelectionModel().getSelectedColor();                
+            for(IPerifericos periferico:listaPerifericos.getPerifericos()){
+                periferico.setCor(nova);
+                periferico.colorirTudo(); 
+            }
        }
     }
     

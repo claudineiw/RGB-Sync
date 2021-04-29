@@ -1,36 +1,33 @@
 package efeitos;
 
-import Logitech.Logitech;
-import ca.fiercest.aurasdk.AuraSDK;
-import ca.fiercest.aurasdk.AsusColor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JColorChooser;
+import perifericos.IPerifericos;
+import perifericos.colecaoPerifericos;
 
 public class efeitoDecremental implements Runnable{
-    AuraSDK AsusAura;
+    colecaoPerifericos listaPerifericos;
     JColorChooser color;
     public boolean allDone = false;    
-    public  efeitoDecremental(JColorChooser color,AuraSDK AsusAura){
+    public  efeitoDecremental(JColorChooser color,colecaoPerifericos listaPerifericos){
         this.color=color;
-        this.AsusAura=AsusAura;
+        this.listaPerifericos=listaPerifericos;
     }
     
     @Override
     public void run(){
         java.awt.Color nova = color.getSelectionModel().getSelectedColor();  
-        AsusColor cor = new AsusColor(nova.getRed(), nova.getGreen(), nova.getBlue());         
-        AsusAura.setAllColors(cor);     
-        Logitech logitech = new Logitech();
-        logitech.colorirTudo();
         while(!allDone){    
              if (allDone) {                    
                     return;
                 }         
               
-            logitech.setCor(nova);
-            logitech.colorirTudo();            
-            
+             for(IPerifericos periferico:listaPerifericos.getPerifericos()){
+                 periferico.setCor(nova);
+                periferico.colorirTudo();
+             }
+                 
             if(nova.getGreen()<=30 && nova.getBlue()<=30 && nova.getRed()<=30){
                 nova = color.getSelectionModel().getSelectedColor();  
             }else{
@@ -43,7 +40,6 @@ public class efeitoDecremental implements Runnable{
             } catch (InterruptedException ex) {
                 Logger.getLogger(efeitoDecremental.class.getName()).log(Level.SEVERE, null, ex);
             }
-            AsusAura.setAllColors(new AsusColor(nova.getRed(),nova.getGreen(),nova.getBlue())); 
             }
                     
          if (allDone) {          

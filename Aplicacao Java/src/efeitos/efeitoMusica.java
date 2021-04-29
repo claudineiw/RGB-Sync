@@ -27,6 +27,8 @@ import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.transform.DftNormalization;
 import org.apache.commons.math3.transform.FastFourierTransformer;
 import org.apache.commons.math3.transform.TransformType;
+import perifericos.IPerifericos;
+import perifericos.colecaoPerifericos;
 
 public class efeitoMusica implements Runnable{
 	
@@ -182,18 +184,14 @@ public class efeitoMusica implements Runnable{
 		
 		return soundList;
 	}
-        private  TargetDataLine line;
-        private  AuraSDK AsusAura;
-        public boolean allDone = false;        
-        public  efeitoMusica(AuraSDK AsusAura){
-            this.AsusAura=AsusAura;
+        private  TargetDataLine line;        
+        public boolean allDone = false;    
+        colecaoPerifericos listaPerifericos;
+        public  efeitoMusica(colecaoPerifericos listaPerifericos){
+            this.listaPerifericos=listaPerifericos;
         }
         @Override
         public void run(){    
-            AsusAura.setAllColors(new AsusColor(255, 0,0));
-            Logitech logitech = new Logitech();
-            logitech.setCor(Color.red);
-            logitech.colorirTudo();
             AudioFormat format = getAudioFormat();
             
             DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
@@ -256,10 +254,11 @@ public class efeitoMusica implements Runnable{
                         int red = new Double(redD).intValue();
                         int green = new Double(greenD).intValue();
                         int blue = new Double(blueD).intValue();     
-        
-                        AsusAura.setAllColors(new AsusColor(red,0,0));
-                        logitech.setCor(new Color(red,0,0));
-                        logitech.colorirTudo();                       
+                        for(IPerifericos periferico:listaPerifericos.getPerifericos()){
+                            periferico.setCor(new Color(red,green,blue));
+                            periferico.colorirTudo();
+                        }
+                                                   
                     }
                     
                     byteArray = this.readByteArray(audioInputStream, byteArray);

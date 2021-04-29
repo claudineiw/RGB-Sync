@@ -5,9 +5,8 @@ import java.util.ArrayList;
 public class colecaoPerifericos {
     private final ArrayList<IPerifericos> Listaperifericos;
 
-    public colecaoPerifericos(IPerifericos periferico) {       
+    public colecaoPerifericos() {       
         this.Listaperifericos = new ArrayList<>();
-        this.Listaperifericos.add(periferico);
     }
 
     public ArrayList<IPerifericos> getPerifericos() {
@@ -18,6 +17,5 @@ public class colecaoPerifericos {
         this.Listaperifericos.add(perifericos);
     }
 
-    
-    
+      
 }

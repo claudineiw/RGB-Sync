@@ -1,36 +1,30 @@
 package efeitos;
 
-import Logitech.Logitech;
-import ca.fiercest.aurasdk.AuraSDK;
-import ca.fiercest.aurasdk.AsusColor;
 import java.awt.Color;
+import perifericos.IPerifericos;
+import perifericos.colecaoPerifericos;
 
 
 
 
 public class efeitoStrobol implements Runnable{
-    private AuraSDK AsusAura;  
+    private colecaoPerifericos listaPerifericos;  
     public boolean allDone = false;    
-    public  efeitoStrobol(AuraSDK AsusAura){        
-        this.AsusAura=AsusAura;
+    public  efeitoStrobol(colecaoPerifericos listaPerifericos){        
+        this.listaPerifericos=listaPerifericos;
     }
     
     @Override
-    public void run(){       
-        Color color = new Color((int)(Math.random() * 0x1000000));
-        AsusColor cor = new AsusColor(255,255,255);         
-        AsusAura.setAllColors(cor);           
-        Logitech logitech = new Logitech();
-        logitech.colorirTudo();
+    public void run(){   
         while(!allDone){    
              if (allDone) {                    
                     return;
                 }
-            color = new Color((int)(Math.random() * 0x1000000));
-            cor = new AsusColor(color.getRed(),color.getGreen(),color.getBlue()); 
-            AsusAura.setAllColors(cor);   
-            logitech.setCor(color);
-            logitech.colorirTudo();
+            for(IPerifericos perifericos:listaPerifericos.getPerifericos()){
+                perifericos.setCor(new Color((int)(Math.random() * 0x1000000)));
+                perifericos.colorirTudo();
+            }
+            
             
          if (allDone) {          
                     return;

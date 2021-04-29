@@ -1,5 +1,6 @@
 package efeitos;
 
+import Asus.MotherBoard;
 import Logitech.Teclado;
 import ca.fiercest.aurasdk.AuraRGBLight;
 import ca.fiercest.aurasdk.AuraSDK;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class efeitoArcoIris implements Runnable{
+    MotherBoard placaMae;
     AuraSDK AsusAura;    
     public boolean allDone = false;    
     ArrayList<int []> cores;
@@ -16,6 +18,7 @@ public class efeitoArcoIris implements Runnable{
     public  efeitoArcoIris(AuraSDK AsusAura,ArrayList<int []> cores){       
         this.AsusAura=AsusAura;
         this.cores=cores;
+        this.placaMae = new MotherBoard(AsusAura.getDevices().get(0).getName(),"teste" ,0, AsusAura, AsusAura.getDevices().get(0));
     }    
 
     @Override
@@ -53,7 +56,7 @@ public class efeitoArcoIris implements Runnable{
                         try{
                             cor = new AsusColor(cores.get(conta)[0],cores.get(conta)[1],cores.get(conta)[2]);
                             if (allDone) {return;}   
-                            for(int y=i;y<i+10;y++){
+                            for(int y=i;y<i+10;y++){                               
                                luzes.get(y).setColor(cor); 
                             }                               
                         }catch(Exception ex){}   
