@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package rgb;
 
-import AAPerifericos.IPerifericos;
 import efeitos.efeitoOnda;
 import efeitos.efeitoDecremental;
 import efeitos.efeitoMusica;
@@ -68,13 +62,14 @@ public class principal extends javax.swing.JFrame {
     private static int numerais[] = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105};
 
     public principal() {
-        verificacaoPerifericos = new verificarPerifericos();
         initComponents();
+        this.setEnabled(false);
+        this.setVisible(true);
         jColorPrincipal.setColor(Color.RED);
+        verificacaoPerifericos = new verificarPerifericos();
         preencherListaPerifericos();
         iniciarMonitorTemperatura();
-        // btnAplicarEfeito.doClick();        
-        this.setVisible(true);
+        this.setEnabled(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -602,78 +597,76 @@ public class principal extends javax.swing.JFrame {
             Thread.sleep(1000);
 
             Thread th;
-            if(listaPerifericos.getPerifericos().size()>0){   
-            switch (jCbXEfeitos.getSelectedItem().toString()) {
-                case "Musica":
-                    efeitomMusica = new efeitoMusica(listaPerifericos);
-                    th = new Thread(efeitomMusica);
-                    th.start();
-                    break;
-                case "Tela":
-                    capturaTela.allDone = true;
-                    efeitoPorImagem = new efeitoPorImagemDaTela(listaPerifericos, painelInternoImagens);
-                    th = new Thread(efeitoPorImagem);
-                    th.start();
-                    break;
-                case "Stroob":
-                    efeitoStrobol = new efeitoStrobol(listaPerifericos);
-                    th = new Thread(efeitoStrobol);
-                    th.start();
-
-                    break;
-                case "ArcoIris":
-                    if (jcBSelecaoDeCores.getModel().getSize() >= 0) {
-                        efeitoArcoIris = new efeitoArcoIris(listaPerifericos, selecionarCores());
-                        th = new Thread(efeitoArcoIris);
+            if (listaPerifericos.getPerifericos().size() > 0) {
+                switch (jCbXEfeitos.getSelectedItem().toString()) {
+                    case "Musica":
+                        efeitomMusica = new efeitoMusica(listaPerifericos);
+                        th = new Thread(efeitomMusica);
                         th.start();
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(this,"Favor Selecionar as cores");
-                    }
-                    break;
-                case "Onda":
-                    if (jcBSelecaoDeCores.getModel().getSize() >= 0) {
-                        efeitoOnda = new efeitoOnda(listaPerifericos, selecionarCores());
-                        th = new Thread(efeitoOnda);
+                        break;
+                    case "Tela":
+                        capturaTela.allDone = true;
+                        efeitoPorImagem = new efeitoPorImagemDaTela(listaPerifericos, painelInternoImagens);
+                        th = new Thread(efeitoPorImagem);
                         th.start();
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(this,"Favor Selecionar as cores");
-                    }
-                    break;
-                case "Decremental":
-                    efeitoDecremental = new efeitoDecremental(jColorPrincipal, listaPerifericos);
-                    th = new Thread(efeitoDecremental);
-                    th.start();
-                    break;
-                case "Selecionada":
+                        break;
+                    case "Stroob":
+                        efeitoStrobol = new efeitoStrobol(listaPerifericos);
+                        th = new Thread(efeitoStrobol);
+                        th.start();
 
-                    efeitoCorSelecionada = new efeitoCorSelecionada(jColorPrincipal, listaPerifericos);
-                    th = new Thread(efeitoCorSelecionada);
-                    th.start();
-                    break;
-                case "Temperatura":
-                    int temp1 = Integer.valueOf(txtTemp1.getText());
-                    int temp2 = Integer.valueOf(txtTemp2.getText());
-                    int temp3 = Integer.valueOf(txtTemp3.getText());
-                    int temp4 = Integer.valueOf(txtTemp4.getText());
-                    if (temp4 < temp3 || temp3 < temp2 || temp2 < temp1) {
-                        JOptionPane.showMessageDialog(this, "As temperaturas devem ser em ordem crescente");
-                    } else {
-                        if (jCbDispositivo.getSelectedItem().toString().equals("GPU")) {
-                            efeitoPorTemperatura = new efeitoPorTemperatura(listaPerifericos, lbTemp1, lbTemp2, lbTemp3, lbTemp4, tempGPU, temp1, temp2, temp3, temp4);
-                            th = new Thread(efeitoPorTemperatura);
+                        break;
+                    case "ArcoIris":
+                        if (jcBSelecaoDeCores.getModel().getSize() >= 0) {
+                            efeitoArcoIris = new efeitoArcoIris(listaPerifericos, selecionarCores());
+                            th = new Thread(efeitoArcoIris);
                             th.start();
-                        } else if (jCbDispositivo.getSelectedItem().toString().equals("CPU")) {
-                            efeitoPorTemperatura = new efeitoPorTemperatura(listaPerifericos, lbTemp1, lbTemp2, lbTemp3, lbTemp4, tempCPU, temp1, temp2, temp3, temp4);
-                            th = new Thread(efeitoPorTemperatura);
-                            th.start();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Favor Selecionar as cores");
                         }
-                    }
-                    break;
-            }
-            }else{
-                JOptionPane.showMessageDialog(this,"Selecionar perifericos");
+                        break;
+                    case "Onda":
+                        if (jcBSelecaoDeCores.getModel().getSize() >= 0) {
+                            efeitoOnda = new efeitoOnda(listaPerifericos, selecionarCores());
+                            th = new Thread(efeitoOnda);
+                            th.start();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Favor Selecionar as cores");
+                        }
+                        break;
+                    case "Decremental":
+                        efeitoDecremental = new efeitoDecremental(jColorPrincipal, listaPerifericos);
+                        th = new Thread(efeitoDecremental);
+                        th.start();
+                        break;
+                    case "Selecionada":
+
+                        efeitoCorSelecionada = new efeitoCorSelecionada(jColorPrincipal, listaPerifericos);
+                        th = new Thread(efeitoCorSelecionada);
+                        th.start();
+                        break;
+                    case "Temperatura":
+                        int temp1 = Integer.valueOf(txtTemp1.getText());
+                        int temp2 = Integer.valueOf(txtTemp2.getText());
+                        int temp3 = Integer.valueOf(txtTemp3.getText());
+                        int temp4 = Integer.valueOf(txtTemp4.getText());
+                        if (temp4 < temp3 || temp3 < temp2 || temp2 < temp1) {
+                            JOptionPane.showMessageDialog(this, "As temperaturas devem ser em ordem crescente");
+                        } else {
+                            if (jCbDispositivo.getSelectedItem().toString().equals("GPU")) {
+                                efeitoPorTemperatura = new efeitoPorTemperatura(listaPerifericos, lbTemp1, lbTemp2, lbTemp3, lbTemp4, tempGPU, temp1, temp2, temp3, temp4);
+                                th = new Thread(efeitoPorTemperatura);
+                                th.start();
+                            } else if (jCbDispositivo.getSelectedItem().toString().equals("CPU")) {
+                                efeitoPorTemperatura = new efeitoPorTemperatura(listaPerifericos, lbTemp1, lbTemp2, lbTemp3, lbTemp4, tempCPU, temp1, temp2, temp3, temp4);
+                                th = new Thread(efeitoPorTemperatura);
+                                th.start();
+                            }
+                        }
+                        break;
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecionar perifericos");
             }
         } catch (InterruptedException ex) {
             Logger.getLogger(principal.class.getName()).log(Level.SEVERE, null, ex);

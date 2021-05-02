@@ -40,7 +40,7 @@ public class efeitoArcoIris implements Runnable {
                         } else {
                             interacao++;
                         }
-                        
+
                     }
                     if (periferico instanceof IMouse) {
                         colorirMouse(periferico);
@@ -73,7 +73,7 @@ public class efeitoArcoIris implements Runnable {
 
     private void colorirTeclado(IPerifericos teclado) {
         try {
-            for (int y = 0; y < 23; y++) { 
+            for (int y = 0; y < 23; y++) {
                 trocarCor();
                 teclado.setCor(cor);
                 for (int[] sequencia : ((IKeyboard) teclado).getTeclas()) {
@@ -82,7 +82,7 @@ public class efeitoArcoIris implements Runnable {
                     } catch (Exception ex) {
                     }
                 }
-                
+
             }
         } catch (Exception ex) {
         }
@@ -99,7 +99,7 @@ public class efeitoArcoIris implements Runnable {
     }
 
     public void trocarCor() {
-        if(conta > cores.size()-1){
+        if (conta > cores.size() - 1) {
             conta = 0;
         }
         cor = new Color(cores.get(conta)[0], cores.get(conta)[1], cores.get(conta)[2]);

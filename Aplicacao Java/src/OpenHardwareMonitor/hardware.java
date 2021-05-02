@@ -1,6 +1,7 @@
 package OpenHardwareMonitor;
 
 public class hardware {
+
     private int Temp;
     private String Tipo;
     private String Nome;
@@ -29,8 +30,4 @@ public class hardware {
         this.Nome = Nome;
     }
 
-  
-
-    
-    
 }

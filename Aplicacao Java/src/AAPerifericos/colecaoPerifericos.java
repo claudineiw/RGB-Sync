@@ -3,9 +3,10 @@ package AAPerifericos;
 import java.util.ArrayList;
 
 public class colecaoPerifericos {
+
     private final ArrayList<IPerifericos> Listaperifericos;
 
-    public colecaoPerifericos() {       
+    public colecaoPerifericos() {
         this.Listaperifericos = new ArrayList<>();
     }
 
@@ -17,5 +18,4 @@ public class colecaoPerifericos {
         this.Listaperifericos.add(perifericos);
     }
 
-      
 }

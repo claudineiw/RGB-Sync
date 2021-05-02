@@ -1,16 +1,16 @@
 package Logitech;
 
 public final class ColorLogitech {
+
     private int r;
     private int g;
     private int b;
 
     public ColorLogitech(java.awt.Color cor) {
-       this.r=(cor.getRed()*100)/255;
-       this.g=(cor.getGreen()*100)/255;
-       this.b=(cor.getBlue()*100)/255;  
+        this.r = (cor.getRed() * 100) / 255;
+        this.g = (cor.getGreen() * 100) / 255;
+        this.b = (cor.getBlue() * 100) / 255;
     }
-
 
     public int getR() {
         return r;
@@ -35,7 +35,5 @@ public final class ColorLogitech {
     public void setB(int b) {
         this.b = b;
     }
-    
-    
-    
+
 }

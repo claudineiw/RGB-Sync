@@ -1,7 +1,7 @@
 package perifericosComputador;
 
-
 public class listaPerifericos {
+
     private String DeviceName;
     private String HardWareID;
     private String DeviceProviderName;
@@ -34,8 +34,5 @@ public class listaPerifericos {
     public String toString() {
         return "DeviceName=" + DeviceName + ", HardWareID=" + HardWareID + ", DeviceProviderName=" + DeviceProviderName + '}';
     }
-    
 
-    
-    
 }
