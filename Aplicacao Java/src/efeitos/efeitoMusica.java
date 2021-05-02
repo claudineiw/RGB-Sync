@@ -1,10 +1,7 @@
 package efeitos;
 
-import Logitech.Logitech;
 import efeitosSound.Note;
 import efeitosSound.Sound;
-import ca.fiercest.aurasdk.AuraSDK;
-import ca.fiercest.aurasdk.AsusColor;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -253,12 +250,15 @@ public class efeitoMusica implements Runnable{
                         double blueD=((double)gerador.nextInt(porcentagem)/255)*porcentagem;
                         int red = new Double(redD).intValue();
                         int green = new Double(greenD).intValue();
-                        int blue = new Double(blueD).intValue();     
+                        int blue = new Double(blueD).intValue();  
+                        try{
                         for(IPerifericos periferico:listaPerifericos.getPerifericos()){
                             periferico.setCor(new Color(red,green,blue));
-                            periferico.colorirTudo();
+                             periferico.colorirDispositivo(); 
                         }
-                                                   
+                       }catch(Exception ex){
+                 
+                        }                       
                     }
                     
                     byteArray = this.readByteArray(audioInputStream, byteArray);

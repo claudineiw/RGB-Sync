@@ -5,10 +5,6 @@
  */
 package efeitos;
 
-import Logitech.Logitech;
-import ca.fiercest.aurasdk.AsusColor;
-import ca.fiercest.aurasdk.AuraSDK;
-import java.awt.Color;
 import javax.swing.JLabel;
 import AAPerifericos.IPerifericos;
 import AAPerifericos.colecaoPerifericos;
@@ -58,10 +54,13 @@ public class efeitoPorTemperatura implements Runnable{
             }else{
                 nova =temp4.getForeground();
             }
-            
-            for(IPerifericos perifico:listaPerifericos.getPerifericos()){
-                perifico.setCor(nova);
-                perifico.colorirTudo();
+            try{
+            for(IPerifericos periferico:listaPerifericos.getPerifericos()){
+                 periferico.setCor(nova);
+                 periferico.colorirDispositivo(); 
+            }
+            }catch(Exception ex){
+                
             }
             
         }

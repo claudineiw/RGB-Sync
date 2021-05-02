@@ -22,12 +22,14 @@ public class efeitoDecremental implements Runnable{
              if (allDone) {                    
                     return;
                 }         
-              
+              try{
              for(IPerifericos periferico:listaPerifericos.getPerifericos()){
-                 periferico.setCor(nova);
-                periferico.colorirTudo();
+                  periferico.setCor(nova);
+                  periferico.colorirDispositivo(); 
              }
+             }catch(Exception ex){
                  
+             }    
             if(nova.getGreen()<=30 && nova.getBlue()<=30 && nova.getRed()<=30){
                 nova = color.getSelectionModel().getSelectedColor();  
             }else{

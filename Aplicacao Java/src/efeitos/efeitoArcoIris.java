@@ -1,87 +1,109 @@
 package efeitos;
 
-import Asus.MotherBoard;
-import Logitech.Teclado;
-import ca.fiercest.aurasdk.AuraRGBLight;
-import ca.fiercest.aurasdk.AuraSDK;
-import ca.fiercest.aurasdk.AsusColor;
+import AAPerifericos.IHeadSet;
+import AAPerifericos.IKeyboard;
+import AAPerifericos.IMotherBoard;
+import AAPerifericos.IMouse;
+import AAPerifericos.IPerifericos;
+import AAPerifericos.colecaoPerifericos;
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.List;
 
-public class efeitoArcoIris implements Runnable{
-    MotherBoard placaMae;
-    AuraSDK AsusAura;    
-    public boolean allDone = false;    
-    ArrayList<int []> cores;
-    AsusColor cor;    
-    public  efeitoArcoIris(AuraSDK AsusAura,ArrayList<int []> cores){       
-        this.AsusAura=AsusAura;
-        this.cores=cores;
-        this.placaMae = new MotherBoard(AsusAura.getDevices().get(0).getName(),"teste" ,0, AsusAura, AsusAura.getDevices().get(0));
-    }    
+public class efeitoArcoIris implements Runnable {
+
+    colecaoPerifericos listaPerifericos;
+    public boolean allDone = false;
+    ArrayList<int[]> cores;
+    int conta = 0;
+    int interacao = 0;
+    Color cor;
+
+    public efeitoArcoIris(colecaoPerifericos listaPerifericos, ArrayList<int[]> cores) {
+        this.listaPerifericos = listaPerifericos;
+        this.cores = cores;
+        trocarCor();
+    }
 
     @Override
-    public void run(){   
-          int conta=0;
-          int interacao=0;
-          Teclado teclado = new Teclado("G-803", "100", Color.BLACK);
-        while(!allDone){  
-            conta=interacao;
-                 if (allDone) {return;}   
-                 for(int y=0;y<23;y++){                           
-                 for(int [] sequencia : teclado.getTeclas()){  
-                     if (allDone) {return;}   
-                     try {
-                         teclado.setCor(new Color(cores.get(conta)[0],cores.get(conta)[1],cores.get(conta)[2]));
-                         teclado.colorirPorTecla(sequencia[y]);
-                     } catch (Exception ex) {                       
-                     }
-                 }
-                 if(conta>=cores.size()-1){
-                     conta=0;
-                 }else{
-                     conta++;
-                 }
-                 }          
-            conta=interacao;
-             
-             try{    
-                 List<AuraRGBLight> luzes=AsusAura.getAllLights();                
-                 for(int i=0;i<luzes.size();i+=15){    
-                        if (allDone) {                      
-                            break;
-                       }                   
+    public void run() {
+        while (!allDone) {
+            if (allDone) {
+                return;
+            }
+            try {
+                for (IPerifericos periferico : listaPerifericos.getPerifericos()) {
+                    if (periferico instanceof IKeyboard) {
+                        conta = interacao;
+                        colorirTeclado(periferico);
+                        if (interacao >= cores.size() - 1) {
+                            interacao = 0;
+                        } else {
+                            interacao++;
+                        }
                         
-                        try{
-                            cor = new AsusColor(cores.get(conta)[0],cores.get(conta)[1],cores.get(conta)[2]);
-                            if (allDone) {return;}   
-                            for(int y=i;y<i+10;y++){                               
-                               luzes.get(y).setColor(cor); 
-                            }                               
-                        }catch(Exception ex){}   
-                        
-                        
-                        
-                        if(conta>=cores.size()-1){
-                     conta=0;
-                 }else{
-                     conta++;
-                 }
-                  }
-            
-             }catch(Exception ex){
-                 
-             }   
-             
-             
-             if(interacao>=cores.size()-1){
-                     interacao=0;
-                 }else{
-                     interacao++;
-                 }
-                  
-             
-             }
+                    }
+                    if (periferico instanceof IMouse) {
+                        colorirMouse(periferico);
+                    }
+                    if (periferico instanceof IHeadSet) {
+                        colorirHeadSet(periferico);
+                    }
+                    if (periferico instanceof IMotherBoard) {
+                        colorirMotherBoard(periferico);
+                    }
+                }
+            } catch (Exception ex) {
+
+            }
+
+        }
     }
+
+    private void colorirMotherBoard(IPerifericos motherBoard) {
+        motherBoard.setCor(cor);
+        for (int i = 0; i < ((IMotherBoard) motherBoard).getCountLight(); i++) {
+            if (i % 10 == 0) {
+                trocarCor();
+                motherBoard.setCor(cor);
+            }
+            ((IMotherBoard) motherBoard).colorirPorLed(i);
+
+        }
+    }
+
+    private void colorirTeclado(IPerifericos teclado) {
+        try {
+            for (int y = 0; y < 23; y++) { 
+                trocarCor();
+                teclado.setCor(cor);
+                for (int[] sequencia : ((IKeyboard) teclado).getTeclas()) {
+                    try {
+                        ((IKeyboard) teclado).colorirPorTecla(sequencia[y]);
+                    } catch (Exception ex) {
+                    }
+                }
+                
+            }
+        } catch (Exception ex) {
+        }
+    }
+
+    private void colorirMouse(IPerifericos mouse) {
+        mouse.setCor(cor);
+        mouse.colorirDispositivo();
+    }
+
+    private void colorirHeadSet(IPerifericos headSet) {
+        headSet.setCor(cor);
+        headSet.colorirDispositivo();
+    }
+
+    public void trocarCor() {
+        if(conta > cores.size()-1){
+            conta = 0;
+        }
+        cor = new Color(cores.get(conta)[0], cores.get(conta)[1], cores.get(conta)[2]);
+        conta++;
+    }
+
 }

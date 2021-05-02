@@ -1,8 +1,9 @@
 package Logitech;
 
+import AAPerifericos.IMouse;
 import java.awt.Color;
 
-public class Mouse extends ILogitech {
+public class Mouse extends ILogitech implements IMouse{
 private final static int [] zonasRGB={0,1};
     /**
      *

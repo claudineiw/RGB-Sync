@@ -9,6 +9,6 @@ package AAPerifericos;
  *
  * @author Claud
  */
-public interface ITeclado{
-    public void colorirPorTecla(int tecla);
+public interface IHeadSet {
+    
 }

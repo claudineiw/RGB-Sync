@@ -1,12 +1,14 @@
 package Logitech;
 
-public final class Teclado extends ILogitech implements AAPerifericos.ITeclado{
+import AAPerifericos.IKeyboard;
+
+public final class Keyboard extends ILogitech implements IKeyboard{
 private final static int [] zonasRGB={0,1,2,3,4};
-    public Teclado(String nome, String ID, java.awt.Color cor) {
+    public Keyboard(String nome, String ID, java.awt.Color cor) {
         super(nome, ID, cor,zonasRGB,0);
     }
 
-        
+    @Override   
     public int [][] getTeclas(){
        return this.teclas;
    }

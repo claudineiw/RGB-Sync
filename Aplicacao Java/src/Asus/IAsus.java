@@ -1,11 +1,14 @@
 package Asus;
 
+import AAPerifericos.IPerifericos;
 import ca.fiercest.aurasdk.AsusColor;
+import ca.fiercest.aurasdk.AuraRGBLight;
 import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.aurasdk.AuraSDKDevice;
+import java.util.List;
 
 
-public abstract class IAsus implements AAPerifericos.IPerifericos{
+public abstract class IAsus implements IPerifericos{
     private AsusColor cor;
     private String nome;
     private String ID;
@@ -68,7 +71,12 @@ public abstract class IAsus implements AAPerifericos.IPerifericos{
     public void limparCorDispositivo() {
         AuraSDKDevice.setColor(new AsusColor(0, 0, 0));
     }
-
+    
+    public List<AuraRGBLight> getLight(){
+       return AuraSDKDevice.getLightZones();
+    }
+    
+    
     @Override
     public int[] getZonasRGB() {
         return zonasRGB;
