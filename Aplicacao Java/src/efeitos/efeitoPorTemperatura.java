@@ -4,19 +4,19 @@ import javax.swing.JLabel;
 import AAPerifericos.IPerifericos;
 import AAPerifericos.colecaoPerifericos;
 
-public class efeitoPorTemperatura implements Runnable {
+public final class efeitoPorTemperatura implements Runnable {
 
-    colecaoPerifericos listaPerifericos;
+    private colecaoPerifericos listaPerifericos;
     public boolean allDone = false;
-    JLabel temp1;
-    JLabel temp2;
-    JLabel temp3;
-    JLabel temp4;
-    JLabel temperatura;
-    int vtemp1;
-    int vtemp2;
-    int vtemp3;
-    int vtemp4;
+    private JLabel temp1;
+    private JLabel temp2;
+    private JLabel temp3;
+    private JLabel temp4;
+    private JLabel temperatura;
+    private int vtemp1;
+    private int vtemp2;
+    private int vtemp3;
+    private int vtemp4;
 
     public efeitoPorTemperatura(colecaoPerifericos listaPerifericos, JLabel temp1, JLabel temp2, JLabel temp3, JLabel temp4, JLabel temperatura, int vtemp1, int vtemp2, int vtemp3, int vtemp4) {
         this.temp1 = temp1;

@@ -6,10 +6,10 @@ import javax.swing.JColorChooser;
 import AAPerifericos.IPerifericos;
 import AAPerifericos.colecaoPerifericos;
 
-public class efeitoDecremental implements Runnable {
+public final class efeitoDecremental implements Runnable {
 
-    colecaoPerifericos listaPerifericos;
-    JColorChooser color;
+    private colecaoPerifericos listaPerifericos;
+    private JColorChooser color;
     public boolean allDone = false;
 
     public efeitoDecremental(JColorChooser color, colecaoPerifericos listaPerifericos) {
@@ -18,9 +18,15 @@ public class efeitoDecremental implements Runnable {
     }
 
     @Override
-    public void run() {
+    public void run() { 
         java.awt.Color nova = color.getSelectionModel().getSelectedColor();
         while (!allDone) {
+            try {
+                Thread.sleep(1000);
+
+            } catch (InterruptedException ex) {
+                Logger.getLogger(efeitoDecremental.class.getName()).log(Level.SEVERE, null, ex);
+            }
             if (allDone) {
                 return;
             }
@@ -38,16 +44,7 @@ public class efeitoDecremental implements Runnable {
                 nova = nova.darker();
             }
 
-            try {
-                Thread.sleep(1000);
-
-            } catch (InterruptedException ex) {
-                Logger.getLogger(efeitoDecremental.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        if (allDone) {
-            return;
+            
         }
 
     }

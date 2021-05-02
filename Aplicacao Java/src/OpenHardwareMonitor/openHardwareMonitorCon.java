@@ -15,11 +15,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import powerShell.powerShell;
 
-public class openHardwareMonitorCon implements Runnable {
+public final class openHardwareMonitorCon implements Runnable {
 
     public static List<hardware> listaHardware;
     private TypeToken tt;
-    Gson gson;
+    private Gson gson;
     public boolean allDone = false;
     public JLabel tempCPU;
     public JLabel tempGPU;
@@ -27,13 +27,13 @@ public class openHardwareMonitorCon implements Runnable {
     public openHardwareMonitorCon(JLabel tempCPU, JLabel tempGPU) {
         this.tempCPU = tempCPU;
         this.tempGPU = tempGPU;
-        gson = new Gson();
-        tt = new TypeToken<List<hardware>>() {
+        this.gson = new Gson();
+        this.tt = new TypeToken<List<hardware>>() {
         };
         extrairDLL();
     }
 
-    public String extrairDLL() {
+    private String extrairDLL() {
         try {
             byte[] buffer = new byte[1024];
             int read = -1;

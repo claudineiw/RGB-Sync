@@ -10,9 +10,9 @@ import java.util.logging.Logger;
 
 public final class powerShell {
 
-    PowerShell powerShell;
-    java.net.URL script;
-    String scriptParams;
+    private PowerShell powerShell;
+    private java.net.URL script;
+    private String scriptParams;
 
     public powerShell(PowerShell powerShell, java.net.URL script, String scriptParams) {
         this.powerShell = powerShell;

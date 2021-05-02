@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 
-public class capturaTela implements Runnable {
+public final class capturaTela implements Runnable {
 
     private BufferedImage image;
     public boolean allDone = false;

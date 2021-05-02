@@ -9,14 +9,14 @@ import AAPerifericos.colecaoPerifericos;
 import java.awt.Color;
 import java.util.ArrayList;
 
-public class efeitoArcoIris implements Runnable {
+public final class efeitoArcoIris implements Runnable {
 
-    colecaoPerifericos listaPerifericos;
+    private colecaoPerifericos listaPerifericos;
     public boolean allDone = false;
-    ArrayList<int[]> cores;
-    int conta = 0;
-    int interacao = 0;
-    Color cor;
+    private ArrayList<int[]> cores;
+    private int conta = 0;
+    private int interacao = 0;
+    private Color cor;
 
     public efeitoArcoIris(colecaoPerifericos listaPerifericos, ArrayList<int[]> cores) {
         this.listaPerifericos = listaPerifericos;
@@ -43,7 +43,7 @@ public class efeitoArcoIris implements Runnable {
 
                     }
                     if (periferico instanceof IMouse) {
-                        colorirMouse(periferico);
+                        colorirMouse(periferico);                        
                     }
                     if (periferico instanceof IHeadSet) {
                         colorirHeadSet(periferico);
@@ -98,7 +98,7 @@ public class efeitoArcoIris implements Runnable {
         headSet.colorirDispositivo();
     }
 
-    public void trocarCor() {
+    private void trocarCor() {
         if (conta > cores.size() - 1) {
             conta = 0;
         }

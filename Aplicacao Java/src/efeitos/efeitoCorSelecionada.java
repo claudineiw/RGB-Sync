@@ -6,11 +6,11 @@ import AAPerifericos.colecaoPerifericos;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class efeitoCorSelecionada implements Runnable {
+public final class efeitoCorSelecionada implements Runnable {
 
-    JColorChooser color;
+    private JColorChooser color;
     public boolean allDone = false;
-    colecaoPerifericos listaPerifericos;
+    private colecaoPerifericos listaPerifericos;
 
     public efeitoCorSelecionada(JColorChooser color, colecaoPerifericos listaPerifericos) {
         this.color = color;

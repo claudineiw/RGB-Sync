@@ -271,7 +271,7 @@ public class efeitoMusica implements Runnable {
 
     }
 
-    AudioFormat getAudioFormat() {
+    private AudioFormat getAudioFormat() {
         float sampleRate = 48000;
         int sampleSizeInBits = 16;
         int channels = 2;

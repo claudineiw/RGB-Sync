@@ -1,6 +1,6 @@
 package OpenHardwareMonitor;
 
-public class hardware {
+public final class hardware {
 
     private int Temp;
     private String Tipo;

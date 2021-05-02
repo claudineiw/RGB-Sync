@@ -4,7 +4,7 @@ import java.awt.Color;
 import AAPerifericos.IPerifericos;
 import AAPerifericos.colecaoPerifericos;
 
-public class efeitoStrobol implements Runnable {
+public final class efeitoStrobol implements Runnable {
 
     private colecaoPerifericos listaPerifericos;
     public boolean allDone = false;
@@ -16,6 +16,13 @@ public class efeitoStrobol implements Runnable {
     @Override
     public void run() {
         while (!allDone) {
+            
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException ex) {
+              
+            }
+            
             if (allDone) {
                 return;
             }
@@ -25,11 +32,7 @@ public class efeitoStrobol implements Runnable {
                     periferico.colorirDispositivo();
                 }
             } catch (Exception ex) {
-
-            }
-
-            if (allDone) {
-                return;
+               
             }
 
         }

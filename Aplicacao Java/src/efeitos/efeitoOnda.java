@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class efeitoOnda implements Runnable {
+public final class efeitoOnda implements Runnable {
 
-    colecaoPerifericos listaPerifericos;
-    Color cor;
+    private colecaoPerifericos listaPerifericos;
+    private Color cor;
     public boolean allDone = false;
-    ArrayList<int[]> cores;
-    int conta = 0;
+    private ArrayList<int[]> cores;
+    private int conta = 0;
 
     public efeitoOnda(colecaoPerifericos listaPerifericos, ArrayList<int[]> cores) {
         this.listaPerifericos = listaPerifericos;
@@ -69,7 +69,7 @@ public class efeitoOnda implements Runnable {
 
     }
 
-    public void colorirTeclado(IPerifericos teclado) {
+    private void colorirTeclado(IPerifericos teclado) {
         int[][] listaBotoes = ((IKeyboard) teclado).getTeclas();
         for (int i = listaBotoes.length - 1; i >= 0; i--) {
             try {
@@ -101,7 +101,7 @@ public class efeitoOnda implements Runnable {
         headSet.colorirDispositivo();
     }
 
-    public void trocarCor() {
+    private void trocarCor() {
         if (conta > cores.size() - 1) {
             conta = 0;
         }

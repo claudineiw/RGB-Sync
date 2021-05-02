@@ -16,8 +16,7 @@ public abstract class ILogitech extends com.logitech.gaming.LogiLED implements A
     {0xFFF5, 0x1D, 0x15B, 0x38, 0x39, 0x138, 0x15C, 0x15D, 0x11D, 0x14B, 0x150, 0x14D, 0x52, 0x53}
     };
 
-    public ILogitech(String nome, String ID, java.awt.Color cor, int[] zonasRGB, int tipoDoDispositivo) {
-        LogiLedInit();
+    public ILogitech(String nome, String ID, java.awt.Color cor, int[] zonasRGB, int tipoDoDispositivo) {   
         this.cor = new ColorLogitech(cor);
         this.nome = nome;
         this.ID = ID;
@@ -65,7 +64,8 @@ public abstract class ILogitech extends com.logitech.gaming.LogiLED implements A
     }
 
     @Override
-    public void colorirDispositivo() {
+    public void colorirDispositivo() {   
+        LogiLedInit();
         ColorLogitech cor = this.getCor();
         try {
             for (int i : zonasRGB) {
@@ -78,13 +78,8 @@ public abstract class ILogitech extends com.logitech.gaming.LogiLED implements A
 
     @Override
     public void limparCorDispositivo() {
-        try {
-            for (int i : zonasRGB) {
-                LogiLedSetLightingForTargetZone(tipoDoDispositivo, i, 0, 0, 0);
-            }
-
-        } catch (Exception ex) {
-        }
+        LogiLedStopEffects();
+        LogiLedShutdown();       
     }
 
     @Override
@@ -95,7 +90,8 @@ public abstract class ILogitech extends com.logitech.gaming.LogiLED implements A
     ;
     
     @Override
-    public void colorirTudo() {
+    public void colorirTudo() {       
+        LogiLedInit();
         LogiLedSetLighting(cor.getR(), cor.getG(), cor.getB());
     }
 

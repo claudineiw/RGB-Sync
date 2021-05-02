@@ -1,5 +1,6 @@
 package rgb;
 
+import AAPerifericos.IPerifericos;
 import efeitos.efeitoOnda;
 import efeitos.efeitoDecremental;
 import efeitos.efeitoMusica;
@@ -8,7 +9,6 @@ import efeitos.efeitoArcoIris;
 import efeitos.efeitoStrobol;
 import ca.fiercest.aurasdk.AuraSDK;
 import capturaImagem.capturaTela;
-import com.logitech.gaming.LogiLED;
 import com.sun.glass.events.KeyEvent;
 import efeitos.efeitoCorSelecionada;
 import efeitos.efeitoPorTemperatura;
@@ -36,6 +36,7 @@ import Asus.MotherBoard;
 import Logitech.HeadSet;
 import Logitech.Mouse;
 import Logitech.Keyboard;
+import Logitech.MouseMat;
 import ca.fiercest.aurasdk.AuraSDKDevice;
 import ca.fiercest.cuesdk.CorsairDevice;
 import ca.fiercest.cuesdk.CueSDK;
@@ -43,42 +44,37 @@ import ca.fiercest.cuesdk.NoServerException;
 import javax.swing.DefaultListModel;
 import perifericosComputador.verificarPerifericos;
 
-/**
- *
- * @author Claud
- */
 public class principal extends javax.swing.JFrame {
 
-    AuraSDK AsusAura;
-    CueSDK CorsairSDK;
-    static TrayIcon trayIcon;
-    efeitoDecremental efeitoDecremental;
-    efeitoStrobol efeitoStrobol;
-    efeitoArcoIris efeitoArcoIris;
-    efeitoOnda efeitoOnda;
-    efeitoMusica efeitomMusica;
-    efeitoPorImagemDaTela efeitoPorImagem;
-    efeitoCorSelecionada efeitoCorSelecionada;
-    openHardwareMonitorCon openHardwareMonitor;
-    efeitoPorTemperatura efeitoPorTemperatura;
-    capturaTela capturaTela;
-    colecaoPerifericos listaPerifericos = new colecaoPerifericos();
-    verificarPerifericos verificacaoPerifericos;
+    private AuraSDK AsusAura;
+    private CueSDK CorsairSDK;
+    private static TrayIcon trayIcon;
+    private efeitoDecremental efeitoDecremental;
+    private efeitoStrobol efeitoStrobol;
+    private efeitoArcoIris efeitoArcoIris;
+    private efeitoOnda efeitoOnda;
+    private efeitoMusica efeitomMusica;
+    private efeitoPorImagemDaTela efeitoPorImagem;
+    private efeitoCorSelecionada efeitoCorSelecionada;
+    private openHardwareMonitorCon openHardwareMonitor;
+    private efeitoPorTemperatura efeitoPorTemperatura;
+    private capturaTela capturaTela;
+    private colecaoPerifericos listaPerifericos = new colecaoPerifericos();
+    private verificarPerifericos verificacaoPerifericos;
 
     private static int numerais[] = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105};
 
-    /**
-     *
-     */
     public principal() {
         initComponents();
         jColorPrincipal.setColor(Color.RED);
         verificacaoPerifericos = new verificarPerifericos();
         preencherListaPerifericos();
         iniciarMonitorTemperatura();
-       
+        
+        listaPerifericos.setPerifericos(new MouseMat("MouseMat Logitech", "MouseMat Logitech", Color.red));
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -532,27 +528,28 @@ public class principal extends javax.swing.JFrame {
     private void iniciarMonitorTemperatura() {
         openHardwareMonitor = new openHardwareMonitorCon(tempCPU, tempGPU);
         Thread th = new Thread(openHardwareMonitor);
+        th.setName("openHardwareMonitor");
         th.start();
     }
-    
-    private int iniciadoPerifericos(){
-       return jLPerifericos.getModel().getSize();
+
+    private int iniciadoPerifericos() {
+        return jLPerifericos.getModel().getSize();
     }
-    
-    private int iniciadoTemperaturas(){
-       return Integer.valueOf(tempGPU.getText());
+
+    private int iniciadoTemperaturas() {
+        return Integer.valueOf(tempGPU.getText());
     }
-    
-    public int iniciado(){
-        if(iniciadoPerifericos()>0){
-            if(iniciadoTemperaturas()>0){
+
+    public int iniciado() {
+        if (iniciadoPerifericos() > 0) {
+            if (iniciadoTemperaturas() > 0) {
                 return 1;
             }
             return -1;
         }
         return -1;
     }
-    
+
     private void preencherListaPerifericos() {
         DefaultListModel<String> model = new DefaultListModel<>();
         jLPerifericos.setModel(model);
@@ -576,15 +573,15 @@ public class principal extends javax.swing.JFrame {
             model.addElement("Headset Logitech");
         }
 
-         try {
+        try {
             this.CorsairSDK = new CueSDK();
             for (CorsairDevice cor : CorsairSDK.getDevices()) {
-                model.addElement(cor.getModelName()+"-Corsair");
+                model.addElement(cor.getModelName() + "-Corsair");
             }
         } catch (NoServerException ex) {
-           // Logger.getLogger(principal.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-         
+
         painelOpcoes.add(painelInternoPerifericos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 270));
     }
 
@@ -597,7 +594,6 @@ public class principal extends javax.swing.JFrame {
         } catch (Exception ex) {
         }
         AsusAura.ReleaseControl();
-        LogiLED.LogiLedShutdown();
         System.exit(0);
     }//GEN-LAST:event_btnSairActionPerformed
 
@@ -627,17 +623,20 @@ public class principal extends javax.swing.JFrame {
                     case "Musica":
                         efeitomMusica = new efeitoMusica(listaPerifericos);
                         th = new Thread(efeitomMusica);
+                        th.setName("efeitomMusica");
                         th.start();
                         break;
                     case "Tela":
                         capturaTela.allDone = true;
                         efeitoPorImagem = new efeitoPorImagemDaTela(listaPerifericos, painelInternoImagens);
                         th = new Thread(efeitoPorImagem);
+                        th.setName("efeitoPorImagem");
                         th.start();
                         break;
                     case "Stroob":
                         efeitoStrobol = new efeitoStrobol(listaPerifericos);
                         th = new Thread(efeitoStrobol);
+                        th.setName("efeitoStrobol");
                         th.start();
 
                         break;
@@ -645,6 +644,7 @@ public class principal extends javax.swing.JFrame {
                         if (jcBSelecaoDeCores.getModel().getSize() >= 0) {
                             efeitoArcoIris = new efeitoArcoIris(listaPerifericos, selecionarCores());
                             th = new Thread(efeitoArcoIris);
+                            th.setName("efeitoArcoIris");
                             th.start();
                         } else {
                             JOptionPane.showMessageDialog(this, "Favor Selecionar as cores");
@@ -654,6 +654,7 @@ public class principal extends javax.swing.JFrame {
                         if (jcBSelecaoDeCores.getModel().getSize() >= 0) {
                             efeitoOnda = new efeitoOnda(listaPerifericos, selecionarCores());
                             th = new Thread(efeitoOnda);
+                            th.setName("efeitoOnda");
                             th.start();
                         } else {
                             JOptionPane.showMessageDialog(this, "Favor Selecionar as cores");
@@ -662,12 +663,14 @@ public class principal extends javax.swing.JFrame {
                     case "Decremental":
                         efeitoDecremental = new efeitoDecremental(jColorPrincipal, listaPerifericos);
                         th = new Thread(efeitoDecremental);
+                        th.setName("efeitoDecremental");
                         th.start();
                         break;
                     case "Selecionada":
 
                         efeitoCorSelecionada = new efeitoCorSelecionada(jColorPrincipal, listaPerifericos);
                         th = new Thread(efeitoCorSelecionada);
+                        th.setName("efeitoCorSelecionada");
                         th.start();
                         break;
                     case "Temperatura":
@@ -681,10 +684,12 @@ public class principal extends javax.swing.JFrame {
                             if (jCbDispositivo.getSelectedItem().toString().equals("GPU")) {
                                 efeitoPorTemperatura = new efeitoPorTemperatura(listaPerifericos, lbTemp1, lbTemp2, lbTemp3, lbTemp4, tempGPU, temp1, temp2, temp3, temp4);
                                 th = new Thread(efeitoPorTemperatura);
+                                th.setName("efeitoPorTemperatura");
                                 th.start();
                             } else if (jCbDispositivo.getSelectedItem().toString().equals("CPU")) {
                                 efeitoPorTemperatura = new efeitoPorTemperatura(listaPerifericos, lbTemp1, lbTemp2, lbTemp3, lbTemp4, tempCPU, temp1, temp2, temp3, temp4);
                                 th = new Thread(efeitoPorTemperatura);
+                                th.setName("efeitoPorTemperatura");
                                 th.start();
                             }
                         }
@@ -729,14 +734,13 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTemp4KeyPressed
 
     private void jCbXEfeitosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCbXEfeitosActionPerformed
-        AbsoluteConstraints absoluteConstraints = new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 270);
-        painelOpcoes.removeAll();
-        painelOpcoes.repaint();
         try {
             capturaTela.allDone = true;
         } catch (Exception ex) {
-
         }
+        AbsoluteConstraints absoluteConstraints = new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 270);
+        painelOpcoes.removeAll();
+        painelOpcoes.repaint();
         switch (jCbXEfeitos.getSelectedItem().toString()) {
             case "Musica":
 
@@ -744,6 +748,7 @@ public class principal extends javax.swing.JFrame {
             case "Tela":
                 capturaTela = new capturaTela(lbImagem);
                 Thread thCapturaTela = new Thread(capturaTela);
+                thCapturaTela.setName("capturaTela");
                 thCapturaTela.start();
                 painelOpcoes.add(painelInternoImagens, absoluteConstraints);
                 break;
@@ -952,7 +957,6 @@ public class principal extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 pararEfeito();
                 AsusAura.ReleaseControl();
-                LogiLED.LogiLedShutdown();
                 System.exit(0);
             }
         });
@@ -969,6 +973,13 @@ public class principal extends javax.swing.JFrame {
      *
      */
     public void pararEfeito() {
+        try {
+            for (IPerifericos periferico : listaPerifericos.getPerifericos()) {
+                periferico.limparCorDispositivo();
+            }
+        } catch (Exception ex) {
+        }
+
         try {
             efeitoArcoIris.allDone = true;
         } catch (Exception ex) {

@@ -1,6 +1,6 @@
 package perifericosComputador;
 
-public class listaPerifericos {
+public final class listaPerifericos {
 
     private String DeviceName;
     private String HardWareID;

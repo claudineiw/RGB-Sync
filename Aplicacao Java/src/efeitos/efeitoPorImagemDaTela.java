@@ -17,16 +17,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import AAPerifericos.IKeyboard;
 
-public class efeitoPorImagemDaTela implements Runnable {
+public final class efeitoPorImagemDaTela implements Runnable {
 
-    BufferedImage image;
-    int largura;
-    int altura;
-    int[] dataBuffInt;
-    int[][] matrix;
+    private BufferedImage image;
+    private int largura;
+    private int altura;
+    private int[] dataBuffInt;
+    private int[][] matrix;
     public boolean allDone = false;
     private JPanel painelImagens;
-    colecaoPerifericos listaPerifericos;
+    private colecaoPerifericos listaPerifericos;
 
     public efeitoPorImagemDaTela(colecaoPerifericos listaPerifericos, JPanel painelImagens) {
         this.painelImagens = painelImagens;

@@ -8,25 +8,25 @@ import powerShell.powerShell;
 
 public final class verificarPerifericos {
 
-    public static List<listaPerifericos> listaPerifericos;
+    private static List<listaPerifericos> listaPerifericos;
     private TypeToken tt;
-    Gson gson;
+    private Gson gson;
 
     public verificarPerifericos() {
 
-        gson = new Gson();
-        tt = new TypeToken<List<listaPerifericos>>() {
+        this.gson = new Gson();
+        this.tt = new TypeToken<List<listaPerifericos>>() {
         };
         testePerifericos();
     }
 
-    public void testePerifericos() {
+    private void testePerifericos() {
         powerShell power = new powerShell(PowerShell.openSession(), getClass().getResource("scriptPerifericos.ps1"), "");
         listaPerifericos = gson.fromJson(power.executar().replace("\\", "\\\\"), tt.getType());
 
     }
 
-    public List<listaPerifericos> getPerifericos() {
+    private List<listaPerifericos> getPerifericos() {
         return listaPerifericos;
     }
 

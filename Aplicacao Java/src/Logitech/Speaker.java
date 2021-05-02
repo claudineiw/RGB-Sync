@@ -2,7 +2,7 @@ package Logitech;
 
 import AAPerifericos.ISpeaker;
 
-public class Speaker extends ILogitech implements ISpeaker {
+public final class Speaker extends ILogitech implements ISpeaker {
 
     private final static int[] zonasRGB = {0, 1, 2, 3};
 
