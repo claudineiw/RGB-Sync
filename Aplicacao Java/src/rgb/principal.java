@@ -37,10 +37,16 @@ import Logitech.HeadSet;
 import Logitech.Mouse;
 import Logitech.Keyboard;
 import ca.fiercest.aurasdk.AuraSDKDevice;
+import ca.fiercest.cuesdk.CorsairDevice;
 import ca.fiercest.cuesdk.CueSDK;
+import ca.fiercest.cuesdk.NoServerException;
 import javax.swing.DefaultListModel;
 import perifericosComputador.verificarPerifericos;
 
+/**
+ *
+ * @author Claud
+ */
 public class principal extends javax.swing.JFrame {
 
     AuraSDK AsusAura;
@@ -61,17 +67,18 @@ public class principal extends javax.swing.JFrame {
 
     private static int numerais[] = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105};
 
+    /**
+     *
+     */
     public principal() {
         initComponents();
-        this.setEnabled(false);
-        this.setVisible(true);
         jColorPrincipal.setColor(Color.RED);
         verificacaoPerifericos = new verificarPerifericos();
         preencherListaPerifericos();
         iniciarMonitorTemperatura();
-        this.setEnabled(true);
+       
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -527,7 +534,25 @@ public class principal extends javax.swing.JFrame {
         Thread th = new Thread(openHardwareMonitor);
         th.start();
     }
-
+    
+    private int iniciadoPerifericos(){
+       return jLPerifericos.getModel().getSize();
+    }
+    
+    private int iniciadoTemperaturas(){
+       return Integer.valueOf(tempGPU.getText());
+    }
+    
+    public int iniciado(){
+        if(iniciadoPerifericos()>0){
+            if(iniciadoTemperaturas()>0){
+                return 1;
+            }
+            return -1;
+        }
+        return -1;
+    }
+    
     private void preencherListaPerifericos() {
         DefaultListModel<String> model = new DefaultListModel<>();
         jLPerifericos.setModel(model);
@@ -551,7 +576,7 @@ public class principal extends javax.swing.JFrame {
             model.addElement("Headset Logitech");
         }
 
-        /* try {
+         try {
             this.CorsairSDK = new CueSDK();
             for (CorsairDevice cor : CorsairSDK.getDevices()) {
                 model.addElement(cor.getModelName()+"-Corsair");
@@ -559,7 +584,7 @@ public class principal extends javax.swing.JFrame {
         } catch (NoServerException ex) {
            // Logger.getLogger(principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-         */
+         
         painelOpcoes.add(painelInternoPerifericos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 270));
     }
 
@@ -940,6 +965,9 @@ public class principal extends javax.swing.JFrame {
         }
     }
 
+    /**
+     *
+     */
     public void pararEfeito() {
         try {
             efeitoArcoIris.allDone = true;
