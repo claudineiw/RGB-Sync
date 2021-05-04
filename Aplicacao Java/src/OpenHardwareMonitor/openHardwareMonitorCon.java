@@ -2,24 +2,22 @@ package OpenHardwareMonitor;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.profesorfalken.jpowershell.PowerShell;
 import java.awt.Color;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import powerShell.powerShell;
 
 public final class openHardwareMonitorCon implements Runnable {
 
     public static List<hardware> listaHardware;
-    private TypeToken tt;
-    private Gson gson;
+    private final TypeToken tt;
+    private final Gson gson;
     public boolean allDone = false;
     public JLabel tempCPU;
     public JLabel tempGPU;
@@ -30,71 +28,84 @@ public final class openHardwareMonitorCon implements Runnable {
         this.gson = new Gson();
         this.tt = new TypeToken<List<hardware>>() {
         };
-        extrairDLL();
-    }
-
-    private String extrairDLL() {
-        try {
-            byte[] buffer = new byte[1024];
-            int read = -1;
-            InputStream isJarDll;
-            isJarDll = getClass().getResourceAsStream("OpenHardwareMonitorLib.dll");
-            File tempDll = new File("C:\\WINDOWS\\System32\\OpenHardwareMonitorLib.dll");
-            FileOutputStream osJarDll = new FileOutputStream(tempDll);
-
-            while ((read = isJarDll.read(buffer)) != -1) {
-                osJarDll.write(buffer, 0, read);
-            }
-            osJarDll.close();
-            isJarDll.close();
-
-            return tempDll.getAbsolutePath();
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Erro extrair dll");
-        }
-        return null;
     }
 
     private void exec() {
-        powerShell power = new powerShell(PowerShell.openSession(), getClass().getResource("tempGpuECpu.ps1"), "");
-        while (!allDone) {
-            try {
-                Thread.sleep(500);
-                listaHardware = gson.fromJson(power.executar(), tt.getType());
-                for (hardware hd : listaHardware) {
-                    if (hd.getTipo().contains("Gpu")) {
-                        tempGPU.setText(String.valueOf(hd.getTemp()));
-                        if (hd.getTemp() < 50) {
-                            tempGPU.setForeground(Color.green);
-                        } else {
-                            if (hd.getTemp() >= 50 && hd.getTemp() < 70) {
-                                tempGPU.setForeground(Color.yellow);
+        try {
+            ServerSocket serverSocket = new ServerSocket(8080, 10);
+            Socket socket = serverSocket.accept();
+            InputStream is = socket.getInputStream();
+            OutputStream os = socket.getOutputStream();
+            while (!allDone) {
+                try {
+                    Thread.sleep(500);
+                    byte[] lenBytes = new byte[4];
+                    is.read(lenBytes, 0, 4);
+                    int len = (((lenBytes[3] & 0xff) << 24) | ((lenBytes[2] & 0xff) << 16)
+                            | ((lenBytes[1] & 0xff) << 8) | (lenBytes[0] & 0xff));
+                    byte[] receivedBytes = new byte[len];
+                    is.read(receivedBytes, 0, len);
+                    String received = new String(receivedBytes, 0, len);
+                    
+                    String toSend = "Continue";
+                    byte[] toSendBytes = toSend.getBytes();
+                    int toSendLen = toSendBytes.length;
+                    byte[] toSendLenBytes = new byte[4];
+                    toSendLenBytes[0] = (byte) (toSendLen & 0xff);
+                    toSendLenBytes[1] = (byte) ((toSendLen >> 8) & 0xff);
+                    toSendLenBytes[2] = (byte) ((toSendLen >> 16) & 0xff);
+                    toSendLenBytes[3] = (byte) ((toSendLen >> 24) & 0xff);
+                    os.write(toSendLenBytes);
+                    os.write(toSendBytes);
+                    
+                    listaHardware = gson.fromJson(received, tt.getType());
+                    for (hardware hd : listaHardware) {
+                        if (hd.getTipo().contains("Gpu")) {
+                            tempGPU.setText(String.valueOf(hd.getTemp()));
+                            if (hd.getTemp() < 50) {
+                                tempGPU.setForeground(Color.green);
                             } else {
-                                if (hd.getTemp() >= 70) {
-                                    tempGPU.setForeground(Color.red);
+                                if (hd.getTemp() >= 50 && hd.getTemp() < 70) {
+                                    tempGPU.setForeground(Color.yellow);
+                                } else {
+                                    if (hd.getTemp() >= 70) {
+                                        tempGPU.setForeground(Color.red);
+                                    }
+                                }
+                            }
+                        }
+                        if (hd.getTipo().contains("CPU")) {
+                            tempCPU.setText(String.valueOf(hd.getTemp()));
+                            if (hd.getTemp() < 50) {
+                                tempCPU.setForeground(Color.green);
+                            } else {
+                                if (hd.getTemp() >= 50 && hd.getTemp() < 70) {
+                                    tempCPU.setForeground(Color.yellow);
+                                } else {
+                                    if (hd.getTemp() >= 70) {
+                                        tempCPU.setForeground(Color.red);
+                                    }
                                 }
                             }
                         }
                     }
-                    if (hd.getTipo().contains("CPU")) {
-                        tempCPU.setText(String.valueOf(hd.getTemp()));
-                        if (hd.getTemp() < 50) {
-                            tempCPU.setForeground(Color.green);
-                        } else {
-                            if (hd.getTemp() >= 50 && hd.getTemp() < 70) {
-                                tempCPU.setForeground(Color.yellow);
-                            } else {
-                                if (hd.getTemp() >= 70) {
-                                    tempCPU.setForeground(Color.red);
-                                }
-                            }
-                        }
-                    }
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(openHardwareMonitorCon.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (InterruptedException ex) {
-                Logger.getLogger(openHardwareMonitorCon.class.getName()).log(Level.SEVERE, null, ex);
-            }
 
+            }
+                    String toSend = "Stop";
+                    byte[] toSendBytes = toSend.getBytes();
+                    int toSendLen = toSendBytes.length;
+                    byte[] toSendLenBytes = new byte[4];
+                    toSendLenBytes[0] = (byte) (toSendLen & 0xff);
+                    toSendLenBytes[1] = (byte) ((toSendLen >> 8) & 0xff);
+                    toSendLenBytes[2] = (byte) ((toSendLen >> 16) & 0xff);
+                    toSendLenBytes[3] = (byte) ((toSendLen >> 24) & 0xff);
+                    os.write(toSendLenBytes);
+                    os.write(toSendBytes);
+        } catch (IOException ex) {
+            Logger.getLogger(openHardwareMonitorCon.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

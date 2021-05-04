@@ -1,6 +1,9 @@
-﻿using System;
+﻿using OPENHARDWARE;
+using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Sockets;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace rgb
@@ -11,7 +14,7 @@ namespace rgb
         static void Main()
         {
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);  
+            Application.SetCompatibleTextRenderingDefault(false);
             Process proc = new Process();
             proc.StartInfo.WorkingDirectory = "System";
             String value = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine);
@@ -38,7 +41,12 @@ namespace rgb
 
                 }
             }
+            
+            openHardwareMonitor a = new openHardwareMonitor();
+            Thread ctThread = new Thread(a.doChat);
+            ctThread.Start();            
             proc.WaitForExit();
         }
-    }
+    }   
+
 }

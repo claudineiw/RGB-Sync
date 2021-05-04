@@ -7,3 +7,13 @@ C:\Users\Claud\source\repos\rgb\rgb\obj\Debug\rgb.csproj.CoreCompileInputs.cache
 C:\Users\Claud\source\repos\rgb\rgb\obj\Debug\rgb.exe
 C:\Users\Claud\source\repos\rgb\rgb\obj\Debug\rgb.pdb
 C:\Users\Claud\source\repos\rgb\rgb\obj\Debug\rgb.csprojAssemblyReference.cache
+C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\bin\Debug\RGB.exe.config
+C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\bin\Debug\RGB.exe
+C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\bin\Debug\RGB.pdb
+C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Debug\RGB.csprojAssemblyReference.cache
+C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Debug\RGB.Properties.Resources.resources
+C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Debug\RGB.csproj.GenerateResource.cache
+C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Debug\RGB.csproj.CoreCompileInputs.cache
+C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Debug\RGB.csproj.CopyComplete
+C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Debug\RGB.exe
+C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Debug\RGB.pdb
