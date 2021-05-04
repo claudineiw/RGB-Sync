@@ -9,8 +9,6 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 
 public final class openHardwareMonitorCon implements Runnable {
@@ -38,6 +36,8 @@ public final class openHardwareMonitorCon implements Runnable {
             OutputStream os = socket.getOutputStream();
             while (!allDone) {
                 try {
+                    
+                    //RECEBE DADOS DE TEMPERATURA
                     Thread.sleep(500);
                     byte[] lenBytes = new byte[4];
                     is.read(lenBytes, 0, 4);
@@ -47,6 +47,7 @@ public final class openHardwareMonitorCon implements Runnable {
                     is.read(receivedBytes, 0, len);
                     String received = new String(receivedBytes, 0, len);
                     
+                    //ENVIA DADOS PARA CONTINUAR THREAD
                     String toSend = "Continue";
                     byte[] toSendBytes = toSend.getBytes();
                     int toSendLen = toSendBytes.length;
@@ -90,7 +91,7 @@ public final class openHardwareMonitorCon implements Runnable {
                         }
                     }
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(openHardwareMonitorCon.class.getName()).log(Level.SEVERE, null, ex);
+                    
                 }
 
             }
@@ -105,7 +106,7 @@ public final class openHardwareMonitorCon implements Runnable {
                     os.write(toSendLenBytes);
                     os.write(toSendBytes);
         } catch (IOException ex) {
-            Logger.getLogger(openHardwareMonitorCon.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
 

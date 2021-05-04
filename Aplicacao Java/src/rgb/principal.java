@@ -37,7 +37,6 @@ import Logitech.HeadSet;
 import Logitech.Mouse;
 import Logitech.Keyboard;
 import Logitech.MouseMat;
-import ca.fiercest.aurasdk.AuraSDKDevice;
 import ca.fiercest.cuesdk.CueSDK;
 import ca.fiercest.cuesdk.NoServerException;
 import javax.swing.DefaultListModel;

@@ -100,6 +100,7 @@ namespace OPENHARDWARE
                 string toSend = getTemp();
                 try
                 {
+                    //INVIA DADOS
                     Thread.Sleep(500);
                     int toSendLen = System.Text.Encoding.ASCII.GetByteCount(toSend);
                     byte[] toSendBytes = System.Text.Encoding.ASCII.GetBytes(toSend);
@@ -107,14 +108,18 @@ namespace OPENHARDWARE
                     clientSocket.Send(toSendLenBytes);
                     clientSocket.Send(toSendBytes);
 
+                    //RECEBE DADOS
                     byte[] rcvLenBytes = new byte[4];
                     clientSocket.Receive(rcvLenBytes);
                     int rcvLen = System.BitConverter.ToInt32(rcvLenBytes, 0);
                     byte[] rcvBytes = new byte[rcvLen];
                     clientSocket.Receive(rcvBytes);
-                    String rcv = System.Text.Encoding.ASCII.GetString(rcvBytes);                    
+                    String rcv = System.Text.Encoding.ASCII.GetString(rcvBytes);    
+                    
                     if (rcv.Equals("Stop"))
                     {
+                        clientSocket.Close();
+                        computador.Close();
                         return;
                     }
 
@@ -134,8 +139,7 @@ namespace OPENHARDWARE
 
 
             }
-            clientSocket.Close();
-            computador.Close();
+           
         }
 
     }
