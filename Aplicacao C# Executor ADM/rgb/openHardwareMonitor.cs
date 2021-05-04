@@ -8,7 +8,7 @@ namespace OPENHARDWARE
 {
     class openHardwareMonitor
     {
-        Computer computador;
+        private Computer computador;
         
         public openHardwareMonitor()
         {
@@ -124,13 +124,13 @@ namespace OPENHARDWARE
                     }
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     try
                     {
                         clientSocket.Connect(serverAddress);
                     }
-                    catch (Exception ey)
+                    catch (Exception)
                     {
                         
                     }
