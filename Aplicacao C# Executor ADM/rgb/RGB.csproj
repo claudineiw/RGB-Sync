@@ -69,7 +69,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="OpenHardwareMonitorLib">
-      <HintPath>..\..\Aplicacao Java\src\OpenHardwareMonitor\OpenHardwareMonitorLib.dll</HintPath>
+      <HintPath>LIB\OpenHardwareMonitorLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Activities" />
