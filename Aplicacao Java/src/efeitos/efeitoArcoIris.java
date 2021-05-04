@@ -4,6 +4,7 @@ import AAPerifericos.IHeadSet;
 import AAPerifericos.IKeyboard;
 import AAPerifericos.IMotherBoard;
 import AAPerifericos.IMouse;
+import AAPerifericos.IMouseMat;
 import AAPerifericos.IPerifericos;
 import AAPerifericos.colecaoPerifericos;
 import java.awt.Color;
@@ -50,6 +51,9 @@ public final class efeitoArcoIris implements Runnable {
                     }
                     if (periferico instanceof IMotherBoard) {
                         colorirMotherBoard(periferico);
+                    }
+                    if (periferico instanceof IMouseMat) {
+                        colorirHeadSet(periferico);
                     }
                 }
             } catch (Exception ex) {

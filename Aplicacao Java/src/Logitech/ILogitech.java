@@ -6,7 +6,7 @@ public abstract class ILogitech extends com.logitech.gaming.LogiLED implements A
     private String nome;
     private String ID;
     private final int[] zonasRGB;
-    private final int tipoDoDispositivo;
+    private final short tipoDoDispositivo;
 
     protected final int[][] teclas = {{0xFFFF1, 0x01, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f, 0x40, 0x41, 0x42, 0x43, 0x44, 0x57, 0x58, 0x137, 0x46, 0x145},
     {0xFFF1, 0x29, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x152, 0x147, 0x149, 0x45, 0x135, 0x37, 0x4A},
@@ -16,7 +16,7 @@ public abstract class ILogitech extends com.logitech.gaming.LogiLED implements A
     {0xFFF5, 0x1D, 0x15B, 0x38, 0x39, 0x138, 0x15C, 0x15D, 0x11D, 0x14B, 0x150, 0x14D, 0x52, 0x53}
     };
 
-    public ILogitech(String nome, String ID, java.awt.Color cor, int[] zonasRGB, int tipoDoDispositivo) {   
+    public ILogitech(String nome, String ID, java.awt.Color cor, int[] zonasRGB, short tipoDoDispositivo) {   
         this.cor = new ColorLogitech(cor);
         this.nome = nome;
         this.ID = ID;
@@ -69,7 +69,7 @@ public abstract class ILogitech extends com.logitech.gaming.LogiLED implements A
         ColorLogitech cor = this.getCor();
         try {
             for (int i : zonasRGB) {
-                LogiLedSetLightingForTargetZone(tipoDoDispositivo, i, cor.getR(), cor.getG(), cor.getB());
+                LogiLedSetLightingForTargetZone((short)tipoDoDispositivo, i, cor.getR(), cor.getG(), cor.getB());
             }
 
         } catch (Exception ex) {

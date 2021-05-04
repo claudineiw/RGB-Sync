@@ -18,7 +18,7 @@ public class Mouse extends ILogitech implements IMouse {
      * @param cor
      */
     public Mouse(String nome, String ID, Color cor) {
-        super(nome, ID, cor, zonasRGB, 3);
+        super(nome, ID, cor, zonasRGB, (short)3);
     }
 
 }

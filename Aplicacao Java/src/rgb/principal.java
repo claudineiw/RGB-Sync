@@ -38,11 +38,11 @@ import Logitech.Mouse;
 import Logitech.Keyboard;
 import Logitech.MouseMat;
 import ca.fiercest.aurasdk.AuraSDKDevice;
-import ca.fiercest.cuesdk.CorsairDevice;
 import ca.fiercest.cuesdk.CueSDK;
 import ca.fiercest.cuesdk.NoServerException;
 import javax.swing.DefaultListModel;
-import perifericosComputador.verificarPerifericos;
+import Logitech.HIDPID.verificarPerifericos;
+import Logitech.Logitech;
 
 public class principal extends javax.swing.JFrame {
 
@@ -59,10 +59,9 @@ public class principal extends javax.swing.JFrame {
     private openHardwareMonitorCon openHardwareMonitor;
     private efeitoPorTemperatura efeitoPorTemperatura;
     private capturaTela capturaTela;
-    private colecaoPerifericos listaPerifericos = new colecaoPerifericos();
-    private verificarPerifericos verificacaoPerifericos;
-
-    private static int numerais[] = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105};
+    private final colecaoPerifericos listaPerifericos = new colecaoPerifericos();
+    private final verificarPerifericos verificacaoPerifericos;
+    private static final int numerais[] = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105};
 
     public principal() {
         initComponents();
@@ -70,9 +69,6 @@ public class principal extends javax.swing.JFrame {
         verificacaoPerifericos = new verificarPerifericos();
         preencherListaPerifericos();
         iniciarMonitorTemperatura();
-        
-        listaPerifericos.setPerifericos(new MouseMat("MouseMat Logitech", "MouseMat Logitech", Color.red));
-
     }
 
     @SuppressWarnings("unchecked")
@@ -551,35 +547,28 @@ public class principal extends javax.swing.JFrame {
     }
 
     private void preencherListaPerifericos() {
+
         DefaultListModel<String> model = new DefaultListModel<>();
         jLPerifericos.setModel(model);
 
         try {
             this.AsusAura = new AuraSDK();
-            for (AuraSDKDevice de : AsusAura.getDevices()) {
-                model.addElement(de.getName() + "-Asus");
-            }
+            AsusAura.getDevices().forEach(de -> {
+                model.addElement("Asus " + de.getName());
+            });
         } catch (Exception ex) {
         }
 
-        if (verificacaoPerifericos.testarPeriferico("Mouse")) {
-            model.addElement("Mouse Logitech");
-        }
-        if (verificacaoPerifericos.testarPeriferico("Keyboard")) {
-            model.addElement("Keyboard Logitech");
-        }
-
-        if (verificacaoPerifericos.testarPeriferico("Headset")) {
-            model.addElement("Headset Logitech");
-        }
+        Logitech.GetPerifericos().stream().filter(device -> (verificacaoPerifericos.testarPeriferico(device.toString()))).forEachOrdered(device -> {
+            model.addElement(device.getMarca() + " " + device.getDeviceType() + " " + device.getModel());
+        });
 
         try {
             this.CorsairSDK = new CueSDK();
-            for (CorsairDevice cor : CorsairSDK.getDevices()) {
-                model.addElement(cor.getModelName() + "-Corsair");
-            }
+            CorsairSDK.getDevices().forEach(cor -> {
+                model.addElement("Corsair " + cor.getModelName());
+            });
         } catch (NoServerException ex) {
-            // Logger.getLogger(principal.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         painelOpcoes.add(painelInternoPerifericos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 270));
@@ -840,25 +829,27 @@ public class principal extends javax.swing.JFrame {
 
     private void criarListaPerifericos(String periferico) {
         if (periferico.toLowerCase().contains("logitech".toLowerCase())) {
-            if (periferico.toLowerCase().contains("mouse".toLowerCase())) {
+            if (periferico.toLowerCase().contains("mouse ".toLowerCase())) {
                 listaPerifericos.setPerifericos(new Mouse(periferico, periferico, Color.red));
-            }
-            if (periferico.toLowerCase().contains("keyboard".toLowerCase())) {
-                listaPerifericos.setPerifericos(new Keyboard(periferico, periferico, Color.red));
-            }
-
-            if (periferico.toLowerCase().contains("headset".toLowerCase())) {
-                listaPerifericos.setPerifericos(new HeadSet(periferico, periferico, Color.red));
+            } else {
+                if (periferico.toLowerCase().contains("keyboard".toLowerCase())) {
+                    listaPerifericos.setPerifericos(new Keyboard(periferico, periferico, Color.red));
+                } else {
+                    if (periferico.toLowerCase().contains("headset".toLowerCase())) {
+                        listaPerifericos.setPerifericos(new HeadSet(periferico, periferico, Color.red));
+                    } else {
+                        if (periferico.toLowerCase().contains("Mousepad".toLowerCase())) {
+                            listaPerifericos.setPerifericos(new MouseMat(periferico, periferico, Color.red));
+                        }
+                    }
+                }
             }
 
         } else {
-            if (periferico.toLowerCase().contains("-asus".toLowerCase())) {
-                for (AuraSDKDevice device : AsusAura.getDevices()) {
-                    if (periferico.toLowerCase().contains(device.getName().toLowerCase())) {
-                        listaPerifericos.setPerifericos(new MotherBoard(periferico, periferico, 0, AsusAura, device));
-                    }
-
-                }
+            if (periferico.toLowerCase().contains("asus".toLowerCase())) {
+                AsusAura.getDevices().stream().filter(device -> (periferico.toLowerCase().contains(device.getName().toLowerCase()))).forEachOrdered(device -> {
+                    listaPerifericos.setPerifericos(new MotherBoard(periferico, periferico, 0, AsusAura, device));
+                });
 
             }
         }
@@ -868,7 +859,6 @@ public class principal extends javax.swing.JFrame {
 
         for (int i = 0; i < listaPerifericos.getPerifericos().size(); i++) {
             if (listaPerifericos.getPerifericos().get(i).getNome().toLowerCase().contains(periferico.toLowerCase())) {
-
                 listaPerifericos.getPerifericos().remove(i);
             }
         }
