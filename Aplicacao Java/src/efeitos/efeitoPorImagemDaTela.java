@@ -33,6 +33,7 @@ public final class efeitoPorImagemDaTela implements Runnable {
         this.listaPerifericos = listaPerifericos;
     }
 
+    @Override
     public void run() {
         JLabel lbT = new JLabel();
         JLabel lbM = new JLabel();

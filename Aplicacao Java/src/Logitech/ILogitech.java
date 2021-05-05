@@ -66,10 +66,10 @@ public abstract class ILogitech extends com.logitech.gaming.LogiLED implements A
     @Override
     public void colorirDispositivo() {   
         LogiLedInit();
-        ColorLogitech cor = this.getCor();        
+        ColorLogitech corLocal = this.getCor();        
         try {
             for (int i : zonasRGB) {
-                LogiLedSetLightingForTargetZone((short)tipoDoDispositivo, i, cor.getR(), cor.getG(), cor.getB());
+                LogiLedSetLightingForTargetZone(tipoDoDispositivo, i, corLocal.getR(), corLocal.getG(), corLocal.getB());
             }
 
         } catch (Exception ex) {

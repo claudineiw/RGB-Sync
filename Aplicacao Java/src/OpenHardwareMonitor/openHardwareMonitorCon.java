@@ -13,12 +13,12 @@ import javax.swing.JLabel;
 
 public final class openHardwareMonitorCon implements Runnable {
 
-    public static List<hardware> listaHardware;
+    private static List<hardware> listaHardware;
     private final TypeToken tt;
     private final Gson gson;
     public boolean allDone = false;
-    public JLabel tempCPU;
-    public JLabel tempGPU;
+    private final JLabel tempCPU;
+    private final JLabel tempGPU;
 
     public openHardwareMonitorCon(JLabel tempCPU, JLabel tempGPU) {
         this.tempCPU = tempCPU;
@@ -59,37 +59,39 @@ public final class openHardwareMonitorCon implements Runnable {
                     os.write(toSendLenBytes);
                     os.write(toSendBytes);
                     
-                    listaHardware = gson.fromJson(received, tt.getType());
-                    for (hardware hd : listaHardware) {
+                    setListaHardware(gson.fromJson(received, tt.getType()));
+                    getListaHardware().stream().map(hd -> {
                         if (hd.getTipo().contains("Gpu")) {
-                            tempGPU.setText(String.valueOf(hd.getTemp()));
+                            getTempGPU().setText(String.valueOf(hd.getTemp()));
                             if (hd.getTemp() < 50) {
-                                tempGPU.setForeground(Color.green);
+                                getTempGPU().setForeground(Color.green);
                             } else {
                                 if (hd.getTemp() >= 50 && hd.getTemp() < 70) {
-                                    tempGPU.setForeground(Color.yellow);
+                                    getTempGPU().setForeground(Color.yellow);
                                 } else {
                                     if (hd.getTemp() >= 70) {
-                                        tempGPU.setForeground(Color.red);
+                                        getTempGPU().setForeground(Color.red);
                                     }
                                 }
                             }
                         }
-                        if (hd.getTipo().contains("CPU")) {
-                            tempCPU.setText(String.valueOf(hd.getTemp()));
-                            if (hd.getTemp() < 50) {
-                                tempCPU.setForeground(Color.green);
+                        return hd;
+                    }).filter(hd -> (hd.getTipo().contains("CPU"))).map(hd -> {
+                        getTempCPU().setText(String.valueOf(hd.getTemp()));
+                        return hd;
+                    }).forEachOrdered(hd -> {
+                        if (hd.getTemp() < 50) {
+                            getTempCPU().setForeground(Color.green);
+                        } else {
+                            if (hd.getTemp() >= 50 && hd.getTemp() < 70) {
+                                getTempCPU().setForeground(Color.yellow);
                             } else {
-                                if (hd.getTemp() >= 50 && hd.getTemp() < 70) {
-                                    tempCPU.setForeground(Color.yellow);
-                                } else {
-                                    if (hd.getTemp() >= 70) {
-                                        tempCPU.setForeground(Color.red);
-                                    }
+                                if (hd.getTemp() >= 70) {
+                                    getTempCPU().setForeground(Color.red);
                                 }
                             }
                         }
-                    }
+                    });
                 } catch (InterruptedException ex) {
                     
                 }
@@ -114,4 +116,41 @@ public final class openHardwareMonitorCon implements Runnable {
     public void run() {
         exec();
     }
+
+    /**
+     * @return the listaHardware
+     */
+    public static List<hardware> getListaHardware() {
+        return listaHardware;
+    }
+
+    /**
+     * @param aListaHardware the listaHardware to set
+     */
+    public static void setListaHardware(List<hardware> aListaHardware) {
+        listaHardware = aListaHardware;
+    }
+
+    /**
+     * @return the tempCPU
+     */
+    public JLabel getTempCPU() {
+        return tempCPU;
+    }
+
+    /**
+     * @param tempCPU the tempCPU to set
+     */
+ 
+    /**
+     * @return the tempGPU
+     */
+    public JLabel getTempGPU() {
+        return tempGPU;
+    }
+
+    /**
+     * @param tempGPU the tempGPU to set
+     */
+
 }

@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import javax.sound.midi.Sequence;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -24,7 +23,6 @@ import org.apache.commons.math3.transform.DftNormalization;
 import org.apache.commons.math3.transform.FastFourierTransformer;
 import org.apache.commons.math3.transform.TransformType;
 import AAPerifericos.colecaoPerifericos;
-import javax.sound.midi.InvalidMidiDataException;
 
 public final class efeitoMusica implements Runnable {
 
@@ -32,28 +30,14 @@ public final class efeitoMusica implements Runnable {
     private static final long TIMESLICE = 50; // milissegundos
     private static final double THRESHOLD = 0.8; // percentual
     private static final TransformType FFT_TRANSFORM_TYPE = TransformType.FORWARD;
-    private static final float MIDI_SEQUENCE_DIVISION_TYPE = Sequence.PPQ;
-    private static final int MIDI_SEQUENCE_RESOLUTION = 1;
-    //private static final int MIDI_CHANNEL = 0;
-    //private static final int MIDI_EVENT_VELOCITY = 127;
 
-    private static Sequence newSequence() {
-        Sequence sequence = null;
-        try {
-            sequence = new Sequence(efeitoMusica.MIDI_SEQUENCE_DIVISION_TYPE, efeitoMusica.MIDI_SEQUENCE_RESOLUTION);
-        } catch (InvalidMidiDataException e) {
-        }
-        return sequence;
-    }
+
 
     private static int getByteArrayLength(AudioFormat audioFormat) {
-
         double seconds = efeitoMusica.TIMESLICE / 1000.0;
         float frameRate = audioFormat.getFrameRate();
         int frameSize = audioFormat.getFrameSize();
-
         int byteArrayLenth = (int) (seconds * frameRate * frameSize * 1.0);
-
         if ((byteArrayLenth % 2) != 0) {
             byteArrayLenth--;
         }
@@ -182,7 +166,7 @@ public final class efeitoMusica implements Runnable {
     }
     private TargetDataLine line;
     public boolean allDone = false;
-    colecaoPerifericos listaPerifericos;
+    private colecaoPerifericos listaPerifericos;
 
     public efeitoMusica(colecaoPerifericos listaPerifericos) {
         this.listaPerifericos = listaPerifericos;
@@ -227,8 +211,6 @@ public final class efeitoMusica implements Runnable {
         }
 
         long time = efeitoMusica.TIMESLICE;
-        Sequence sequence = efeitoMusica.newSequence();
-     //   Track track = sequence.createTrack();
         Map<Long, Set<Sound>> soundMap = new HashMap<>();
         while (byteArray != null) {
             if (allDone) {
@@ -252,7 +234,7 @@ public final class efeitoMusica implements Runnable {
                     int green = new Double(greenD).intValue();
                     int blue = new Double(blueD).intValue();
                     try {
-                        listaPerifericos.getPerifericos().stream().map(periferico -> {
+                        getListaPerifericos().getPerifericos().stream().map(periferico -> {
                             periferico.setCor(new Color(red, green, blue));
                             return periferico;
                         }).forEachOrdered(periferico -> {
@@ -281,5 +263,19 @@ public final class efeitoMusica implements Runnable {
         AudioFormat format = new AudioFormat(sampleRate, sampleSizeInBits,
                 channels, signed, bigEndian);
         return format;
+    }
+
+    /**
+     * @return the listaPerifericos
+     */
+    public colecaoPerifericos getListaPerifericos() {
+        return listaPerifericos;
+    }
+
+    /**
+     * @param listaPerifericos the listaPerifericos to set
+     */
+    public void setListaPerifericos(colecaoPerifericos listaPerifericos) {
+        this.listaPerifericos = listaPerifericos;
     }
 }

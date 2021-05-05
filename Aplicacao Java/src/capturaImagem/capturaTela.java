@@ -16,7 +16,7 @@ public final class capturaTela implements Runnable {
 
     private BufferedImage image;
     public boolean allDone = false;
-    JLabel lbImagem;
+    private final JLabel lbImagem;
 
     public capturaTela(JLabel lbImagem) {
         this.lbImagem = lbImagem;
@@ -25,7 +25,6 @@ public final class capturaTela implements Runnable {
     @Override
     public void run() {
         while (!allDone) {
-
             try {
                 Thread.sleep(500);
                 image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
@@ -37,7 +36,14 @@ public final class capturaTela implements Runnable {
             Image img = image.getScaledInstance(360, 270, BufferedImage.SCALE_SMOOTH);
             image = new BufferedImage(360, 270, TYPE_INT_ARGB);
             image.getGraphics().drawImage(img, 0, 0, null);
-            lbImagem.setIcon(new javax.swing.ImageIcon(image));
+            getLbImagem().setIcon(new javax.swing.ImageIcon(image));
         }
+    }
+
+    /**
+     * @return the lbImagem
+     */
+    public JLabel getLbImagem() {
+        return lbImagem;
     }
 }

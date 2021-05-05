@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum Note {
-
+    
     G_SHARP("G#", 25.96, 20),
     A("A", 27.50, 21),
     A_SHARP("A#", 29.14, 22),

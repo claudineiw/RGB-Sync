@@ -6,7 +6,6 @@ import efeitos.efeitoMusica;
 import efeitos.efeitoPorImagemDaTela;
 import efeitos.efeitoArcoIris;
 import efeitos.efeitoStrobol;
-import ca.fiercest.aurasdk.AuraSDK;
 import capturaImagem.capturaTela;
 import efeitos.efeitoCorSelecionada;
 import efeitos.efeitoPorTemperatura;
@@ -39,8 +38,11 @@ import ca.fiercest.cuesdk.NoServerException;
 import javax.swing.DefaultListModel;
 import Logitech.HIDPID.verificarPerifericos;
 import Logitech.Logitech;
+import ca.fiercest.aurasdk.AuraSDK;
 
 public final class principal extends javax.swing.JFrame {
+
+    private static final long serialVersionUID = 1L;
 
     private AuraSDK AsusAura;
     private CueSDK CorsairSDK;
