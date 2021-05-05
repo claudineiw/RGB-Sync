@@ -1,6 +1,5 @@
 package rgb;
 
-import AAPerifericos.IPerifericos;
 import efeitos.efeitoOnda;
 import efeitos.efeitoDecremental;
 import efeitos.efeitoMusica;
@@ -9,7 +8,6 @@ import efeitos.efeitoArcoIris;
 import efeitos.efeitoStrobol;
 import ca.fiercest.aurasdk.AuraSDK;
 import capturaImagem.capturaTela;
-import com.sun.glass.events.KeyEvent;
 import efeitos.efeitoCorSelecionada;
 import efeitos.efeitoPorTemperatura;
 import java.awt.AWTException;
@@ -22,7 +20,6 @@ import java.awt.Robot;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,7 +40,7 @@ import javax.swing.DefaultListModel;
 import Logitech.HIDPID.verificarPerifericos;
 import Logitech.Logitech;
 
-public class principal extends javax.swing.JFrame {
+public final class principal extends javax.swing.JFrame {
 
     private AuraSDK AsusAura;
     private CueSDK CorsairSDK;
@@ -692,7 +689,7 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAplicarEfeitoActionPerformed
 
     private ArrayList<int[]> selecionarCores() {
-        ArrayList<int[]> cores = new ArrayList<int[]>();
+        ArrayList<int[]> cores = new ArrayList<>();
         for (int i = 0; i < jcBSelecaoDeCores.getModel().getSize(); i++) {
             cores.add(separarCoresTexto(jcBSelecaoDeCores.getItemAt(i)));
         }
@@ -788,9 +785,9 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jcBSelecaoDeCoresActionPerformed
 
     private int[] separarCoresTexto(String corSelecionada) {
-        int r = 0;
-        int g = 0;
-        int b = 0;
+        int r;
+        int g;
+        int b;
         r = Integer.valueOf(corSelecionada.substring(corSelecionada.lastIndexOf("r=") + 2, corSelecionada.indexOf(",")));
         g = Integer.valueOf(corSelecionada.substring(corSelecionada.lastIndexOf("g=") + 2, corSelecionada.lastIndexOf(",")));
         b = Integer.valueOf(corSelecionada.substring(corSelecionada.lastIndexOf("b=") + 2, corSelecionada.lastIndexOf("]")));
@@ -904,7 +901,7 @@ public class principal extends javax.swing.JFrame {
             if (evt.getKeyCode() != 8 && evt.getKeyCode() != 127) {
                 try {
                     Robot robot = new Robot();
-                    robot.keyPress(KeyEvent.VK_BACKSPACE);
+                    robot.keyPress(java.awt.event.KeyEvent.VK_BACK_SPACE);
                 } catch (AWTException ex) {
                     Logger.getLogger(principal.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -925,29 +922,20 @@ public class principal extends javax.swing.JFrame {
         menu.addSeparator();
         menu.add(exit);
 
-        trayIcon.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(true);
-                tray.remove(trayIcon);
-            }
+        trayIcon.addActionListener((ActionEvent e) -> {
+            setVisible(true);
+            tray.remove(trayIcon);
         });
 
-        abrir.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(true);
-                tray.remove(trayIcon);
-            }
+        abrir.addActionListener((ActionEvent e) -> {
+            setVisible(true);
+            tray.remove(trayIcon);
         });
 
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                pararEfeito();
-                AsusAura.ReleaseControl();
-                System.exit(0);
-            }
+        exit.addActionListener((ActionEvent e) -> {
+            pararEfeito();
+            AsusAura.ReleaseControl();
+            System.exit(0);
         });
 
         trayIcon.setPopupMenu(menu);
@@ -963,9 +951,9 @@ public class principal extends javax.swing.JFrame {
      */
     public void pararEfeito() {
         try {
-            for (IPerifericos periferico : listaPerifericos.getPerifericos()) {
+            listaPerifericos.getPerifericos().forEach(periferico -> {
                 periferico.limparCorDispositivo();
-            }
+            });
         } catch (Exception ex) {
         }
 

@@ -1,6 +1,5 @@
 package efeitosSound;
 
-import java.lang.annotation.ElementType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 

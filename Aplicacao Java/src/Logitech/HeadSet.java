@@ -2,7 +2,7 @@ package Logitech;
 
 import AAPerifericos.IHeadSet;
 
-public class HeadSet extends ILogitech implements IHeadSet {
+public final class HeadSet extends ILogitech implements IHeadSet {
 
     private final static int[] zonasRGB = {0, 1};
 

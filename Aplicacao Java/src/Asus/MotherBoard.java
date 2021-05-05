@@ -4,7 +4,7 @@ import AAPerifericos.IMotherBoard;
 import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.aurasdk.AuraSDKDevice;
 
-public class MotherBoard extends IAsus implements IMotherBoard {
+public final class MotherBoard extends IAsus implements IMotherBoard {
 
     private final static int[] zonasRGB = {0, 1};
 

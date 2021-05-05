@@ -12,9 +12,9 @@ import java.util.ArrayList;
 
 public final class efeitoArcoIris implements Runnable {
 
-    private colecaoPerifericos listaPerifericos;
+    private final colecaoPerifericos listaPerifericos;
     public boolean allDone = false;
-    private ArrayList<int[]> cores;
+    private final ArrayList<int[]> cores;
     private int conta = 0;
     private int interacao = 0;
     private Color cor;
@@ -32,7 +32,7 @@ public final class efeitoArcoIris implements Runnable {
                 return;
             }
             try {
-                for (IPerifericos periferico : listaPerifericos.getPerifericos()) {
+                listaPerifericos.getPerifericos().stream().map(periferico -> {
                     if (periferico instanceof IKeyboard) {
                         conta = interacao;
                         colorirTeclado(periferico);
@@ -43,19 +43,25 @@ public final class efeitoArcoIris implements Runnable {
                         }
 
                     }
+                    return periferico;
+                }).map(periferico -> {
                     if (periferico instanceof IMouse) {
                         colorirMouse(periferico);                        
                     }
+                    return periferico;
+                }).map(periferico -> {
                     if (periferico instanceof IHeadSet) {
                         colorirHeadSet(periferico);
                     }
+                    return periferico;
+                }).map(periferico -> {
                     if (periferico instanceof IMotherBoard) {
                         colorirMotherBoard(periferico);
                     }
-                    if (periferico instanceof IMouseMat) {
-                        colorirHeadSet(periferico);
-                    }
-                }
+                    return periferico;
+                }).filter(periferico -> (periferico instanceof IMouseMat)).forEachOrdered(periferico -> {
+                    colorirHeadSet(periferico);
+                });
             } catch (Exception ex) {
 
             }

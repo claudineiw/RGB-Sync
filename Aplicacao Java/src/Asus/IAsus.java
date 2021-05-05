@@ -14,8 +14,8 @@ public abstract class IAsus implements IPerifericos {
     private String ID;
     private final int[] zonasRGB;
     private final int tipoDoDispositivo;
-    private AuraSDK AsusAura;
-    private AuraSDKDevice AuraSDKDevice;
+    private final AuraSDK AsusAura;
+    private final AuraSDKDevice AuraSDKDevice;
 
     public IAsus(String nome, String ID, int[] zonasRGB, int tipoDoDispositivo, AuraSDK AsusAura, AuraSDKDevice AuraSDKDevice) {
         this.nome = nome;
@@ -86,4 +86,12 @@ public abstract class IAsus implements IPerifericos {
         AsusAura.setAllColors(cor);
     }
 
+    public int getTipoDoDispositivo() {
+        return tipoDoDispositivo;
+    }
+
+    
+    
+    
+    
 }

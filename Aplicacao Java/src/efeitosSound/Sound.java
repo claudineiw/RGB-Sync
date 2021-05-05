@@ -2,7 +2,7 @@ package efeitosSound;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class Sound {
+public final class Sound {
 
     private Note note;
     private int octave;

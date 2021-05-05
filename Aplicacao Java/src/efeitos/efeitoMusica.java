@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import javax.sound.midi.Sequence;
-import javax.sound.midi.Track;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -24,10 +23,10 @@ import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.transform.DftNormalization;
 import org.apache.commons.math3.transform.FastFourierTransformer;
 import org.apache.commons.math3.transform.TransformType;
-import AAPerifericos.IPerifericos;
 import AAPerifericos.colecaoPerifericos;
+import javax.sound.midi.InvalidMidiDataException;
 
-public class efeitoMusica implements Runnable {
+public final class efeitoMusica implements Runnable {
 
     private static final FastFourierTransformer FFT = new FastFourierTransformer(DftNormalization.STANDARD);
     private static final long TIMESLICE = 50; // milissegundos
@@ -35,14 +34,14 @@ public class efeitoMusica implements Runnable {
     private static final TransformType FFT_TRANSFORM_TYPE = TransformType.FORWARD;
     private static final float MIDI_SEQUENCE_DIVISION_TYPE = Sequence.PPQ;
     private static final int MIDI_SEQUENCE_RESOLUTION = 1;
-    private static final int MIDI_CHANNEL = 0;
-    private static final int MIDI_EVENT_VELOCITY = 127;
+    //private static final int MIDI_CHANNEL = 0;
+    //private static final int MIDI_EVENT_VELOCITY = 127;
 
     private static Sequence newSequence() {
         Sequence sequence = null;
         try {
             sequence = new Sequence(efeitoMusica.MIDI_SEQUENCE_DIVISION_TYPE, efeitoMusica.MIDI_SEQUENCE_RESOLUTION);
-        } catch (Exception e) {
+        } catch (InvalidMidiDataException e) {
         }
         return sequence;
     }
@@ -229,7 +228,7 @@ public class efeitoMusica implements Runnable {
 
         long time = efeitoMusica.TIMESLICE;
         Sequence sequence = efeitoMusica.newSequence();
-        Track track = sequence.createTrack();
+     //   Track track = sequence.createTrack();
         Map<Long, Set<Sound>> soundMap = new HashMap<>();
         while (byteArray != null) {
             if (allDone) {
@@ -243,7 +242,7 @@ public class efeitoMusica implements Runnable {
                 if (byteArray[0] != 0 && byteArray[0] != -1 && byteArray[0] != 1) {
                     soundMap.put(time, efeitoMusica.getSoundList(frequencyMatrix));
 
-                    Double num = new Double(((((Note.valor / 100) + 1) - ((Note.valor / 100) * 2)) * 255));
+                    Double num = ((((Note.valor / 100) + 1) - ((Note.valor / 100) * 2)) * 255);
                     Integer porcentagem = num.intValue();
 
                     double redD = ((double) gerador.nextInt(porcentagem) / 255) * porcentagem;
@@ -253,16 +252,18 @@ public class efeitoMusica implements Runnable {
                     int green = new Double(greenD).intValue();
                     int blue = new Double(blueD).intValue();
                     try {
-                        for (IPerifericos periferico : listaPerifericos.getPerifericos()) {
+                        listaPerifericos.getPerifericos().stream().map(periferico -> {
                             periferico.setCor(new Color(red, green, blue));
+                            return periferico;
+                        }).forEachOrdered(periferico -> {
                             periferico.colorirDispositivo();
-                        }
+                        });
                     } catch (Exception ex) {
 
                     }
                 }
 
-                byteArray = this.readByteArray(audioInputStream, byteArray);
+                byteArray = efeitoMusica.readByteArray(audioInputStream, byteArray);
             } catch (Exception ex) {
 
             }

@@ -1,12 +1,11 @@
 package efeitos;
 
 import java.awt.Color;
-import AAPerifericos.IPerifericos;
 import AAPerifericos.colecaoPerifericos;
 
 public final class efeitoStrobol implements Runnable {
 
-    private colecaoPerifericos listaPerifericos;
+    private final colecaoPerifericos listaPerifericos;
     public boolean allDone = false;
 
     public efeitoStrobol(colecaoPerifericos listaPerifericos) {
@@ -27,10 +26,12 @@ public final class efeitoStrobol implements Runnable {
                 return;
             }
             try {
-                for (IPerifericos periferico : listaPerifericos.getPerifericos()) {
+                listaPerifericos.getPerifericos().stream().map(periferico -> {
                     periferico.setCor(new Color((int) (Math.random() * 0x1000000)));
+                    return periferico;
+                }).forEachOrdered(periferico -> {
                     periferico.colorirDispositivo();
-                }
+                });
             } catch (Exception ex) {
                
             }

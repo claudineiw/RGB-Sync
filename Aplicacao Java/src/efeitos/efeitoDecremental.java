@@ -8,8 +8,8 @@ import AAPerifericos.colecaoPerifericos;
 
 public final class efeitoDecremental implements Runnable {
 
-    private colecaoPerifericos listaPerifericos;
-    private JColorChooser color;
+    private final colecaoPerifericos listaPerifericos;
+    private final JColorChooser color;
     public boolean allDone = false;
 
     public efeitoDecremental(JColorChooser color, colecaoPerifericos listaPerifericos) {

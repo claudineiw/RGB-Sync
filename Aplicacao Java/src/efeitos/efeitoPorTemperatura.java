@@ -6,17 +6,17 @@ import AAPerifericos.colecaoPerifericos;
 
 public final class efeitoPorTemperatura implements Runnable {
 
-    private colecaoPerifericos listaPerifericos;
+    private final colecaoPerifericos listaPerifericos;
     public boolean allDone = false;
-    private JLabel temp1;
-    private JLabel temp2;
-    private JLabel temp3;
-    private JLabel temp4;
-    private JLabel temperatura;
-    private int vtemp1;
-    private int vtemp2;
-    private int vtemp3;
-    private int vtemp4;
+    private final JLabel temp1;
+    private final JLabel temp2;
+    private final JLabel temp3;
+    private final JLabel temp4;
+    private final JLabel temperatura;
+    private final int vtemp1;
+    private final int vtemp2;
+    private final int vtemp3;
+    private final int vtemp4;
 
     public efeitoPorTemperatura(colecaoPerifericos listaPerifericos, JLabel temp1, JLabel temp2, JLabel temp3, JLabel temp4, JLabel temperatura, int vtemp1, int vtemp2, int vtemp3, int vtemp4) {
         this.temp1 = temp1;
@@ -33,7 +33,7 @@ public final class efeitoPorTemperatura implements Runnable {
 
     @Override
     public void run() {
-        java.awt.Color nova = temp1.getForeground();
+        java.awt.Color nova;
         while (!allDone) {
             int temperaturaLocal = Integer.valueOf(temperatura.getText());
             if (temperaturaLocal < vtemp1) {

@@ -5,9 +5,8 @@ import java.awt.*;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import Logitech.HIDPID.verificarPerifericos;
  
-public class Splash extends JFrame
+public final class Splash extends JFrame
 {
   private static principal principal;
   private static JLabel lbSplash;          
@@ -15,7 +14,7 @@ public class Splash extends JFrame
   
 
   public static void main(String arg[]){
-      verificarPerifericos a = new verificarPerifericos();
+   
     Thread.currentThread().setName("Aplash");
     URL url = Splash.class.getResource("/imagens/icone.png");
 
@@ -53,6 +52,7 @@ public class Splash extends JFrame
     add(lbSplash);
   }
  
+  @Override
   public void dispose(){
     principal.setVisible(true);
     super.dispose();

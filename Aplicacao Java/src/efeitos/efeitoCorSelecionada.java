@@ -1,16 +1,15 @@
 package efeitos;
 
 import javax.swing.JColorChooser;
-import AAPerifericos.IPerifericos;
 import AAPerifericos.colecaoPerifericos;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class efeitoCorSelecionada implements Runnable {
 
-    private JColorChooser color;
+    private final JColorChooser color;
     public boolean allDone = false;
-    private colecaoPerifericos listaPerifericos;
+    private final colecaoPerifericos listaPerifericos;
 
     public efeitoCorSelecionada(JColorChooser color, colecaoPerifericos listaPerifericos) {
         this.color = color;
@@ -27,10 +26,12 @@ public final class efeitoCorSelecionada implements Runnable {
             }
             java.awt.Color nova = color.getSelectionModel().getSelectedColor();
             try {
-                for (IPerifericos periferico : listaPerifericos.getPerifericos()) {
+                listaPerifericos.getPerifericos().stream().map(periferico -> {
                     periferico.setCor(nova);
+                    return periferico;
+                }).forEachOrdered(periferico -> {
                     periferico.colorirDispositivo();
-                }
+                });
             } catch (Exception ex) {
 
             }

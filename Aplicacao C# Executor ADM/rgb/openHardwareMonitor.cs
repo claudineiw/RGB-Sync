@@ -15,20 +15,22 @@ namespace OPENHARDWARE
             computador = new Computer();
             computador.Open();
             computador.CPUEnabled = true;
-            computador.RAMEnabled = true;
-            computador.MainboardEnabled = true;
-            computador.FanControllerEnabled = true;
+            computador.RAMEnabled = false;
+            computador.MainboardEnabled = false;
+            computador.FanControllerEnabled = false;
             computador.GPUEnabled = true;
-            computador.HDDEnabled = true;
+            computador.HDDEnabled = false;
         }
 
 
 
         public String getTemp()
-        {            
+        {           
+           
             String formato = "[";
             foreach (IHardware HW in computador.Hardware)
             {
+               
                 HW.Update();            
                 if (HW.HardwareType.Equals(HardwareType.CPU))
                 {
@@ -70,9 +72,9 @@ namespace OPENHARDWARE
                     formato += "\n,";
                     formato += "\n{";
                     foreach (ISensor Sensor in HW.Sensors)
-                    {
+                    {                                            
                         if (Sensor.SensorType.Equals(SensorType.Temperature))
-                        {
+                        {                            
                             formato += "\n\"Tipo\":\"" + HW.HardwareType.ToString() + "\",";
                             formato += "\n\"Nome\":\"" + HW.Name.ToString() + "\",";
                             formato += "\n\"Temp\":\"" + Sensor.Value.ToString() + "\"";

@@ -7,7 +7,7 @@ import java.awt.Color;
  *
  * @author Claud
  */
-public class Mouse extends ILogitech implements IMouse {
+public final class Mouse extends ILogitech implements IMouse {
 
     private final static int[] zonasRGB = {0, 1};
 

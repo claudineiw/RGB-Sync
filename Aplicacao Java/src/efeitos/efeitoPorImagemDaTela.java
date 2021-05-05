@@ -25,8 +25,8 @@ public final class efeitoPorImagemDaTela implements Runnable {
     private int[] dataBuffInt;
     private int[][] matrix;
     public boolean allDone = false;
-    private JPanel painelImagens;
-    private colecaoPerifericos listaPerifericos;
+    private final JPanel painelImagens;
+    private final colecaoPerifericos listaPerifericos;
 
     public efeitoPorImagemDaTela(colecaoPerifericos listaPerifericos, JPanel painelImagens) {
         this.painelImagens = painelImagens;
@@ -54,9 +54,7 @@ public final class efeitoPorImagemDaTela implements Runnable {
             try {
                 Thread.sleep(500);
                 image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-            } catch (AWTException ex) {
-                Logger.getLogger(efeitoPorImagemDaTela.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
+            } catch (AWTException | InterruptedException ex) {
                 Logger.getLogger(efeitoPorImagemDaTela.class.getName()).log(Level.SEVERE, null, ex);
             }
 

@@ -13,10 +13,10 @@ import java.util.logging.Logger;
 
 public final class efeitoOnda implements Runnable {
 
-    private colecaoPerifericos listaPerifericos;
+    private final colecaoPerifericos listaPerifericos;
     private Color cor;
     public boolean allDone = false;
-    private ArrayList<int[]> cores;
+    private final ArrayList<int[]> cores;
     private int conta = 0;
 
     public efeitoOnda(colecaoPerifericos listaPerifericos, ArrayList<int[]> cores) {
@@ -33,23 +33,24 @@ public final class efeitoOnda implements Runnable {
                 return;
             }
             try {
-                for (IPerifericos periferico : listaPerifericos.getPerifericos()) {
+                listaPerifericos.getPerifericos().stream().map(periferico -> {
                     if (periferico instanceof IKeyboard) {
                         colorirTeclado(periferico);
                     }
-
+                    return periferico;
+                }).map(periferico -> {
                     if (periferico instanceof IMouse) {
                         colorirMouse(periferico);
                     }
-
+                    return periferico;
+                }).map(periferico -> {
                     if (periferico instanceof IHeadSet) {
                         colorirHeadSet(periferico);
                     }
-
-                    if (periferico instanceof IMotherBoard) {
-                        colorirMotherBoard(periferico);
-                    }
-                }
+                    return periferico;
+                }).filter(periferico -> (periferico instanceof IMotherBoard)).forEachOrdered(periferico -> {
+                    colorirMotherBoard(periferico);
+                });
             } catch (Exception ex) {
 
             }

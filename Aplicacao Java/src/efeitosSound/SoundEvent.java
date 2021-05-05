@@ -24,7 +24,7 @@ public enum SoundEvent {
         ShortMessage message = new ShortMessage();
         try {
             message.setMessage(this.getEvent(), channel, midiKey, velocity);
-        } catch (Exception ex) {
+        } catch (InvalidMidiDataException ex) {
 
         }
         return message;
@@ -33,4 +33,5 @@ public enum SoundEvent {
     public MidiEvent createMidiEvent(MidiMessage message, long tick) {
         return new MidiEvent(message, tick);
     }
+
 }
