@@ -1,4 +1,4 @@
-package AAPerifericos;
+package IPerifericos;
 
 public interface ISpeaker {
 

@@ -1,6 +1,6 @@
 package Logitech;
 
-import AAPerifericos.IKeyboard;
+import IPerifericos.IKeyboard;
 
 public final class Keyboard extends ILogitech implements IKeyboard {
 

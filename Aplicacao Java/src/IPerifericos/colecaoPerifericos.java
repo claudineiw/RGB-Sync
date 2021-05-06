@@ -1,4 +1,4 @@
-package AAPerifericos;
+package IPerifericos;
 
 import java.util.ArrayList;
 

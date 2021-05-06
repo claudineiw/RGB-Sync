@@ -1,4 +1,4 @@
-package OpenHardwareMonitor;
+package Temperatura;
 
 public final class hardware {
 

@@ -1,6 +1,6 @@
 package Logitech;
 
-import AAPerifericos.ISpeaker;
+import IPerifericos.ISpeaker;
 
 public final class Speaker extends ILogitech implements ISpeaker {
 

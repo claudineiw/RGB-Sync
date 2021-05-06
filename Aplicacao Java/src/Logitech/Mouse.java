@@ -1,6 +1,6 @@
 package Logitech;
 
-import AAPerifericos.IMouse;
+import IPerifericos.IMouse;
 import java.awt.Color;
 
 /**

@@ -1,6 +1,6 @@
 package Logitech;
 
-import AAPerifericos.IMouseMat;
+import IPerifericos.IMouseMat;
 
 public final class MouseMat extends ILogitech implements IMouseMat {
 

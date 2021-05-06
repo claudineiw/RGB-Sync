@@ -1,7 +1,7 @@
 package efeitos;
 
 import java.awt.Color;
-import AAPerifericos.colecaoPerifericos;
+import IPerifericos.colecaoPerifericos;
 
 public final class efeitoStrobol implements Runnable {
 

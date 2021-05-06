@@ -1,8 +1,8 @@
 package efeitos;
 
 import javax.swing.JLabel;
-import AAPerifericos.IPerifericos;
-import AAPerifericos.colecaoPerifericos;
+import IPerifericos.IPerifericos;
+import IPerifericos.colecaoPerifericos;
 
 public final class efeitoPorTemperatura implements Runnable {
 

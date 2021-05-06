@@ -3,8 +3,8 @@ package efeitos;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JColorChooser;
-import AAPerifericos.IPerifericos;
-import AAPerifericos.colecaoPerifericos;
+import IPerifericos.IPerifericos;
+import IPerifericos.colecaoPerifericos;
 
 public final class efeitoDecremental implements Runnable {
 

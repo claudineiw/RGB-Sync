@@ -1,6 +1,6 @@
 package Asus;
 
-import AAPerifericos.IPerifericos;
+import IPerifericos.IPerifericos;
 import ca.fiercest.aurasdk.AsusColor;
 import ca.fiercest.aurasdk.AuraRGBLight;
 import ca.fiercest.aurasdk.AuraSDK;

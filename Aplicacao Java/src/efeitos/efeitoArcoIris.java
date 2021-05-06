@@ -1,12 +1,12 @@
 package efeitos;
 
-import AAPerifericos.IHeadSet;
-import AAPerifericos.IKeyboard;
-import AAPerifericos.IMotherBoard;
-import AAPerifericos.IMouse;
-import AAPerifericos.IMouseMat;
-import AAPerifericos.IPerifericos;
-import AAPerifericos.colecaoPerifericos;
+import IPerifericos.IHeadSet;
+import IPerifericos.IKeyboard;
+import IPerifericos.IMotherBoard;
+import IPerifericos.IMouse;
+import IPerifericos.IMouseMat;
+import IPerifericos.IPerifericos;
+import IPerifericos.colecaoPerifericos;
 import java.awt.Color;
 import java.util.ArrayList;
 

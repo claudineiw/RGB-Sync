@@ -1,8 +1,8 @@
 package efeitos;
 
-import AAPerifericos.IMouse;
-import AAPerifericos.IPerifericos;
-import AAPerifericos.colecaoPerifericos;
+import IPerifericos.IMouse;
+import IPerifericos.IPerifericos;
+import IPerifericos.colecaoPerifericos;
 import java.awt.AWTException;
 import java.awt.Component;
 import java.awt.Image;
@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import AAPerifericos.IKeyboard;
+import IPerifericos.IKeyboard;
 
 public final class efeitoPorImagemDaTela implements Runnable {
 

@@ -1,6 +1,6 @@
 package Asus;
 
-import AAPerifericos.IMotherBoard;
+import IPerifericos.IMotherBoard;
 import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.aurasdk.AuraSDKDevice;
 

@@ -1,6 +1,6 @@
 package Logitech;
 
-import AAPerifericos.IHeadSet;
+import IPerifericos.IHeadSet;
 
 public final class HeadSet extends ILogitech implements IHeadSet {
 

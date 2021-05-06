@@ -24,10 +24,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import OpenHardwareMonitor.openHardwareMonitorCon;
+import Temperatura.RGBexeCon;
 import org.apache.commons.lang3.ArrayUtils;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
-import AAPerifericos.colecaoPerifericos;
+import IPerifericos.colecaoPerifericos;
 import Asus.MotherBoard;
 import Logitech.HeadSet;
 import Logitech.Mouse;
@@ -54,7 +54,7 @@ public final class principal extends javax.swing.JFrame {
     private efeitoMusica efeitomMusica;
     private efeitoPorImagemDaTela efeitoPorImagem;
     private efeitoCorSelecionada efeitoCorSelecionada;
-    private openHardwareMonitorCon openHardwareMonitor;
+    private RGBexeCon openHardwareMonitor;
     private efeitoPorTemperatura efeitoPorTemperatura;
     private capturaTela capturaTela;
     private final colecaoPerifericos listaPerifericos = new colecaoPerifericos();
@@ -520,7 +520,7 @@ public final class principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void iniciarMonitorTemperatura() {
-        openHardwareMonitor = new openHardwareMonitorCon(tempCPU, tempGPU);
+        openHardwareMonitor = new RGBexeCon(tempCPU, tempGPU);
         Thread th = new Thread(openHardwareMonitor);
         th.setName("openHardwareMonitor");
         th.start();

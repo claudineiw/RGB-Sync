@@ -1,4 +1,4 @@
-package OpenHardwareMonitor;
+package Temperatura;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.util.List;
 import javax.swing.JLabel;
 
-public final class openHardwareMonitorCon implements Runnable {
+public final class RGBexeCon implements Runnable {
 
     private static List<hardware> listaHardware;
     private final TypeToken tt;
@@ -20,7 +20,7 @@ public final class openHardwareMonitorCon implements Runnable {
     private final JLabel tempCPU;
     private final JLabel tempGPU;
 
-    public openHardwareMonitorCon(JLabel tempCPU, JLabel tempGPU) {
+    public RGBexeCon(JLabel tempCPU, JLabel tempGPU) {
         this.tempCPU = tempCPU;
         this.tempGPU = tempGPU;
         this.gson = new Gson();
@@ -37,7 +37,7 @@ public final class openHardwareMonitorCon implements Runnable {
             while (!allDone) {
                 try {
                     
-                    //RECEBE DADOS DE TEMPERATURA
+                    //RECEBE DADOS DE TEMPERATURA                    
                     Thread.sleep(500);
                     byte[] lenBytes = new byte[4];
                     is.read(lenBytes, 0, 4);

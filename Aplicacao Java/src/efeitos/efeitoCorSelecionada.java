@@ -1,7 +1,7 @@
 package efeitos;
 
 import javax.swing.JColorChooser;
-import AAPerifericos.colecaoPerifericos;
+import IPerifericos.colecaoPerifericos;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
