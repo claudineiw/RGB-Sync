@@ -9,3 +9,8 @@ C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\bin\Debug\OpenHardw
 C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Debug\RGB.csproj.CopyComplete
 C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Debug\RGB.exe
 C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Debug\RGB.pdb
+C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Debug\RGB.TrustInfo.xml
+C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Debug\RGB.exe.manifest
+C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\bin\Debug\RGB.exe.manifest
+C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\bin\Debug\RGB.application
+C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Debug\RGB.application

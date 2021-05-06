@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="RGB.exe" version="1.0.0.7" publicKeyToken="0000000000000000" language="pt-BR" processorArchitecture="msil" type="win32" />
+  <description asmv2:iconFile="ico\m_rgb.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="RGB" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="RGB.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet ID="Custom" SameSite="site" Unrestricted="true" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3" />
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="OpenHardwareMonitorLib.dll" size="311808">
+      <assemblyIdentity name="OpenHardwareMonitorLib" version="0.9.6.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>7wKwmRqsZ4BSu3nf39W/oLQrHzSyCeNYGbpgaQllX1g=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RGB.exe" size="204800">
+      <assemblyIdentity name="RGB" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>EYqOkvxBZESGL4B5j3HBUTGh93h/WZaAxZGWv6KPSvI=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="ico\m_rgb.ico" size="193741">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>lQ4orpE5han1hS3DhHMpeId+qEkUJ1/tQCp2TAwQQCA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Jar\lib\AbsoluteLayout.jar" size="10614">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>G2ohEMeJ64Ck/YXBjqhZqN0fqnutduXheNeCcYMMmqQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Jar\lib\AuraSdk.jar" size="50213">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>XbRcGneUMPWbmumn5bUgZCjPMljgrC6PnQObeRFRmbA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Jar\lib\com4j-2.1.jar" size="366767">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>s4MNL6GPDuwWsakcY1W6dsL3HRJDOiB/70x4GpAEaI8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Jar\lib\common-lang3.jar" size="646680">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>OO/hGQe3ttMAFoccA3mP0Az+x+l3aciBWk1iYaS7PCw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Jar\lib\commons-math3-3.6.1.jar" size="2213560">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>HlbXsFjSi2Wr0la4RY44hbZ0wdWI+kPNfRy7nH7yswg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Jar\lib\flatlaf-1.1.jar" size="522719">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>6oYDy3Ni8VeJ80GFly7kaEliEhfm1vS5PvCG3IIqhwI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Jar\lib\flatlaf-intellij-themes-1.1.jar" size="312959">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>exWHfdANul5HokVWi2YyhPO/LJriINaZEx964Kz65Sk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Jar\lib\gson-2.8.6.jar" size="240255">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>yPtIOQVNKAswM/gA0fWpfeLwKOuLoutFitKH5Tbz8l8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Jar\lib\HID API.jar" size="133341">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>OpAsC68ZIS0n/R+BSVANC253Hn5AG56tbFS/JMhGPzQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Jar\lib\ICueSDKCorsair.jar" size="1004554">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>+2s8v95QDz+1CP+HRhxNLHcJOfsCKADIChVnJ1a96rE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Jar\lib\jna-5.8.0.jar" size="1729586">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>kwJzzBxJLyVmHqYkE6baP9f24BvxxNzAgX/IaWp7B6w=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Jar\lib\jna-platform-5.8.0.jar" size="1338206">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>/9k/4bwH3m8z6r89BRw2NuAaAcF8sNqESMU6KsXjv3o=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Jar\lib\logiledx64x86.jar" size="40629">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>nSkaKLve5p+CQIE3lwzCOzKi13g0GyVOEfJAm43PU0o=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Jar\lib\lombok.jar" size="1922103">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>YB7EYgbg+crCwFg7M1DnnwlUGcOV6ZHHYWQPkpA46cw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Jar\RGB.jar" size="382922">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>tTlTm3j6sRr4e/H+567r1ZjxS0z7xpTKkeO45VI9ySA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="RGB.exe.config" size="181">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>3rpcg0VX2nAYsmgkDSmwsQN9PSsTcxZdkowkdqjiJ8s=</dsig:DigestValue>
+    </hash>
+  </file>
+  <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
+    <application>
+      <!-- Uma lista das versões do Windows nas quais este aplicativo foi testado e
+           com as quais ele foi projetado para trabalhar. Remova a marca de comentário dos elementos apropriados
+           e o Windows selecionará automaticamente o ambiente mais compatível. -->
+      <!-- Windows Vista -->
+      <!--<supportedOS Id="{e2011457-1546-43c5-a5fe-008deee3d3f0}" />-->
+      <!-- Windows 7 -->
+      <!--<supportedOS Id="{35138b9a-5d96-4fbd-8e2d-a2440225f93a}" />-->
+      <!-- Windows 8 -->
+      <!--<supportedOS Id="{4a2f28e3-53b9-4441-ba9c-d69d4a4a6e38}" />-->
+      <!-- Windows 8.1 -->
+      <!--<supportedOS Id="{1f676c76-80e1-4239-95bb-83d0f6d0da78}" />-->
+      <!-- Windows 10 -->
+      <!--<supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />-->
+    </application>
+  </compatibility>
+</asmv1:assembly>

@@ -12,6 +12,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -22,18 +24,22 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
+    <TargetCulture>pt-BR</TargetCulture>
+    <ProductName>RGB</ProductName>
+    <PublisherName>Cladinei Wickert</PublisherName>
+    <SuiteName>RGB</SuiteName>
+    <ApplicationRevision>8</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -51,25 +57,35 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>m_rgb.ico</ApplicationIcon>
+    <ApplicationIcon>ico\m_rgb.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
+    <StartupObject>rgb.principal</StartupObject>
   </PropertyGroup>
   <PropertyGroup />
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <TargetZone>Custom</TargetZone>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>false</GenerateManifests>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>7BA069BCB5C844891347A2331A4A3C11AC9A1573</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>RGB_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenHardwareMonitorLib">
-      <HintPath>LIB\OpenHardwareMonitorLib.dll</HintPath>
+    <Reference Include="OpenHardwareMonitorLib, Version=0.9.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>library\OpenHardwareMonitorLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Activities" />
@@ -85,8 +101,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="openHardwareMonitor.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="openHardWare\openHardwareMonitor.cs" />
+    <Compile Include="Principal\principal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -113,7 +129,22 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="m_rgb.ico" />
+    <Content Include="Jar\lib\AbsoluteLayout.jar" />
+    <Content Include="Jar\lib\AuraSdk.jar" />
+    <Content Include="Jar\lib\com4j-2.1.jar" />
+    <Content Include="Jar\lib\common-lang3.jar" />
+    <Content Include="Jar\lib\commons-math3-3.6.1.jar" />
+    <Content Include="Jar\lib\flatlaf-1.1.jar" />
+    <Content Include="Jar\lib\flatlaf-intellij-themes-1.1.jar" />
+    <Content Include="Jar\lib\gson-2.8.6.jar" />
+    <Content Include="Jar\lib\HID API.jar" />
+    <Content Include="Jar\lib\ICueSDKCorsair.jar" />
+    <Content Include="Jar\lib\jna-5.8.0.jar" />
+    <Content Include="Jar\lib\jna-platform-5.8.0.jar" />
+    <Content Include="Jar\lib\logiledx64x86.jar" />
+    <Content Include="Jar\lib\lombok.jar" />
+    <Content Include="ico\m_rgb.ico" />
+    <Content Include="Jar\RGB.jar" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
