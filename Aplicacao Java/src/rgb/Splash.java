@@ -15,10 +15,10 @@ public final class Splash extends JFrame
   
 
   public static void main(String arg[]){
-   
+      
     Thread.currentThread().setName("Aplash");
     URL url = Splash.class.getResource("/imagens/icone.png");
-
+    
     Splash s = new Splash();   
     s.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     s.setSize(620,300);

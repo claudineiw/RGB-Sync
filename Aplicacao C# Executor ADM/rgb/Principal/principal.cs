@@ -32,8 +32,8 @@ namespace rgb
                         {
                             if (teste.Contains("bin"))
                             {
-
                                 String filename = Directory.GetCurrentDirectory() + "\\Jar\\rgb.jar";
+                                Console.WriteLine(filename);
                                 proc.StartInfo.FileName = teste + "\\java.exe";
                                 proc.StartInfo.Arguments = "-jar " + filename + " %1";
                                 proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;

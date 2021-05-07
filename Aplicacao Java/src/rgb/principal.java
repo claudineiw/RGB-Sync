@@ -39,7 +39,6 @@ import javax.swing.DefaultListModel;
 import Logitech.HIDPID.verificarPerifericos;
 import Logitech.Logitech;
 import ca.fiercest.aurasdk.AuraSDK;
-
 public final class principal extends javax.swing.JFrame {
 
     private static final long serialVersionUID = 1L;
@@ -57,14 +56,13 @@ public final class principal extends javax.swing.JFrame {
     private RGBexeCon openHardwareMonitor;
     private efeitoPorTemperatura efeitoPorTemperatura;
     private capturaTela capturaTela;
-    private final colecaoPerifericos listaPerifericos = new colecaoPerifericos();
-    private final verificarPerifericos verificacaoPerifericos;
+    private colecaoPerifericos listaPerifericos;
+    private verificarPerifericos verificacaoPerifericos;
     private static final int numerais[] = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105};
 
     public principal() {
         initComponents();
-        jColorPrincipal.setColor(Color.RED);
-        verificacaoPerifericos = new verificarPerifericos();
+        iniciaBibliotecas();
         preencherListaPerifericos();
         iniciarMonitorTemperatura();
     }
@@ -519,6 +517,12 @@ public final class principal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void iniciaBibliotecas(){
+        jColorPrincipal.setColor(Color.RED);
+        listaPerifericos = new colecaoPerifericos();
+        verificacaoPerifericos = new verificarPerifericos();
+    }
+    
     private void iniciarMonitorTemperatura() {
         openHardwareMonitor = new RGBexeCon(tempCPU, tempGPU);
         Thread th = new Thread(openHardwareMonitor);

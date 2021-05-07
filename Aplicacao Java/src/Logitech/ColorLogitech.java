@@ -6,7 +6,7 @@ public final class ColorLogitech {
     private int g;
     private int b;
 
-    public ColorLogitech(java.awt.Color cor) {
+    public ColorLogitech(java.awt.Color cor) {        
         this.r = (cor.getRed() * 100) / 255;
         this.g = (cor.getGreen() * 100) / 255;
         this.b = (cor.getBlue() * 100) / 255;
