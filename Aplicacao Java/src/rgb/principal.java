@@ -39,6 +39,8 @@ import javax.swing.DefaultListModel;
 import Logitech.HIDPID.verificarPerifericos;
 import Logitech.Logitech;
 import ca.fiercest.aurasdk.AuraSDK;
+import ca.fiercest.cuesdk.CorsairDevice;
+
 public final class principal extends javax.swing.JFrame {
 
     private static final long serialVersionUID = 1L;
@@ -517,12 +519,12 @@ public final class principal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void iniciaBibliotecas(){
+    private void iniciaBibliotecas() {
         jColorPrincipal.setColor(Color.RED);
         listaPerifericos = new colecaoPerifericos();
         verificacaoPerifericos = new verificarPerifericos();
     }
-    
+
     private void iniciarMonitorTemperatura() {
         openHardwareMonitor = new RGBexeCon(tempCPU, tempGPU);
         Thread th = new Thread(openHardwareMonitor);
@@ -567,8 +569,8 @@ public final class principal extends javax.swing.JFrame {
 
         try {
             this.CorsairSDK = new CueSDK();
-            CorsairSDK.getDevices().forEach(cor -> {
-                model.addElement("Corsair " + cor.getModelName());
+            CorsairSDK.getDevices().forEach(corsair -> {
+                model.addElement("Corsair " + corsair.getModelName());
             });
         } catch (NoServerException ex) {
         }
@@ -853,6 +855,55 @@ public final class principal extends javax.swing.JFrame {
                     listaPerifericos.setPerifericos(new MotherBoard(periferico, periferico, 0, AsusAura, device));
                 });
 
+            } else {
+                if (periferico.toLowerCase().contains("corsair".toLowerCase())) {
+                    for (CorsairDevice corsair : CorsairSDK.getDevices()) {
+                        if (corsair.getType().toString().toLowerCase().contains("keyboard".toLowerCase()) && periferico.toLowerCase().contains(corsair.getModelName().toLowerCase())) {
+                            listaPerifericos.setPerifericos(new Corsair.Keyboard(corsair.getModelName(), CorsairSDK, corsair));
+                            System.out.println(corsair.getType().toString());
+                            break;
+                        }
+                        if (corsair.getType().toString().toLowerCase().contains("Mouse".toLowerCase()) && periferico.toLowerCase().contains(corsair.getModelName().toLowerCase())) {
+                            if (!corsair.getType().toString().toLowerCase().contains("MouseMat".toLowerCase())) {
+                                listaPerifericos.setPerifericos(new Corsair.Mouse(corsair.getModelName(), CorsairSDK, corsair));
+                                System.out.println(corsair.getType().toString());
+                                break;
+                            }
+                        }
+
+                        if (corsair.getType().toString().toLowerCase().contains("Headset".toLowerCase()) && periferico.toLowerCase().contains(corsair.getModelName().toLowerCase())) {
+                            if (!corsair.getType().toString().toLowerCase().contains("HeadsetStand".toLowerCase())) {
+                                listaPerifericos.setPerifericos(new Corsair.HeadSet(corsair.getModelName(), CorsairSDK, corsair));
+                                System.out.println(corsair.getType().toString());
+                                break;
+                            }
+                        }
+                        
+                        if (corsair.getType().toString().toLowerCase().contains("HeadsetStand".toLowerCase()) && periferico.toLowerCase().contains(corsair.getModelName().toLowerCase())) {
+                            listaPerifericos.setPerifericos(new Corsair.HeadsetStand(corsair.getModelName(), CorsairSDK, corsair));
+                            System.out.println(corsair.getType().toString());
+                            break;
+                        }
+                        if (corsair.getType().toString().toLowerCase().contains("MouseMat".toLowerCase()) && periferico.toLowerCase().contains(corsair.getModelName().toLowerCase())) {
+                            listaPerifericos.setPerifericos(new Corsair.MouseMat(corsair.getModelName(), CorsairSDK, corsair));
+                            System.out.println(corsair.getType().toString());
+                            break;
+                        }
+                                             
+                        if (corsair.getType().toString().toLowerCase().contains("CommanderPro".toLowerCase()) && periferico.toLowerCase().contains(corsair.getModelName().toLowerCase())) {
+                            listaPerifericos.setPerifericos(new Corsair.CoolerControl(corsair.getModelName(), CorsairSDK, corsair));
+                            System.out.println(corsair.getType().toString());
+                            break;
+                        }
+                        
+                        if (corsair.getType().toString().toLowerCase().contains("LightingNodePro".toLowerCase()) && periferico.toLowerCase().contains(corsair.getModelName().toLowerCase())) {
+                            listaPerifericos.setPerifericos(new Corsair.LightingNode(corsair.getModelName(), CorsairSDK, corsair));
+                            System.out.println(corsair.getType().toString());
+                            break;
+                        }
+
+                    }
+                }
             }
         }
     }
@@ -909,7 +960,8 @@ public final class principal extends javax.swing.JFrame {
                     Robot robot = new Robot();
                     robot.keyPress(java.awt.event.KeyEvent.VK_BACK_SPACE);
                 } catch (AWTException ex) {
-                    Logger.getLogger(principal.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(principal.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -948,7 +1000,8 @@ public final class principal extends javax.swing.JFrame {
         try {
             tray.add(trayIcon);
         } catch (AWTException ex) {
-            Logger.getLogger(principal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(principal.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 

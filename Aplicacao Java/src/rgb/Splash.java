@@ -11,7 +11,7 @@ public final class Splash extends JFrame
   private static principal principal;
   private static JLabel lbSplash;          
   private static ImageIcon imSplash;             
- private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
   
 
   public static void main(String arg[]){
