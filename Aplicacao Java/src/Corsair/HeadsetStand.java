@@ -1,28 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Corsair;
 
+import IPerifericos.IHeadsetStand;
 import ca.fiercest.cuesdk.CorsairDevice;
 import ca.fiercest.cuesdk.CueSDK;
 import ca.fiercest.cuesdk.enums.LedId;
 
-/**
- *
- * @author Claud
- */
-public class HeadsetStand  extends ICorsair{
-    
+public class HeadsetStand extends ICorsair implements IHeadsetStand {
+
     public HeadsetStand(String nome, CueSDK CorsairSDK, CorsairDevice device) {
-        super(nome, CorsairSDK, device);
+        super(nome, CorsairSDK, device, 191, 199);
     }
-     @Override
-    public void colorirDispositivo() {
-        for(int i=191;i<=199;i++){
-            getCorsairSDK().SetLedColor(LedId.byOrdinal(i), getCor());
-        }
-      
+
+    @Override
+    public void colorirPorLed(int i) {
+        getCorsairSDK().SetLedColor(LedId.byOrdinal(getPrimeira() + i), getCor());
+    }
+
+    @Override
+    public int getCountLight() {
+        return getUltima() - getPrimeira();
     }
 }

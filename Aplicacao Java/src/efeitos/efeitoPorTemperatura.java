@@ -3,6 +3,7 @@ package efeitos;
 import javax.swing.JLabel;
 import IPerifericos.IPerifericos;
 import IPerifericos.colecaoPerifericos;
+import Metodos.tempoPorVolta;
 
 public final class efeitoPorTemperatura implements Runnable {
 
@@ -34,7 +35,9 @@ public final class efeitoPorTemperatura implements Runnable {
     @Override
     public void run() {
         java.awt.Color nova;
+        tempoPorVolta tempo = new tempoPorVolta(1000);
         while (!allDone) {
+            tempo.calculo();
             int temperaturaLocal = Integer.valueOf(temperatura.getText());
             if (temperaturaLocal < vtemp1) {
                 nova = temp1.getForeground();
@@ -55,7 +58,7 @@ public final class efeitoPorTemperatura implements Runnable {
             } catch (Exception ex) {
 
             }
-
+            tempo.calculo();
         }
     }
 }

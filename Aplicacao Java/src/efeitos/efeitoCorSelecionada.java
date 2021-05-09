@@ -2,8 +2,7 @@ package efeitos;
 
 import javax.swing.JColorChooser;
 import IPerifericos.colecaoPerifericos;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import Metodos.tempoPorVolta;
 
 public final class efeitoCorSelecionada implements Runnable {
 
@@ -18,12 +17,9 @@ public final class efeitoCorSelecionada implements Runnable {
 
     @Override
     public void run() {
+        tempoPorVolta tempo = new tempoPorVolta(1000);
         while (!allDone) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(efeitoCorSelecionada.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            tempo.calculo();
             java.awt.Color nova = color.getSelectionModel().getSelectedColor();
             try {
                 listaPerifericos.getPerifericos().stream().map(periferico -> {
@@ -35,6 +31,7 @@ public final class efeitoCorSelecionada implements Runnable {
             } catch (Exception ex) {
 
             }
+            tempo.calculo();
         }
     }
 

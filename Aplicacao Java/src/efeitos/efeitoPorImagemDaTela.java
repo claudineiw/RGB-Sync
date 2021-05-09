@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import IPerifericos.IKeyboard;
+import Metodos.tempoPorVolta;
 
 public final class efeitoPorImagemDaTela implements Runnable {
 
@@ -46,42 +47,42 @@ public final class efeitoPorImagemDaTela implements Runnable {
             }
 
         }
-
-        while (!allDone) {
-
-            if (allDone) {
-                return;
-            }
-            try {
-                Thread.sleep(500);
+        tempoPorVolta tempo = new tempoPorVolta(650);
+        while (!allDone) {            
+            try {                
+                if (allDone) {
+                    return;
+                }
+                tempo.calculo();
+                
                 image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-            } catch (AWTException | InterruptedException ex) {
+                
+                Image img = image.getScaledInstance(60, 30, BufferedImage.SCALE_SMOOTH);
+                image = new BufferedImage(60, 30, TYPE_INT_ARGB);
+                image.getGraphics().drawImage(img, 0, 0, null);
+                largura = image.getWidth();
+                altura = image.getHeight();
+                dataBuffInt = image.getRGB(0, 0, largura, altura, null, 0, largura);
+                matrix = new int[altura][largura];
+                int index = 0;
+                for (int i = 0; i < altura; i++) {
+                    for (int y = 0; y < largura; y++) {
+                        matrix[i][y] = dataBuffInt[index];
+                        index++;
+                    }
+                }
+                for (IPerifericos periferico : listaPerifericos.getPerifericos()) {
+                    if (periferico instanceof IKeyboard) {
+                        colorirTeclado(lbT, periferico);
+                    }
+                    if (periferico instanceof IMouse) {
+                        colorirMouse(lbM, periferico);
+                    }
+                }
+                tempo.calculo();
+            } catch (AWTException ex) {
                 Logger.getLogger(efeitoPorImagemDaTela.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            Image img = image.getScaledInstance(60, 30, BufferedImage.SCALE_SMOOTH);
-            image = new BufferedImage(60, 30, TYPE_INT_ARGB);
-            image.getGraphics().drawImage(img, 0, 0, null);
-            largura = image.getWidth();
-            altura = image.getHeight();
-            dataBuffInt = image.getRGB(0, 0, largura, altura, null, 0, largura);
-            matrix = new int[altura][largura];
-            int index = 0;
-            for (int i = 0; i < altura; i++) {
-                for (int y = 0; y < largura; y++) {
-                    matrix[i][y] = dataBuffInt[index];
-                    index++;
-                }
-            }
-            for (IPerifericos periferico : listaPerifericos.getPerifericos()) {
-                if (periferico instanceof IKeyboard) {
-                    colorirTeclado(lbT, periferico);
-                }
-                if (periferico instanceof IMouse) {
-                    colorirMouse(lbM, periferico);
-                }
-            }
-
         }
     }
 

@@ -2,6 +2,7 @@ package efeitos;
 
 import java.awt.Color;
 import IPerifericos.colecaoPerifericos;
+import Metodos.tempoPorVolta;
 
 public final class efeitoStrobol implements Runnable {
 
@@ -14,28 +15,24 @@ public final class efeitoStrobol implements Runnable {
 
     @Override
     public void run() {
+        tempoPorVolta tempo = new tempoPorVolta(250);
+
         while (!allDone) {
-            
-            try {
-                Thread.sleep(250);
-            } catch (InterruptedException ex) {
-              
-            }
-            
-            if (allDone) {
-                return;
-            }
+            tempo.calculo();
             try {
                 listaPerifericos.getPerifericos().stream().map(periferico -> {
                     periferico.setCor(new Color((int) (Math.random() * 0x1000000)));
                     return periferico;
                 }).forEachOrdered(periferico -> {
+                    if (allDone) {
+                        return;
+                    }
                     periferico.colorirDispositivo();
                 });
             } catch (Exception ex) {
-               
-            }
 
+            }
+            tempo.calculo();
         }
     }
 

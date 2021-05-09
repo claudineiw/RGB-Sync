@@ -1,21 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Corsair;
 
+import IPerifericos.ICoolerControl;
 import ca.fiercest.cuesdk.CorsairDevice;
 import ca.fiercest.cuesdk.CueSDK;
+import ca.fiercest.cuesdk.enums.LedId;
 
-/**
- *
- * @author Claud
- */
-public class CoolerControl  extends ICorsair{
-    
+public class CoolerControl extends ICorsair implements ICoolerControl {
+
     public CoolerControl(String nome, CueSDK CorsairSDK, CorsairDevice device) {
-        super(nome, CorsairSDK, device);
+        super(nome, CorsairSDK, device, 200, 499);
     }
-    
+
+    @Override
+    public void colorirPorLed(int i) {
+        getCorsairSDK().SetLedColor(LedId.byOrdinal(getPrimeira() + i), getCor());
+    }
+
+    @Override
+    public int getCountLight() {
+        return getUltima() - getPrimeira();
+    }
+
 }

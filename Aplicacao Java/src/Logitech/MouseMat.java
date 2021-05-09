@@ -22,4 +22,14 @@ public final class MouseMat extends ILogitech implements IMouseMat {
         }
     }
 
+    @Override
+    public void colorirPorLed(int i) {
+        colorirDispositivo();
+    }
+
+    @Override
+    public int getCountLight() {
+        return 1;
+    }
+
 }

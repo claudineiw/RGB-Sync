@@ -93,52 +93,37 @@ namespace OPENHARDWARE
 
         public void doChat()
         {           
-
-            IPEndPoint serverAddress = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8080);
-            Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-           
+            TcpListener server = new TcpListener(IPAddress.Any, 28350);
+            server.Start();
             while (true)
             {
-                string toSend = getTemp();
-                try
+                
+                TcpClient client = server.AcceptTcpClient();
+                NetworkStream ns = client.GetStream();
+                
+
+                while (client.Connected)
                 {
-                    //INVIA DADOS
                     Thread.Sleep(500);
+                    string toSend = getTemp();    
                     int toSendLen = System.Text.Encoding.ASCII.GetByteCount(toSend);
                     byte[] toSendBytes = System.Text.Encoding.ASCII.GetBytes(toSend);
                     byte[] toSendLenBytes = System.BitConverter.GetBytes(toSendLen);
-                    clientSocket.Send(toSendLenBytes);
-                    clientSocket.Send(toSendBytes);
-
-                    //RECEBE DADOS
-                    byte[] rcvLenBytes = new byte[4];
-                    clientSocket.Receive(rcvLenBytes);
-                    int rcvLen = System.BitConverter.ToInt32(rcvLenBytes, 0);
-                    byte[] rcvBytes = new byte[rcvLen];
-                    clientSocket.Receive(rcvBytes);
-                    String rcv = System.Text.Encoding.ASCII.GetString(rcvBytes);    
-                    
-                    if (rcv.Equals("Stop"))
-                    {
-                        clientSocket.Close();
-                        computador.Close();
-                        return;
-                    }
-
-                }
-                catch (Exception)
-                {
                     try
                     {
-                        clientSocket.Connect(serverAddress);
+                        ns.Write(toSendLenBytes, 0, toSendLenBytes.Length);
+                        ns.Write(toSendBytes, 0, toSendBytes.Length);
                     }
                     catch (Exception)
                     {
-                        
-                    }
-                }
-                
 
+                    }
+
+
+                }
+                    client.Close();
+                    computador.Close();
+                    return;
 
             }
            

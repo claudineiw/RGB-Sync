@@ -3,9 +3,10 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
-using System.Windows.Forms;
 using System.Reflection;
 using System.Security.Principal;
+using System.Windows.Forms;
+
 namespace rgb
 {
     static class principal
@@ -22,6 +23,7 @@ namespace rgb
             if (IsRunAsAdmin())
             {
                 String value = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine);
+                int entrou = 0;
                 if (value != "")
                 {
                     string[] item = value.Split(new char[] { Path.PathSeparator }, StringSplitOptions.RemoveEmptyEntries);
@@ -32,20 +34,37 @@ namespace rgb
                         {
                             if (teste.Contains("bin"))
                             {
+                                entrou = 1;
                                 String filename = Directory.GetCurrentDirectory() + "\\Jar\\rgb.jar";
                                 Console.WriteLine(filename);
                                 proc.StartInfo.FileName = teste + "\\java.exe";
-                                proc.StartInfo.Arguments = "-jar " + filename + " %1";
+                                proc.StartInfo.Arguments = "-jar " + filename + " %1";                                
                                 proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                                 proc.StartInfo.ErrorDialog = true;
                                 proc.Start();
                             }
-
                         }
+                    
+                        
 
                     }
                 }
-                openHardwareMonitor a = new openHardwareMonitor();
+                if (entrou == 0)
+                {
+                    string message = "Configurar variavel do sistema JAVA_HOME e path %JAVA_HOME%\\bin";
+                    string caption = "Error";
+                    MessageBoxButtons buttons = MessageBoxButtons.OK;
+                    DialogResult result;
+
+                    // Displays the MessageBox.
+                    result = MessageBox.Show(message, caption, buttons);
+                    if (result == System.Windows.Forms.DialogResult.OK)
+                    {
+                        // Closes the parent form.
+                        Environment.Exit(0);
+                    }
+                }
+                    openHardwareMonitor a = new openHardwareMonitor();
                 Thread ctThread = new Thread(a.doChat);
                 ctThread.Start();
                 proc.WaitForExit();

@@ -1,10 +1,9 @@
 package efeitos;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JColorChooser;
 import IPerifericos.IPerifericos;
 import IPerifericos.colecaoPerifericos;
+import Metodos.tempoPorVolta;
 
 public final class efeitoDecremental implements Runnable {
 
@@ -18,15 +17,11 @@ public final class efeitoDecremental implements Runnable {
     }
 
     @Override
-    public void run() { 
+    public void run() {
+        tempoPorVolta tempo = new tempoPorVolta(1000);
         java.awt.Color nova = color.getSelectionModel().getSelectedColor();
         while (!allDone) {
-            try {
-                Thread.sleep(1000);
-
-            } catch (InterruptedException ex) {
-                Logger.getLogger(efeitoDecremental.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            tempo.calculo();
             if (allDone) {
                 return;
             }
@@ -44,7 +39,7 @@ public final class efeitoDecremental implements Runnable {
                 nova = nova.darker();
             }
 
-            
+            tempo.calculo();
         }
 
     }

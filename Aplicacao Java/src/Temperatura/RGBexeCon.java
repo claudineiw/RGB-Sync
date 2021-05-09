@@ -5,10 +5,10 @@ import com.google.gson.reflect.TypeToken;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 
 public final class RGBexeCon implements Runnable {
@@ -30,35 +30,17 @@ public final class RGBexeCon implements Runnable {
 
     private void exec() {
         try {
-            ServerSocket serverSocket = new ServerSocket(8080, 10);
-            Socket socket = serverSocket.accept();
-            InputStream is = socket.getInputStream();
-            OutputStream os = socket.getOutputStream();
+            InputStream is = new Socket("127.0.0.1", 28350).getInputStream();
             while (!allDone) {
-                try {
-                    
-                    //RECEBE DADOS DE TEMPERATURA                    
-                    Thread.sleep(500);
-                    byte[] lenBytes = new byte[4];
-                    is.read(lenBytes, 0, 4);
-                    int len = (((lenBytes[3] & 0xff) << 24) | ((lenBytes[2] & 0xff) << 16)
-                            | ((lenBytes[1] & 0xff) << 8) | (lenBytes[0] & 0xff));
-                    byte[] receivedBytes = new byte[len];
-                    is.read(receivedBytes, 0, len);
-                    String received = new String(receivedBytes, 0, len);
-                    
-                    //ENVIA DADOS PARA CONTINUAR THREAD
-                    String toSend = "Continue";
-                    byte[] toSendBytes = toSend.getBytes();
-                    int toSendLen = toSendBytes.length;
-                    byte[] toSendLenBytes = new byte[4];
-                    toSendLenBytes[0] = (byte) (toSendLen & 0xff);
-                    toSendLenBytes[1] = (byte) ((toSendLen >> 8) & 0xff);
-                    toSendLenBytes[2] = (byte) ((toSendLen >> 16) & 0xff);
-                    toSendLenBytes[3] = (byte) ((toSendLen >> 24) & 0xff);
-                    os.write(toSendLenBytes);
-                    os.write(toSendBytes);
-                    
+                Thread.sleep(500);
+                byte[] lenBytes = new byte[4];
+                is.read(lenBytes, 0, 4); //ler quantidade de dados
+                int len = (((lenBytes[3] & 0xff) << 24) | ((lenBytes[2] & 0xff) << 16)
+                        | ((lenBytes[1] & 0xff) << 8) | (lenBytes[0] & 0xff));
+                byte[] receivedBytes = new byte[len];
+                is.read(receivedBytes, 0, len); //ler dados
+                String received = new String(receivedBytes, 0, len);
+                if (received.contains("Gpu")) {
                     setListaHardware(gson.fromJson(received, tt.getType()));
                     getListaHardware().stream().map(hd -> {
                         if (hd.getTipo().contains("Gpu")) {
@@ -92,23 +74,14 @@ public final class RGBexeCon implements Runnable {
                             }
                         }
                     });
-                } catch (InterruptedException ex) {
-                    
+                } else {
+                    getTempCPU().setText("10");
+                    getTempGPU().setText("10");
                 }
-
             }
-                    String toSend = "Stop";
-                    byte[] toSendBytes = toSend.getBytes();
-                    int toSendLen = toSendBytes.length;
-                    byte[] toSendLenBytes = new byte[4];
-                    toSendLenBytes[0] = (byte) (toSendLen & 0xff);
-                    toSendLenBytes[1] = (byte) ((toSendLen >> 8) & 0xff);
-                    toSendLenBytes[2] = (byte) ((toSendLen >> 16) & 0xff);
-                    toSendLenBytes[3] = (byte) ((toSendLen >> 24) & 0xff);
-                    os.write(toSendLenBytes);
-                    os.write(toSendBytes);
-        } catch (IOException ex) {
-            
+
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(RGBexeCon.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -141,7 +114,6 @@ public final class RGBexeCon implements Runnable {
     /**
      * @param tempCPU the tempCPU to set
      */
- 
     /**
      * @return the tempGPU
      */
@@ -152,5 +124,4 @@ public final class RGBexeCon implements Runnable {
     /**
      * @param tempGPU the tempGPU to set
      */
-
 }

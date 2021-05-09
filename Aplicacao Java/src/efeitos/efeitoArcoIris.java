@@ -1,12 +1,16 @@
 package efeitos;
 
+import IPerifericos.ICoolerControl;
 import IPerifericos.IHeadSet;
+import IPerifericos.IHeadsetStand;
 import IPerifericos.IKeyboard;
+import IPerifericos.ILightingNode;
 import IPerifericos.IMotherBoard;
 import IPerifericos.IMouse;
 import IPerifericos.IMouseMat;
 import IPerifericos.IPerifericos;
 import IPerifericos.colecaoPerifericos;
+import Metodos.tempoPorVolta;
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -27,12 +31,14 @@ public final class efeitoArcoIris implements Runnable {
 
     @Override
     public void run() {
+        tempoPorVolta tempo = new tempoPorVolta(1000);
         while (!allDone) {
-            if (allDone) {
-                return;
-            }
+            tempo.calculo();
             try {
-                listaPerifericos.getPerifericos().stream().map(periferico -> {
+                for (IPerifericos periferico : listaPerifericos.getPerifericos()) {
+                    if(allDone){
+                        return;
+                    }
                     if (periferico instanceof IKeyboard) {
                         conta = interacao;
                         colorirTeclado(periferico);
@@ -42,30 +48,39 @@ public final class efeitoArcoIris implements Runnable {
                             interacao++;
                         }
 
+                    } else {
+
+                        if (periferico instanceof IMouse) {
+                            colorirMouse(periferico);
+                        } else {
+
+                            if (periferico instanceof IHeadSet) {
+                                colorirHeadSet(periferico);
+                            } else {
+                                if (periferico instanceof IMotherBoard) {
+                                    colorirMotherBoard(periferico);
+                                } else {
+                                    if (periferico instanceof IHeadsetStand) {
+                                        colorirHeadsetStand(periferico);
+                                    } else {
+                                        if (periferico instanceof ILightingNode) {
+                                            colorirLightingNode(periferico);
+                                        } else {
+                                            if (periferico instanceof ICoolerControl) {
+                                                colorirCoolerControl(periferico);
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
-                    return periferico;
-                }).map(periferico -> {
-                    if (periferico instanceof IMouse) {
-                        colorirMouse(periferico);                        
-                    }
-                    return periferico;
-                }).map(periferico -> {
-                    if (periferico instanceof IHeadSet) {
-                        colorirHeadSet(periferico);
-                    }
-                    return periferico;
-                }).map(periferico -> {
-                    if (periferico instanceof IMotherBoard) {
-                        colorirMotherBoard(periferico);
-                    }
-                    return periferico;
-                }).filter(periferico -> (periferico instanceof IMouseMat)).forEachOrdered(periferico -> {
-                    colorirHeadSet(periferico);
-                });
+                }
             } catch (Exception ex) {
 
             }
-
+            tempo.calculo();
         }
     }
 
@@ -82,20 +97,17 @@ public final class efeitoArcoIris implements Runnable {
     }
 
     private void colorirTeclado(IPerifericos teclado) {
-        try {
-            for (int y = 0; y < 23; y++) {
-                trocarCor();
-                teclado.setCor(cor);
-                for (int[] sequencia : ((IKeyboard) teclado).getTeclas()) {
-                    try {
-                        ((IKeyboard) teclado).colorirPorTecla(sequencia[y]);
-                    } catch (Exception ex) {
-                    }
+        for (int y = 0; y < 25; y++) {
+            trocarCor();
+            teclado.setCor(cor);
+            for (int[] sequencia : ((IKeyboard) teclado).getTeclas()) {
+                if (y < sequencia.length) {
+                    ((IKeyboard) teclado).colorirPorTecla(sequencia[y]);
                 }
 
             }
-        } catch (Exception ex) {
         }
+
     }
 
     private void colorirMouse(IPerifericos mouse) {
@@ -106,6 +118,50 @@ public final class efeitoArcoIris implements Runnable {
     private void colorirHeadSet(IPerifericos headSet) {
         headSet.setCor(cor);
         headSet.colorirDispositivo();
+    }
+
+    private void colorirMouseMat(IPerifericos mouseMat) {
+        mouseMat.setCor(cor);
+        for (int i = 0; i < ((IMouseMat) mouseMat).getCountLight(); i++) {
+            if (i % 10 == 0) {
+                trocarCor();
+                mouseMat.setCor(cor);
+            }
+            ((IMouseMat) mouseMat).colorirPorLed(i);
+        }
+    }
+
+    private void colorirHeadsetStand(IPerifericos HeadsetStand) {
+        HeadsetStand.setCor(cor);
+        for (int i = 0; i < ((IHeadsetStand) HeadsetStand).getCountLight(); i++) {
+            if (i % 10 == 0) {
+                trocarCor();
+                HeadsetStand.setCor(cor);
+            }
+            ((IHeadsetStand) HeadsetStand).colorirPorLed(i);
+        }
+    }
+
+    private void colorirLightingNode(IPerifericos LightingNode) {
+        LightingNode.setCor(cor);
+        for (int i = 0; i < ((ILightingNode) LightingNode).getCountLight(); i++) {
+            if (i % 10 == 0) {
+                trocarCor();
+                LightingNode.setCor(cor);
+            }
+            ((ILightingNode) LightingNode).colorirPorLed(i);
+        }
+    }
+
+    private void colorirCoolerControl(IPerifericos CoolerControl) {
+        CoolerControl.setCor(cor);
+        for (int i = 0; i < ((ICoolerControl) CoolerControl).getCountLight(); i++) {
+            if (i % 10 == 0) {
+                trocarCor();
+                CoolerControl.setCor(cor);
+            }
+            ((ICoolerControl) CoolerControl).colorirPorLed(i);
+        }
     }
 
     private void trocarCor() {
