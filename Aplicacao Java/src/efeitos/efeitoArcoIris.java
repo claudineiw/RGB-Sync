@@ -31,12 +31,12 @@ public final class efeitoArcoIris implements Runnable {
 
     @Override
     public void run() {
-        tempoPorVolta tempo = new tempoPorVolta(1000);
+        tempoPorVolta tempo = new tempoPorVolta(250);
         while (!allDone) {
             tempo.calculo();
             try {
                 for (IPerifericos periferico : listaPerifericos.getPerifericos()) {
-                    if(allDone){
+                    if (allDone) {
                         return;
                     }
                     if (periferico instanceof IKeyboard) {
@@ -69,6 +69,11 @@ public final class efeitoArcoIris implements Runnable {
                                             if (periferico instanceof ICoolerControl) {
                                                 colorirCoolerControl(periferico);
 
+                                            } else {
+                                                if (periferico instanceof IMouseMat) {
+                                                    colorirMouseMat(periferico);
+
+                                                }
                                             }
                                         }
                                     }

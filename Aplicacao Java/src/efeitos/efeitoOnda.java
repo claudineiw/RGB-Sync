@@ -34,7 +34,7 @@ public final class efeitoOnda implements Runnable {
             tempo.calculo();
             trocarCor();
             try {
-                for (IPerifericos periferico : listaPerifericos.getPerifericos()) { 
+                for (IPerifericos periferico : listaPerifericos.getPerifericos()) {
                     if (allDone) {
                         return;
                     }
@@ -61,6 +61,11 @@ public final class efeitoOnda implements Runnable {
                                             if (periferico instanceof ICoolerControl) {
                                                 colorirCoolerControl(periferico);
 
+                                            } else {
+                                                if (periferico instanceof IMouseMat) {
+                                                    colorirMouseMat(periferico);
+
+                                                }
                                             }
                                         }
                                     }

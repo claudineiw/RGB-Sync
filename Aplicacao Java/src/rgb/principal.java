@@ -40,6 +40,8 @@ import javax.swing.DefaultListModel;
 import Logitech.HIDPID.verificarPerifericos;
 import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.cuesdk.CorsairDevice;
+import efeitos.efeitoPassagem;
+
 
 public final class principal extends javax.swing.JFrame {
 
@@ -55,6 +57,7 @@ public final class principal extends javax.swing.JFrame {
     private efeitoMusica efeitomMusica;
     private efeitoPorImagemDaTela efeitoPorImagem;
     private efeitoCorSelecionada efeitoCorSelecionada;
+    private efeitoPassagem efeitoPassagem;
     private RGBexeCon openHardwareMonitor;
     private efeitoPorTemperatura efeitoPorTemperatura;
     private capturaTela capturaTela;
@@ -363,7 +366,7 @@ public final class principal extends javax.swing.JFrame {
         painelCores.add(jColorPrincipal);
         jColorPrincipal.setBounds(0, 0, 240, 210);
 
-        jCbXEfeitos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecionada", "Musica", "Tela", "Stroob", "ArcoIris", "Onda", "Decremental", "Temperatura" }));
+        jCbXEfeitos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecionada", "Musica", "Tela", "Stroob", "ArcoIris", "Onda", "Decremental", "Temperatura", "Passagem" }));
         jCbXEfeitos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCbXEfeitosActionPerformed(evt);
@@ -553,7 +556,7 @@ public final class principal extends javax.swing.JFrame {
 
     private void preencherListaPerifericos() {
         DefaultListModel<String> model = new DefaultListModel<>();
-        jLPerifericos.setModel(model);
+        jLPerifericos.setModel(model); 
 
         try {
             this.AsusAura = new AuraSDK();
@@ -691,6 +694,18 @@ public final class principal extends javax.swing.JFrame {
                             }
                         }
                         break;
+                        case "Passagem":
+                        if (jcBSelecaoDeCores.getModel().getSize() >= 0) {
+                            efeitoPassagem = new efeitoPassagem(listaPerifericos, selecionarCores());
+                            th = new Thread(efeitoPassagem);
+                            th.setName("efeitoPassagem");
+                            th.start();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Favor Selecionar as cores");
+                        }
+                        break;
+                        
+                        
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Selecionar perifericos");
@@ -766,6 +781,9 @@ public final class principal extends javax.swing.JFrame {
                 break;
             case "Temperatura":
                 painelOpcoes.add(painelInternoTemperatuas, absoluteConstraints);
+                break;
+            case "Passagem":
+                painelOpcoes.add(painelInternoSelecaoDeCores, absoluteConstraints);
                 break;
         }
     }//GEN-LAST:event_jCbXEfeitosActionPerformed
@@ -1044,6 +1062,10 @@ public final class principal extends javax.swing.JFrame {
         }
         try {
             efeitoPorTemperatura.allDone = true;
+        } catch (Exception ex) {
+        }
+        try {
+            efeitoPassagem.allDone = true;
         } catch (Exception ex) {
         }
     }

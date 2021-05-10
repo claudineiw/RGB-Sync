@@ -18,7 +18,7 @@ public final class efeitoDecremental implements Runnable {
 
     @Override
     public void run() {
-        tempoPorVolta tempo = new tempoPorVolta(1000);
+        tempoPorVolta tempo = new tempoPorVolta(500);
         java.awt.Color nova = color.getSelectionModel().getSelectedColor();
         while (!allDone) {
             tempo.calculo();
