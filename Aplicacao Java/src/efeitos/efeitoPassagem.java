@@ -11,7 +11,7 @@ import IPerifericos.colecaoPerifericos;
 import Metodos.tempoPorVolta;
 import java.util.ArrayList;
 
-public class efeitoPassagem extends IEfeitos implements Runnable {
+public class efeitoPassagem extends IEfeitos{
 
     public efeitoPassagem(colecaoPerifericos listaPerifericos, ArrayList<int[]> cores) {
         super(listaPerifericos, cores);
@@ -22,7 +22,9 @@ public class efeitoPassagem extends IEfeitos implements Runnable {
     public void run() {
         while (!allDone) {
             trocarCor();
+             criarListaChegou();
             chamarMetodosClasse();
+            tratarSequenciaThread(getListaTH(), getChegou());
         }
     }
 
@@ -35,7 +37,6 @@ public class efeitoPassagem extends IEfeitos implements Runnable {
             ((IMotherBoard) motherBoard).colorirPorLed(i);
             tempo.calculo();
         }
-
         esperar(chegou);
 
         motherBoard.setCor(getCor());
@@ -82,8 +83,7 @@ public class efeitoPassagem extends IEfeitos implements Runnable {
     protected void colorirMouse(IPerifericos Mouse, ArrayList<Boolean> chegou) {
         Mouse.setCor(getCor());
         Mouse.colorirDispositivo();
-        esperar(chegou);
-
+        esperar(chegou);        
     }
 
     @Override

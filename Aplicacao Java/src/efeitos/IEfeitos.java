@@ -14,7 +14,7 @@ import Metodos.tempoPorVolta;
 import java.awt.Color;
 import java.util.ArrayList;
 
-public abstract class IEfeitos {
+public abstract class IEfeitos  implements Runnable {
 
     private colecaoPerifericos listaPerifericos;
     private Color cor;
@@ -29,7 +29,7 @@ public abstract class IEfeitos {
         this.cores = cores;
     }
 
-    private void criarListaChegou() {
+    protected void criarListaChegou() {
         getListaPerifericos().getPerifericos().forEach(_item -> {
             getChegou().add(false);
         });
@@ -68,11 +68,9 @@ public abstract class IEfeitos {
     }
 
     protected void tratarSequenciaThread(ArrayList<Thread> ListaTH, ArrayList<Boolean> chegou) {
-        tempoPorVolta tempo = new tempoPorVolta(1000);
-        for (Thread thread : ListaTH) {
-            thread.start();
-        }
-
+        tempoPorVolta tempo = new tempoPorVolta(300);
+        iniciarThreads();
+        
         while (true) {
             if (allDone) {
                     return;
@@ -95,7 +93,17 @@ public abstract class IEfeitos {
 
         chegou.clear();
 
-        while (true) {
+       limparListaThread(tempo);
+    }
+
+    protected void iniciarThreads(){             
+        for (Thread thread : ListaTH) {
+            thread.start();
+        }
+    }
+    
+    protected void limparListaThread(tempoPorVolta tempo){
+         while (true) {
             if (allDone) {
                     return;
                 }
@@ -115,7 +123,6 @@ public abstract class IEfeitos {
 
         ListaTH.clear();
     }
-
     /**
      * @return the listaPerifericos
      */
@@ -174,7 +181,7 @@ public abstract class IEfeitos {
     }
 
     protected void chamarMetodosClasse() {
-        criarListaChegou();
+       
         try {
             for (IPerifericos periferico : getListaPerifericos().getPerifericos()) {
                 if (allDone) {
@@ -213,9 +220,7 @@ public abstract class IEfeitos {
                         }
                     }
                 }
-            }
-            tratarSequenciaThread(getListaTH(), getChegou());
-        
+            }       
         } catch (Exception ex) {
                 System.out.println(ex);
             }  

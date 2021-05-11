@@ -11,7 +11,7 @@ import IPerifericos.colecaoPerifericos;
 import Metodos.tempoPorVolta;
 import java.util.ArrayList;
 
-public final class efeitoOnda extends IEfeitos implements Runnable {
+public final class efeitoOnda extends IEfeitos{
 
     public efeitoOnda(colecaoPerifericos listaPerifericos, ArrayList<int[]> cores) {
         super(listaPerifericos, cores);
@@ -21,7 +21,9 @@ public final class efeitoOnda extends IEfeitos implements Runnable {
     public void run() {
         while (!allDone) {
             trocarCor();
+             criarListaChegou();
             chamarMetodosClasse();
+            tratarSequenciaThread(getListaTH(), getChegou());
         }
     }
 
