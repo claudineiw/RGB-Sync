@@ -16,7 +16,6 @@ public final class efeitoStrobol implements Runnable {
     @Override
     public void run() {
         tempoPorVolta tempo = new tempoPorVolta(250);
-
         while (!allDone) {
             tempo.calculo();
             try {
@@ -31,8 +30,7 @@ public final class efeitoStrobol implements Runnable {
                 });
             } catch (Exception ex) {
 
-            }
-            tempo.calculo();
+            }           
         }
     }
 

@@ -11,38 +11,30 @@ import IPerifericos.IMouseMat;
 import IPerifericos.IPerifericos;
 import IPerifericos.colecaoPerifericos;
 import Metodos.tempoPorVolta;
-import java.awt.Color;
 import java.util.ArrayList;
 
-public final class efeitoArcoIris implements Runnable {
-
-    private final colecaoPerifericos listaPerifericos;
-    public boolean allDone = false;
-    private final ArrayList<int[]> cores;
-    private int conta = 0;
+public final class efeitoArcoIris extends IEfeitos implements Runnable {
     private int interacao = 0;
-    private Color cor;
 
     public efeitoArcoIris(colecaoPerifericos listaPerifericos, ArrayList<int[]> cores) {
-        this.listaPerifericos = listaPerifericos;
-        this.cores = cores;
-        trocarCor();
+        super(listaPerifericos,cores);        
     }
 
     @Override
     public void run() {
+        trocarCor();
         tempoPorVolta tempo = new tempoPorVolta(250);
         while (!allDone) {
             tempo.calculo();
             try {
-                for (IPerifericos periferico : listaPerifericos.getPerifericos()) {
+                for (IPerifericos periferico : getListaPerifericos().getPerifericos()) {
                     if (allDone) {
                         return;
                     }
                     if (periferico instanceof IKeyboard) {
-                        conta = interacao;
+                        setConta(interacao);
                         colorirTeclado(periferico);
-                        if (interacao >= cores.size() - 1) {
+                        if (interacao >= getCores().size() - 1) {
                             interacao = 0;
                         } else {
                             interacao++;
@@ -90,11 +82,11 @@ public final class efeitoArcoIris implements Runnable {
     }
 
     private void colorirMotherBoard(IPerifericos motherBoard) {
-        motherBoard.setCor(cor);
+        motherBoard.setCor(getCor());
         for (int i = 0; i < ((IMotherBoard) motherBoard).getCountLight(); i++) {
             if (i % 10 == 0) {
                 trocarCor();
-                motherBoard.setCor(cor);
+                motherBoard.setCor(getCor());
             }
             ((IMotherBoard) motherBoard).colorirPorLed(i);
 
@@ -104,7 +96,7 @@ public final class efeitoArcoIris implements Runnable {
     private void colorirTeclado(IPerifericos teclado) {
         for (int y = 0; y < 25; y++) {
             trocarCor();
-            teclado.setCor(cor);
+            teclado.setCor(getCor());
             for (int[] sequencia : ((IKeyboard) teclado).getTeclas()) {
                 if (y < sequencia.length) {
                     ((IKeyboard) teclado).colorirPorTecla(sequencia[y]);
@@ -116,65 +108,97 @@ public final class efeitoArcoIris implements Runnable {
     }
 
     private void colorirMouse(IPerifericos mouse) {
-        mouse.setCor(cor);
+        mouse.setCor(getCor());
         mouse.colorirDispositivo();
     }
 
     private void colorirHeadSet(IPerifericos headSet) {
-        headSet.setCor(cor);
+        headSet.setCor(getCor());
         headSet.colorirDispositivo();
     }
 
     private void colorirMouseMat(IPerifericos mouseMat) {
-        mouseMat.setCor(cor);
+        mouseMat.setCor(getCor());
         for (int i = 0; i < ((IMouseMat) mouseMat).getCountLight(); i++) {
             if (i % 10 == 0) {
                 trocarCor();
-                mouseMat.setCor(cor);
+                mouseMat.setCor(getCor());
             }
             ((IMouseMat) mouseMat).colorirPorLed(i);
         }
     }
 
     private void colorirHeadsetStand(IPerifericos HeadsetStand) {
-        HeadsetStand.setCor(cor);
+        HeadsetStand.setCor(getCor());
         for (int i = 0; i < ((IHeadsetStand) HeadsetStand).getCountLight(); i++) {
             if (i % 10 == 0) {
                 trocarCor();
-                HeadsetStand.setCor(cor);
+                HeadsetStand.setCor(getCor());
             }
             ((IHeadsetStand) HeadsetStand).colorirPorLed(i);
         }
     }
 
     private void colorirLightingNode(IPerifericos LightingNode) {
-        LightingNode.setCor(cor);
+        LightingNode.setCor(getCor());
         for (int i = 0; i < ((ILightingNode) LightingNode).getCountLight(); i++) {
             if (i % 10 == 0) {
                 trocarCor();
-                LightingNode.setCor(cor);
+                LightingNode.setCor(getCor());
             }
             ((ILightingNode) LightingNode).colorirPorLed(i);
         }
     }
 
     private void colorirCoolerControl(IPerifericos CoolerControl) {
-        CoolerControl.setCor(cor);
+        CoolerControl.setCor(getCor());
         for (int i = 0; i < ((ICoolerControl) CoolerControl).getCountLight(); i++) {
             if (i % 10 == 0) {
                 trocarCor();
-                CoolerControl.setCor(cor);
+                CoolerControl.setCor(getCor());
             }
             ((ICoolerControl) CoolerControl).colorirPorLed(i);
         }
+    }   
+
+    @Override
+    protected void colorirMotherBoard(IPerifericos motherBoard, ArrayList<Boolean> chegou) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void trocarCor() {
-        if (conta > cores.size() - 1) {
-            conta = 0;
-        }
-        cor = new Color(cores.get(conta)[0], cores.get(conta)[1], cores.get(conta)[2]);
-        conta++;
+    @Override
+    protected void colorirTeclado(IPerifericos teclado, ArrayList<Boolean> chegou) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void colorirMouse(IPerifericos Mouse, ArrayList<Boolean> chegou) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void colorirHeadSet(IPerifericos HeadSet, ArrayList<Boolean> chegou) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void colorirMouseMat(IPerifericos MouseMat, ArrayList<Boolean> chegou) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void colorirHeadsetStand(IPerifericos HeadsetStand, ArrayList<Boolean> chegou) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void colorirLightingNode(IPerifericos LightingNode, ArrayList<Boolean> chegou) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void colorirCoolerControl(IPerifericos CoolerControl, ArrayList<Boolean> chegou) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

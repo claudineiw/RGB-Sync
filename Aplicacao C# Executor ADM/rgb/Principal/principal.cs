@@ -13,64 +13,62 @@ namespace rgb
     {
         [STAThread]
         static void Main()
-        {
-            
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Process proc = new Process();
-            proc.StartInfo.WorkingDirectory = "System";
-            AdminRelauncher();
-            if (IsRunAsAdmin())
-            {
-                String value = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine);
-                int entrou = 0;
-                if (value != "")
+        {       
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Process proc = new Process();
+                proc.StartInfo.WorkingDirectory = "System";
+                AdminRelauncher();
+
+                if (IsRunAsAdmin())
                 {
-                    string[] item = value.Split(new char[] { Path.PathSeparator }, StringSplitOptions.RemoveEmptyEntries);
-                    for (int i = 0; i < item.Length; i++)
+                    String value = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine);
+                    int entrou = 0;
+                    if (value != "")
                     {
-                        string teste = item[i];
-                        if (teste.Contains("Java"))
+                        string[] item = value.Split(new char[] { Path.PathSeparator }, StringSplitOptions.RemoveEmptyEntries);
+                        for (int i = 0; i < item.Length; i++)
                         {
-                            if (teste.Contains("bin"))
+                            string teste = item[i];
+                            if (teste.Contains("Java"))
                             {
-                                entrou = 1;
-                                String filename = Directory.GetCurrentDirectory() + "\\Jar\\rgb.jar";
-                                Console.WriteLine(filename);
-                                proc.StartInfo.FileName = teste + "\\java.exe";
-                                proc.StartInfo.Arguments = "-jar " + filename + " %1";                                
-                                proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                                proc.StartInfo.ErrorDialog = true;
-                                proc.Start();
+                                if (teste.Contains("bin"))
+                                {
+                                    entrou = 1;
+                                    String filename = Directory.GetCurrentDirectory() + "\\Jar\\rgb.jar";
+                                    Console.WriteLine(filename);
+                                    proc.StartInfo.FileName = teste + "\\java.exe";
+                                    proc.StartInfo.Arguments = "-jar " + filename + " %1";
+                                    proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                                    proc.StartInfo.ErrorDialog = true;
+                                    proc.Start();
+                                }
                             }
+
+
+
                         }
-                    
-                        
-
                     }
-                }
-                if (entrou == 0)
-                {
-                    string message = "Configurar variavel do sistema JAVA_HOME e path %JAVA_HOME%\\bin";
-                    string caption = "Error";
-                    MessageBoxButtons buttons = MessageBoxButtons.OK;
-                    DialogResult result;
-
-                    // Displays the MessageBox.
-                    result = MessageBox.Show(message, caption, buttons);
-                    if (result == System.Windows.Forms.DialogResult.OK)
+                    if (entrou == 0)
                     {
-                        // Closes the parent form.
-                        Environment.Exit(0);
-                    }
-                }
-                    openHardwareMonitor a = new openHardwareMonitor();
-                Thread ctThread = new Thread(a.doChat);
-                ctThread.Start();
-                proc.WaitForExit();
-            }
-            
+                        string message = "Configurar variavel do sistema JAVA_HOME e path %JAVA_HOME%\\bin";
+                        string caption = "Error";
+                        MessageBoxButtons buttons = MessageBoxButtons.OK;
+                        DialogResult result;
 
+                        // Displays the MessageBox.
+                        result = MessageBox.Show(message, caption, buttons);
+                        if (result == System.Windows.Forms.DialogResult.OK)
+                        {
+                            // Closes the parent form.
+                            Environment.Exit(0);
+                        }
+                    }
+                    openHardwareMonitor a = new openHardwareMonitor();
+                    Thread ctThread = new Thread(a.doChat);
+                    ctThread.Start();
+                    proc.WaitForExit();
+                }           
         }
 
 

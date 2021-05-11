@@ -39,7 +39,6 @@ public final class efeitoDecremental implements Runnable {
                 nova = nova.darker();
             }
 
-            tempo.calculo();
         }
 
     }

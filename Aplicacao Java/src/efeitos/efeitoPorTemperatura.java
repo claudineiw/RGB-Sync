@@ -58,7 +58,7 @@ public final class efeitoPorTemperatura implements Runnable {
             } catch (Exception ex) {
 
             }
-            tempo.calculo();
+       
         }
     }
 }

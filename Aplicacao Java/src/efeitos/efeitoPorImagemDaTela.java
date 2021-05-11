@@ -79,7 +79,7 @@ public final class efeitoPorImagemDaTela implements Runnable {
                         colorirMouse(lbM, periferico);
                     }
                 }
-                tempo.calculo();
+         
             } catch (AWTException ex) {
                 Logger.getLogger(efeitoPorImagemDaTela.class.getName()).log(Level.SEVERE, null, ex);
             }

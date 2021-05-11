@@ -17,7 +17,7 @@ public final class efeitoCorSelecionada implements Runnable {
 
     @Override
     public void run() {
-        tempoPorVolta tempo = new tempoPorVolta(1000);
+        tempoPorVolta tempo = new tempoPorVolta(3000);
         while (!allDone) {
             tempo.calculo();
             java.awt.Color nova = color.getSelectionModel().getSelectedColor();
@@ -30,8 +30,7 @@ public final class efeitoCorSelecionada implements Runnable {
                 });
             } catch (Exception ex) {
 
-            }
-            tempo.calculo();
+            }      
         }
     }
 

@@ -561,21 +561,21 @@ public final class principal extends javax.swing.JFrame {
         try {
             this.AsusAura = new AuraSDK();
             AsusAura.getDevices().forEach(de -> {
-                model.addElement("Asus " + de.getName());
+                model.addElement("Asus: " + de.getName());
             });
         } catch (Exception ex) {
         }
 
         try {
             DevicesLogitech.GetPerifericos().stream().filter(device -> (verificacaoPerifericos.testarPeriferico(device.toString()))).forEachOrdered(device -> {
-                model.addElement(device.getMarca() + " " + device.getDeviceType() + " " + device.getModel());
+                model.addElement(device.getMarca() + ": " + device.getDeviceType() + " " + device.getModel());
             });
         } catch (Exception ex) {
         }
         try {
             this.CorsairSDK = new CueSDK();
             CorsairSDK.getDevices().forEach(corsair -> {
-                model.addElement("Corsair " + corsair.getModelName());
+                model.addElement("Corsair: " + corsair.getModelName());
             });
         } catch (NoServerException ex) {
         }
@@ -854,7 +854,7 @@ public final class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAdicionarNaListaActionPerformed
 
     private void criarListaPerifericos(String periferico) {
-        if (periferico.toLowerCase().contains("logitech".toLowerCase())) {
+        if (periferico.toLowerCase().contains("logitech:".toLowerCase())) {
             if (periferico.toLowerCase().contains("mouse ".toLowerCase())) {
                 listaPerifericos.setPerifericos(new Mouse(periferico, periferico, Color.red));
             } else {
@@ -872,13 +872,13 @@ public final class principal extends javax.swing.JFrame {
             }
 
         } else {
-            if (periferico.toLowerCase().contains("asus".toLowerCase())) {
+            if (periferico.toLowerCase().contains("asus:".toLowerCase())) {
                 AsusAura.getDevices().stream().filter(device -> (periferico.toLowerCase().contains(device.getName().toLowerCase()))).forEachOrdered(device -> {
                     listaPerifericos.setPerifericos(new MotherBoard(periferico, periferico, 0, AsusAura, device));
                 });
 
             } else {
-                if (periferico.toLowerCase().contains("corsair".toLowerCase())) {
+                if (periferico.toLowerCase().contains("corsair:".toLowerCase())) {
                     for (CorsairDevice corsair : CorsairSDK.getDevices()) {
                         if (corsair.getType().toString().toLowerCase().contains("keyboard".toLowerCase()) && periferico.toLowerCase().contains(corsair.getModelName().toLowerCase())) {
                             listaPerifericos.setPerifericos(new Corsair.Keyboard(corsair.getModelName(), CorsairSDK, corsair));
@@ -914,6 +914,11 @@ public final class principal extends javax.swing.JFrame {
 
                         if (corsair.getType().toString().toLowerCase().contains("LightingNodePro".toLowerCase()) && periferico.toLowerCase().contains(corsair.getModelName().toLowerCase())) {
                             listaPerifericos.setPerifericos(new Corsair.LightingNode(corsair.getModelName(), CorsairSDK, corsair));
+                            break;
+                        }
+                        
+                        if (corsair.getType().toString().toLowerCase().contains("Motherboard".toLowerCase()) && periferico.toLowerCase().contains(corsair.getModelName().toLowerCase())) {
+                            listaPerifericos.setPerifericos(new Corsair.MotherBoard(corsair.getModelName(), CorsairSDK, corsair));                            
                             break;
                         }
 
