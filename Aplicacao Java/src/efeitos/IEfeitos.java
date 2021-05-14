@@ -14,21 +14,36 @@ import Metodos.tempoPorVolta;
 import java.awt.Color;
 import java.util.ArrayList;
 
-public abstract class IEfeitos  implements Runnable {
-
+public abstract class IEfeitos implements Runnable {
     private colecaoPerifericos listaPerifericos;
     private Color cor;
     public boolean allDone = false;
-    private final ArrayList<int[]> cores;
+    private ArrayList<Color> cores;
+    private ArrayList<Integer> temperaturas;
     private int conta = 0;
     private final ArrayList<Thread> ListaTH = new ArrayList<>();
     private final ArrayList<Boolean> chegou = new ArrayList<>();
-
-    public IEfeitos(colecaoPerifericos listaPerifericos, ArrayList<int[]> cores) {
+    
+    
+    public IEfeitos(colecaoPerifericos listaPerifericos) {
+        this.listaPerifericos = listaPerifericos;     
+        trocarCorStrobol();
+    }
+    
+    
+    public IEfeitos(colecaoPerifericos listaPerifericos, ArrayList<Color> cores) {
         this.listaPerifericos = listaPerifericos;
         this.cores = cores;
+        setCor(cores.get(0));
     }
 
+   public IEfeitos(colecaoPerifericos listaPerifericos, ArrayList<Color> cores,ArrayList<Integer> temperaturas) {
+        this.temperaturas = temperaturas;
+        this.listaPerifericos = listaPerifericos;
+        this.cores=cores;
+        setCor(cores.get(0));
+    }
+    
     protected void criarListaChegou() {
         getListaPerifericos().getPerifericos().forEach(_item -> {
             getChegou().add(false);
@@ -39,10 +54,42 @@ public abstract class IEfeitos  implements Runnable {
         if (conta > getCores().size() - 1) {
             conta = 0;
         }
-        setCor(new Color(getCores().get(conta)[0], getCores().get(conta)[1], getCores().get(conta)[2]));
+        setCor(cores.get(conta));
         conta++;
     }
-
+    
+    protected  void trocarCorSelecionada(){           
+        setCor(cores.get(0));            
+    }
+    
+    protected void trocarCorStrobol(){
+        setCor(new Color((int) (Math.random() * 0x1000000)));
+    }
+    
+    protected  void trocarCorDecremental(){
+           if (getCor().getGreen() <= 30 && getCor().getBlue() <= 30 && getCor().getRed() <= 30) {
+                setCor(cores.get(0));
+            } else {
+                setCor(getCor().darker());
+            }
+    }
+    
+    protected void trocarCorTemperatura(){
+        int temperaturaLocal = temperaturas.get(4);
+            if (temperaturaLocal < temperaturas.get(0)) {
+                setCor(cores.get(0));
+            } else if (temperaturaLocal >= temperaturas.get(0) && temperaturaLocal < temperaturas.get(1)) {
+                setCor(cores.get(0));
+            } else if (temperaturaLocal >= temperaturas.get(1) && temperaturaLocal < temperaturas.get(2)) {
+                setCor(cores.get(1));
+            } else if (temperaturaLocal >= temperaturas.get(2) && temperaturaLocal < temperaturas.get(3)) {
+               setCor(cores.get(2));
+            } else {
+              setCor(cores.get(3));
+            }
+    }
+    
+    
     protected void esperar(ArrayList<Boolean> chegou) {
         tempoPorVolta esperar = new tempoPorVolta(2000);
         for (int i = 0; i < chegou.size(); i++) {
@@ -70,11 +117,11 @@ public abstract class IEfeitos  implements Runnable {
     protected void tratarSequenciaThread(ArrayList<Thread> ListaTH, ArrayList<Boolean> chegou) {
         tempoPorVolta tempo = new tempoPorVolta(300);
         iniciarThreads();
-        
+
         while (true) {
             if (allDone) {
-                    return;
-                }
+                return;
+            }
             tempo.calculo();
             String continua = "";
             for (Boolean che : chegou) {
@@ -93,20 +140,20 @@ public abstract class IEfeitos  implements Runnable {
 
         chegou.clear();
 
-       limparListaThread(tempo);
+        limparListaThread(tempo);
     }
 
-    protected void iniciarThreads(){             
+    protected void iniciarThreads() {
         for (Thread thread : ListaTH) {
             thread.start();
         }
     }
-    
-    protected void limparListaThread(tempoPorVolta tempo){
-         while (true) {
+
+    protected void limparListaThread(tempoPorVolta tempo) {
+        while (true) {
             if (allDone) {
-                    return;
-                }
+                return;
+            }
             tempo.calculo();
             String continua = "";
             for (Thread thread : ListaTH) {
@@ -123,6 +170,7 @@ public abstract class IEfeitos  implements Runnable {
 
         ListaTH.clear();
     }
+
     /**
      * @return the listaPerifericos
      */
@@ -154,7 +202,7 @@ public abstract class IEfeitos  implements Runnable {
     /**
      * @return the cores
      */
-    protected ArrayList<int[]> getCores() {
+    protected ArrayList<Color> getCores() {
         return cores;
     }
 
@@ -178,10 +226,11 @@ public abstract class IEfeitos  implements Runnable {
 
     protected void setConta(int conta) {
         this.conta = conta;
-    }
-
+    }    
+    
+    
     protected void chamarMetodosClasse() {
-       
+
         try {
             for (IPerifericos periferico : getListaPerifericos().getPerifericos()) {
                 if (allDone) {
@@ -220,10 +269,10 @@ public abstract class IEfeitos  implements Runnable {
                         }
                     }
                 }
-            }       
+            }
         } catch (Exception ex) {
-                System.out.println(ex);
-            }  
+            System.out.println(ex);
+        }
     }
 
     protected abstract void colorirMotherBoard(IPerifericos motherBoard, ArrayList<Boolean> chegou);
@@ -241,5 +290,5 @@ public abstract class IEfeitos  implements Runnable {
     protected abstract void colorirLightingNode(IPerifericos LightingNode, ArrayList<Boolean> chegou);
 
     protected abstract void colorirCoolerControl(IPerifericos CoolerControl, ArrayList<Boolean> chegou);
-
+    
 }

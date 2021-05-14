@@ -9,12 +9,13 @@ import IPerifericos.IMouseMat;
 import IPerifericos.IPerifericos;
 import IPerifericos.colecaoPerifericos;
 import Metodos.tempoPorVolta;
+import java.awt.Color;
 import java.util.ArrayList;
 
 public final class efeitoArcoIris extends IEfeitos {
 
 
-    public efeitoArcoIris(colecaoPerifericos listaPerifericos, ArrayList<int[]> cores) {
+    public efeitoArcoIris(colecaoPerifericos listaPerifericos, ArrayList<Color> cores) {
         super(listaPerifericos, cores);
     }
 
@@ -117,6 +118,8 @@ public final class efeitoArcoIris extends IEfeitos {
             ((ICoolerControl) CoolerControl).colorirPorLed(i);
         }
     }
+
+  
 
 
 }

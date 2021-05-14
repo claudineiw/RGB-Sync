@@ -559,6 +559,7 @@
               <SubComponents>
                 <Component class="javax.swing.JColorChooser" name="jColorPrincipal">
                   <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jColorPrincipal.getSelectionModel().addChangeListener(new javax.swing.event.ChangeListener() {&#xa;            @Override&#xa;            public void stateChanged(ChangeEvent e) {&#xa;               alterarArrayCores();&#xa;            }&#xa;        });"/>
                     <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="jColorPrincipal.removeChooserPanel(jColorPrincipal.getChooserPanels()[4]);&#xa;jColorPrincipal.removeChooserPanel(jColorPrincipal.getChooserPanels()[3]);&#xa;jColorPrincipal.removeChooserPanel(jColorPrincipal.getChooserPanels()[2]);&#xa;jColorPrincipal.removeChooserPanel(jColorPrincipal.getChooserPanels()[0]);&#xa;jColorPrincipal.getPreviewPanel().setVisible(false);&#xa;jColorPrincipal.remove(0);&#xa;jColorPrincipal.getChooserPanels()[0].getComponent(0).setVisible(false);"/>
                     <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="principal_jColor"/>
                   </AuxValues>
@@ -648,11 +649,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="0"/>
               </Properties>
+              <Events>
+                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="tempCPUPropertyChange"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="tempGPU">
               <Properties>
                 <Property name="text" type="java.lang.String" value="0"/>
               </Properties>
+              <Events>
+                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="tempGPUPropertyChange"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="tempCPUDescricao">
               <Properties>

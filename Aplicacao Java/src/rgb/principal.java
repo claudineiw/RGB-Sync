@@ -41,7 +41,7 @@ import Logitech.HIDPID.verificarPerifericos;
 import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.cuesdk.CorsairDevice;
 import efeitos.efeitoPassagem;
-
+import javax.swing.event.ChangeEvent;
 
 public final class principal extends javax.swing.JFrame {
 
@@ -64,6 +64,8 @@ public final class principal extends javax.swing.JFrame {
     private colecaoPerifericos listaPerifericos;
     private verificarPerifericos verificacaoPerifericos;
     private static final int numerais[] = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105};
+    private ArrayList<Color> cores;
+    private ArrayList<Integer> temperaturas;
 
     public principal() {
         initComponents();
@@ -365,6 +367,12 @@ public final class principal extends javax.swing.JFrame {
         jColorPrincipal.getChooserPanels()[0].getComponent(0).setVisible(false);
         painelCores.add(jColorPrincipal);
         jColorPrincipal.setBounds(0, 0, 240, 210);
+        jColorPrincipal.getSelectionModel().addChangeListener(new javax.swing.event.ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                alterarArrayCores();
+            }
+        });
 
         jCbXEfeitos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecionada", "Musica", "Tela", "Stroob", "ArcoIris", "Onda", "Decremental", "Temperatura", "Passagem" }));
         jCbXEfeitos.addActionListener(new java.awt.event.ActionListener() {
@@ -407,8 +415,18 @@ public final class principal extends javax.swing.JFrame {
         );
 
         tempCPU.setText("0");
+        tempCPU.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tempCPUPropertyChange(evt);
+            }
+        });
 
         tempGPU.setText("0");
+        tempGPU.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tempGPUPropertyChange(evt);
+            }
+        });
 
         tempCPUDescricao.setText("CPU");
 
@@ -523,6 +541,8 @@ public final class principal extends javax.swing.JFrame {
 
     private void iniciaBibliotecas() {
         jColorPrincipal.setColor(Color.RED);
+        this.temperaturas = new ArrayList<>();
+        this.cores = new ArrayList<>();
         listaPerifericos = new colecaoPerifericos();
         verificacaoPerifericos = new verificarPerifericos();
         preencherListaPerifericos();
@@ -554,9 +574,50 @@ public final class principal extends javax.swing.JFrame {
         return -1;
     }
 
+    private void alterarArrayCores() {
+        try {
+            if (!cores.isEmpty()) {
+                switch (jCbXEfeitos.getSelectedItem().toString()) {
+                    case "Musica":
+
+                        break;
+                    case "Tela":
+
+                        break;
+                    case "Stroob":
+
+                        break;
+                    case "ArcoIris":
+
+                        break;
+                    case "Onda":
+
+                        break;
+                    case "Decremental":
+                        cores.clear();
+                        cores.add(jColorPrincipal.getSelectionModel().getSelectedColor());
+                        break;
+                    case "Selecionada":
+                        cores.clear();
+                        cores.add(jColorPrincipal.getSelectionModel().getSelectedColor());
+                        break;
+                    case "Temperatura":
+
+                        break;
+                    case "Passagem":
+
+                        break;
+                }
+
+            }
+        } catch (Exception ex) {
+
+        }
+    }
+
     private void preencherListaPerifericos() {
         DefaultListModel<String> model = new DefaultListModel<>();
-        jLPerifericos.setModel(model); 
+        jLPerifericos.setModel(model);
 
         try {
             this.AsusAura = new AuraSDK();
@@ -642,7 +703,8 @@ public final class principal extends javax.swing.JFrame {
                         break;
                     case "ArcoIris":
                         if (jcBSelecaoDeCores.getModel().getSize() >= 0) {
-                            efeitoArcoIris = new efeitoArcoIris(listaPerifericos, selecionarCores());
+                            selecionarCores();
+                            efeitoArcoIris = new efeitoArcoIris(listaPerifericos, cores);
                             th = new Thread(efeitoArcoIris);
                             th.setName("efeitoArcoIris");
                             th.start();
@@ -652,7 +714,8 @@ public final class principal extends javax.swing.JFrame {
                         break;
                     case "Onda":
                         if (jcBSelecaoDeCores.getModel().getSize() >= 0) {
-                            efeitoOnda = new efeitoOnda(listaPerifericos, selecionarCores());
+                            selecionarCores();
+                            efeitoOnda = new efeitoOnda(listaPerifericos, cores);
                             th = new Thread(efeitoOnda);
                             th.setName("efeitoOnda");
                             th.start();
@@ -661,42 +724,33 @@ public final class principal extends javax.swing.JFrame {
                         }
                         break;
                     case "Decremental":
-                        efeitoDecremental = new efeitoDecremental(jColorPrincipal, listaPerifericos);
+                        cores.clear();
+                        cores.add(jColorPrincipal.getSelectionModel().getSelectedColor());
+                        efeitoDecremental = new efeitoDecremental(listaPerifericos, cores);
                         th = new Thread(efeitoDecremental);
                         th.setName("efeitoDecremental");
                         th.start();
                         break;
                     case "Selecionada":
-
-                        efeitoCorSelecionada = new efeitoCorSelecionada(jColorPrincipal, listaPerifericos);
+                        cores.clear();
+                        cores.add(jColorPrincipal.getSelectionModel().getSelectedColor());
+                        efeitoCorSelecionada = new efeitoCorSelecionada(listaPerifericos, cores);
                         th = new Thread(efeitoCorSelecionada);
                         th.setName("efeitoCorSelecionada");
                         th.start();
                         break;
                     case "Temperatura":
-                        int temp1 = Integer.valueOf(txtTemp1.getText());
-                        int temp2 = Integer.valueOf(txtTemp2.getText());
-                        int temp3 = Integer.valueOf(txtTemp3.getText());
-                        int temp4 = Integer.valueOf(txtTemp4.getText());
-                        if (temp4 < temp3 || temp3 < temp2 || temp2 < temp1) {
-                            JOptionPane.showMessageDialog(this, "As temperaturas devem ser em ordem crescente");
-                        } else {
-                            if (jCbDispositivo.getSelectedItem().toString().equals("GPU")) {
-                                efeitoPorTemperatura = new efeitoPorTemperatura(listaPerifericos, lbTemp1, lbTemp2, lbTemp3, lbTemp4, tempGPU, temp1, temp2, temp3, temp4);
-                                th = new Thread(efeitoPorTemperatura);
-                                th.setName("efeitoPorTemperatura");
-                                th.start();
-                            } else if (jCbDispositivo.getSelectedItem().toString().equals("CPU")) {
-                                efeitoPorTemperatura = new efeitoPorTemperatura(listaPerifericos, lbTemp1, lbTemp2, lbTemp3, lbTemp4, tempCPU, temp1, temp2, temp3, temp4);
-                                th = new Thread(efeitoPorTemperatura);
-                                th.setName("efeitoPorTemperatura");
-                                th.start();
-                            }
+                        if(preencherTemperaturas()){
+                        efeitoPorTemperatura = new efeitoPorTemperatura(listaPerifericos,cores,temperaturas);
+                        th = new Thread(efeitoPorTemperatura);
+                        th.setName("efeitoPorTemperatura");
+                        th.start();
                         }
                         break;
-                        case "Passagem":
+                    case "Passagem":
                         if (jcBSelecaoDeCores.getModel().getSize() >= 0) {
-                            efeitoPassagem = new efeitoPassagem(listaPerifericos, selecionarCores());
+                            selecionarCores();
+                            efeitoPassagem = new efeitoPassagem(listaPerifericos, cores);
                             th = new Thread(efeitoPassagem);
                             th.setName("efeitoPassagem");
                             th.start();
@@ -704,8 +758,7 @@ public final class principal extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(this, "Favor Selecionar as cores");
                         }
                         break;
-                        
-                        
+
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Selecionar perifericos");
@@ -715,12 +768,49 @@ public final class principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAplicarEfeitoActionPerformed
 
-    private ArrayList<int[]> selecionarCores() {
-        ArrayList<int[]> cores = new ArrayList<>();
-        for (int i = 0; i < jcBSelecaoDeCores.getModel().getSize(); i++) {
-            cores.add(separarCoresTexto(jcBSelecaoDeCores.getItemAt(i)));
+    private boolean preencherTemperaturas() {
+        try{
+        int temp1 = Integer.valueOf(txtTemp1.getText());
+        int temp2 = Integer.valueOf(txtTemp2.getText());
+        int temp3 = Integer.valueOf(txtTemp3.getText());
+        int temp4 = Integer.valueOf(txtTemp4.getText());
+        if(temp1>0 && temp2>0 && temp3>0 && temp4 >0){
+        if (temp4 < temp3 || temp3 < temp2 || temp2 < temp1) {
+            JOptionPane.showMessageDialog(this, "As temperaturas devem ser em ordem crescente");
+            return false;
+        } else {
+            temperaturas.clear();
+            temperaturas.add(temp1);
+            temperaturas.add(temp2);
+            temperaturas.add(temp3);
+            temperaturas.add(temp4);
+            cores.clear();
+            cores.add(lbTemp1.getForeground());
+            cores.add(lbTemp2.getForeground());
+            cores.add(lbTemp3.getForeground());
+            cores.add(lbTemp4.getForeground());
+
+            if (jCbDispositivo.getSelectedItem().toString().equals("GPU")) {
+                temperaturas.add(Integer.valueOf(tempGPU.getText()));
+            } else if (jCbDispositivo.getSelectedItem().toString().equals("CPU")) {
+                temperaturas.add(Integer.valueOf(tempCPU.getText()));
+            }
+            return true;
         }
-        return cores;
+        }else{
+            return false;
+        }
+        }catch(Exception ex){
+            return false;
+        }
+    }
+
+    private void selecionarCores() {
+        cores.clear();
+        for (int i = 0; i < jcBSelecaoDeCores.getModel().getSize(); i++) {
+            int[] cor = separarCoresTexto(jcBSelecaoDeCores.getItemAt(i));
+            cores.add(new Color(cor[0], cor[1], cor[2]));
+        }
     }
     private void txtTemp1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTemp1KeyPressed
         somenteDigitos(evt);
@@ -736,8 +826,7 @@ public final class principal extends javax.swing.JFrame {
 
     private void txtTemp3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTemp3KeyPressed
         somenteDigitos(evt);
-        lbTemp3.setForeground(jColorPrincipal.getSelectionModel().getSelectedColor());
-
+        lbTemp3.setForeground(jColorPrincipal.getSelectionModel().getSelectedColor());      
     }//GEN-LAST:event_txtTemp3KeyPressed
 
     private void txtTemp4KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTemp4KeyPressed
@@ -800,6 +889,7 @@ public final class principal extends javax.swing.JFrame {
     private void btnAdicionarCorSelecionadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarCorSelecionadaActionPerformed
         Color cor = jColorPrincipal.getSelectionModel().getSelectedColor();
         jcBSelecaoDeCores.addItem(cor.toString().replace("java.awt.Color", ""));
+        selecionarCores();
 
 
     }//GEN-LAST:event_btnAdicionarCorSelecionadaActionPerformed
@@ -826,6 +916,7 @@ public final class principal extends javax.swing.JFrame {
     }
     private void btnRemoverCorSelecionadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverCorSelecionadaActionPerformed
         jcBSelecaoDeCores.removeItemAt(jcBSelecaoDeCores.getSelectedIndex());
+        selecionarCores();
     }//GEN-LAST:event_btnRemoverCorSelecionadaActionPerformed
 
     private void btnAdicionarNaListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarNaListaActionPerformed
@@ -916,9 +1007,9 @@ public final class principal extends javax.swing.JFrame {
                             listaPerifericos.setPerifericos(new Corsair.LightingNode(corsair.getModelName(), CorsairSDK, corsair));
                             break;
                         }
-                        
+
                         if (corsair.getType().toString().toLowerCase().contains("Motherboard".toLowerCase()) && periferico.toLowerCase().contains(corsair.getModelName().toLowerCase())) {
-                            listaPerifericos.setPerifericos(new Corsair.MotherBoard(corsair.getModelName(), CorsairSDK, corsair));                            
+                            listaPerifericos.setPerifericos(new Corsair.MotherBoard(corsair.getModelName(), CorsairSDK, corsair));
                             break;
                         }
 
@@ -961,6 +1052,22 @@ public final class principal extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_btnRemoverDaListaActionPerformed
+
+    private void tempCPUPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tempCPUPropertyChange
+       switch (jCbXEfeitos.getSelectedItem().toString()) { 
+            case "Temperatura":
+                preencherTemperaturas();
+                break;
+        }
+    }//GEN-LAST:event_tempCPUPropertyChange
+
+    private void tempGPUPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tempGPUPropertyChange
+         switch (jCbXEfeitos.getSelectedItem().toString()) { 
+            case "Temperatura":
+                preencherTemperaturas();
+                break;
+        }
+    }//GEN-LAST:event_tempGPUPropertyChange
 
     private void alocarPerifericos(JLabel obj) {
         Point local = painelInternoImagens.getMousePosition();

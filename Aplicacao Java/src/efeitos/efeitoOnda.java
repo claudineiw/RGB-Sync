@@ -9,11 +9,12 @@ import IPerifericos.IMouseMat;
 import IPerifericos.IPerifericos;
 import IPerifericos.colecaoPerifericos;
 import Metodos.tempoPorVolta;
+import java.awt.Color;
 import java.util.ArrayList;
 
 public final class efeitoOnda extends IEfeitos{
 
-    public efeitoOnda(colecaoPerifericos listaPerifericos, ArrayList<int[]> cores) {
+    public efeitoOnda(colecaoPerifericos listaPerifericos, ArrayList<Color> cores) {
         super(listaPerifericos, cores);
     }
 
@@ -120,5 +121,7 @@ public final class efeitoOnda extends IEfeitos{
 
         esperar(chegou);
     }
+
+   
 
 }

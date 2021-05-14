@@ -9,11 +9,12 @@ import IPerifericos.IMouseMat;
 import IPerifericos.IPerifericos;
 import IPerifericos.colecaoPerifericos;
 import Metodos.tempoPorVolta;
+import java.awt.Color;
 import java.util.ArrayList;
 
 public class efeitoPassagem extends IEfeitos{
 
-    public efeitoPassagem(colecaoPerifericos listaPerifericos, ArrayList<int[]> cores) {
+    public efeitoPassagem(colecaoPerifericos listaPerifericos, ArrayList<Color> cores) {
         super(listaPerifericos, cores);
 
     }
@@ -178,5 +179,4 @@ public class efeitoPassagem extends IEfeitos{
             tempo.calculo();
         }
     }
-
 }

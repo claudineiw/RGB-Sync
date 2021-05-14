@@ -1,64 +1,74 @@
 package efeitos;
 
-import javax.swing.JLabel;
 import IPerifericos.IPerifericos;
 import IPerifericos.colecaoPerifericos;
 import Metodos.tempoPorVolta;
+import java.awt.Color;
+import java.util.ArrayList;
 
-public final class efeitoPorTemperatura implements Runnable {
+public final class efeitoPorTemperatura extends IEfeitos{
 
-    private final colecaoPerifericos listaPerifericos;
-    public boolean allDone = false;
-    private final JLabel temp1;
-    private final JLabel temp2;
-    private final JLabel temp3;
-    private final JLabel temp4;
-    private final JLabel temperatura;
-    private final int vtemp1;
-    private final int vtemp2;
-    private final int vtemp3;
-    private final int vtemp4;
-
-    public efeitoPorTemperatura(colecaoPerifericos listaPerifericos, JLabel temp1, JLabel temp2, JLabel temp3, JLabel temp4, JLabel temperatura, int vtemp1, int vtemp2, int vtemp3, int vtemp4) {
-        this.temp1 = temp1;
-        this.temp2 = temp2;
-        this.temp3 = temp3;
-        this.temp4 = temp4;
-        this.vtemp1 = vtemp1;
-        this.vtemp2 = vtemp2;
-        this.vtemp3 = vtemp3;
-        this.vtemp4 = vtemp4;
-        this.temperatura = temperatura;
-        this.listaPerifericos = listaPerifericos;
+    public efeitoPorTemperatura(colecaoPerifericos listaPerifericos, ArrayList<Color> cores,ArrayList<Integer> temperaturas) {
+       super(listaPerifericos, cores,temperaturas);
     }
 
     @Override
     public void run() {
-        java.awt.Color nova;
         tempoPorVolta tempo = new tempoPorVolta(1000);
         while (!allDone) {
+            trocarCorTemperatura();
             tempo.calculo();
-            int temperaturaLocal = Integer.valueOf(temperatura.getText());
-            if (temperaturaLocal < vtemp1) {
-                nova = temp1.getForeground();
-            } else if (temperaturaLocal >= vtemp1 && temperaturaLocal < vtemp2) {
-                nova = temp1.getForeground();
-            } else if (temperaturaLocal >= vtemp2 && temperaturaLocal < vtemp3) {
-                nova = temp2.getForeground();
-            } else if (temperaturaLocal >= vtemp3 && temperaturaLocal < vtemp4) {
-                nova = temp3.getForeground();
-            } else {
-                nova = temp4.getForeground();
-            }
-            try {
-                for (IPerifericos periferico : listaPerifericos.getPerifericos()) {
-                    periferico.setCor(nova);
-                    periferico.colorirDispositivo();
-                }
-            } catch (Exception ex) {
-
-            }
-       
+            chamarMetodosClasse();   
+            iniciarThreads();
+            limparListaThread(tempo);
         }
+    }
+
+    @Override
+    protected void colorirMotherBoard(IPerifericos motherBoard, ArrayList<Boolean> chegou) {
+        motherBoard.setCor(getCor());
+        motherBoard.colorirDispositivo();        
+    }
+
+    @Override
+    protected void colorirTeclado(IPerifericos teclado, ArrayList<Boolean> chegou) {
+        teclado.setCor(getCor());
+        teclado.colorirDispositivo();       
+    }
+
+    @Override
+    protected void colorirMouse(IPerifericos Mouse, ArrayList<Boolean> chegou) {
+       Mouse.setCor(getCor());
+        Mouse.colorirDispositivo();
+    }
+
+    @Override
+    protected void colorirHeadSet(IPerifericos HeadSet, ArrayList<Boolean> chegou) {
+       HeadSet.setCor(getCor());
+        HeadSet.colorirDispositivo();
+    }
+
+    @Override
+    protected void colorirMouseMat(IPerifericos MouseMat, ArrayList<Boolean> chegou) {
+        MouseMat.setCor(getCor());
+        MouseMat.colorirDispositivo();
+    }
+
+    @Override
+    protected void colorirHeadsetStand(IPerifericos HeadsetStand, ArrayList<Boolean> chegou) {
+       HeadsetStand.setCor(getCor());
+        HeadsetStand.colorirDispositivo();
+    }
+
+    @Override
+    protected void colorirLightingNode(IPerifericos LightingNode, ArrayList<Boolean> chegou) {
+         LightingNode.setCor(getCor());
+        LightingNode.colorirDispositivo();
+    }
+
+    @Override
+    protected void colorirCoolerControl(IPerifericos CoolerControl, ArrayList<Boolean> chegou) {
+        CoolerControl.setCor(getCor());
+        CoolerControl.colorirDispositivo();
     }
 }

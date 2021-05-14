@@ -1,45 +1,74 @@
 package efeitos;
 
-import javax.swing.JColorChooser;
 import IPerifericos.IPerifericos;
 import IPerifericos.colecaoPerifericos;
 import Metodos.tempoPorVolta;
+import java.awt.Color;
+import java.util.ArrayList;
 
-public final class efeitoDecremental implements Runnable {
+public final class efeitoDecremental extends IEfeitos{
 
-    private final colecaoPerifericos listaPerifericos;
-    private final JColorChooser color;
-    public boolean allDone = false;
-
-    public efeitoDecremental(JColorChooser color, colecaoPerifericos listaPerifericos) {
-        this.color = color;
-        this.listaPerifericos = listaPerifericos;
+    public efeitoDecremental(colecaoPerifericos listaPerifericos, ArrayList<Color> cores) {
+        super(listaPerifericos, cores);
     }
 
     @Override
     public void run() {
-        tempoPorVolta tempo = new tempoPorVolta(500);
-        java.awt.Color nova = color.getSelectionModel().getSelectedColor();
-        while (!allDone) {
+       tempoPorVolta tempo = new tempoPorVolta(1000);
+        while (!allDone) {    
+            trocarCorDecremental();
             tempo.calculo();
-            if (allDone) {
-                return;
-            }
-            try {
-                for (IPerifericos periferico : listaPerifericos.getPerifericos()) {
-                    periferico.setCor(nova);
-                    periferico.colorirDispositivo();
-                }
-            } catch (Exception ex) {
-
-            }
-            if (nova.getGreen() <= 30 && nova.getBlue() <= 30 && nova.getRed() <= 30) {
-                nova = color.getSelectionModel().getSelectedColor();
-            } else {
-                nova = nova.darker();
-            }
-
+            chamarMetodosClasse();   
+            iniciarThreads();
+            limparListaThread(tempo); 
         }
+    }
 
+     @Override
+    protected void colorirMotherBoard(IPerifericos motherBoard, ArrayList<Boolean> chegou) {
+        motherBoard.setCor(getCor());
+        motherBoard.colorirDispositivo();
+    }
+
+    @Override
+    protected void colorirTeclado(IPerifericos teclado, ArrayList<Boolean> chegou) {
+        teclado.setCor(getCor());
+        teclado.colorirDispositivo();
+    }
+
+    @Override
+    protected void colorirMouse(IPerifericos Mouse, ArrayList<Boolean> chegou) {
+       Mouse.setCor(getCor());
+       Mouse.colorirDispositivo();
+    }
+
+    @Override
+    protected void colorirHeadSet(IPerifericos HeadSet, ArrayList<Boolean> chegou) {
+       HeadSet.setCor(getCor());
+        HeadSet.colorirDispositivo();
+    }
+
+    @Override
+    protected void colorirMouseMat(IPerifericos MouseMat, ArrayList<Boolean> chegou) {
+        MouseMat.setCor(getCor());
+        MouseMat.colorirDispositivo();
+    }
+
+    @Override
+    protected void colorirHeadsetStand(IPerifericos HeadsetStand, ArrayList<Boolean> chegou) {
+       HeadsetStand.setCor(getCor());
+        HeadsetStand.colorirDispositivo();
+    }
+
+    @Override
+    protected void colorirLightingNode(IPerifericos LightingNode, ArrayList<Boolean> chegou) {
+         LightingNode.setCor(getCor());
+        LightingNode.colorirDispositivo();
+    }
+
+    @Override
+    protected void colorirCoolerControl(IPerifericos CoolerControl, ArrayList<Boolean> chegou) {
+        CoolerControl.setCor(getCor());
+        CoolerControl.colorirDispositivo();
     }
 }
