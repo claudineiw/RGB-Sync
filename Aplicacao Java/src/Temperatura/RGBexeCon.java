@@ -40,39 +40,17 @@ public final class RGBexeCon implements Runnable {
                 byte[] receivedBytes = new byte[len];
                 is.read(receivedBytes, 0, len); //ler dados
                 String received = new String(receivedBytes, 0, len);
-                if (received.contains("Gpu")) {
+                if (received.toLowerCase().contains("cpu".toLowerCase()) || received.toLowerCase().contains("gpu".toLowerCase())) {
                     setListaHardware(gson.fromJson(received, tt.getType()));
                     getListaHardware().stream().map(hd -> {
                         if (hd.getTipo().contains("Gpu")) {
                             getTempGPU().setText(String.valueOf(hd.getTemp()));
-                            if (hd.getTemp() < 50) {
-                                getTempGPU().setForeground(Color.green);
-                            } else {
-                                if (hd.getTemp() >= 50 && hd.getTemp() < 70) {
-                                    getTempGPU().setForeground(Color.yellow);
-                                } else {
-                                    if (hd.getTemp() >= 70) {
-                                        getTempGPU().setForeground(Color.red);
-                                    }
-                                }
-                            }
                         }
                         return hd;
                     }).filter(hd -> (hd.getTipo().contains("CPU"))).map(hd -> {
                         getTempCPU().setText(String.valueOf(hd.getTemp()));
                         return hd;
-                    }).forEachOrdered(hd -> {
-                        if (hd.getTemp() < 50) {
-                            getTempCPU().setForeground(Color.green);
-                        } else {
-                            if (hd.getTemp() >= 50 && hd.getTemp() < 70) {
-                                getTempCPU().setForeground(Color.yellow);
-                            } else {
-                                if (hd.getTemp() >= 70) {
-                                    getTempCPU().setForeground(Color.red);
-                                }
-                            }
-                        }
+                    }).forEachOrdered(hd -> {        
                     });
                 } else {
                     getTempCPU().setText("10");

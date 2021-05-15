@@ -37,13 +37,13 @@ public final class efeitoCorSelecionada extends IEfeitos{
 
     @Override
     protected void colorirMouse(IPerifericos Mouse, ArrayList<Boolean> chegou) {
-       Mouse.setCor(getCor());
-       Mouse.colorirDispositivo();
+        Mouse.setCor(getCor());
+        Mouse.colorirDispositivo();
     }
 
     @Override
     protected void colorirHeadSet(IPerifericos HeadSet, ArrayList<Boolean> chegou) {
-       HeadSet.setCor(getCor());
+        HeadSet.setCor(getCor());
         HeadSet.colorirDispositivo();
     }
 
@@ -55,13 +55,13 @@ public final class efeitoCorSelecionada extends IEfeitos{
 
     @Override
     protected void colorirHeadsetStand(IPerifericos HeadsetStand, ArrayList<Boolean> chegou) {
-       HeadsetStand.setCor(getCor());
+        HeadsetStand.setCor(getCor());
         HeadsetStand.colorirDispositivo();
     }
 
     @Override
     protected void colorirLightingNode(IPerifericos LightingNode, ArrayList<Boolean> chegou) {
-         LightingNode.setCor(getCor());
+        LightingNode.setCor(getCor());
         LightingNode.colorirDispositivo();
     }
 

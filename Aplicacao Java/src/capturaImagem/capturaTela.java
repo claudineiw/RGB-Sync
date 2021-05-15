@@ -40,9 +40,6 @@ public final class capturaTela implements Runnable {
         }
     }
 
-    /**
-     * @return the lbImagem
-     */
     public JLabel getLbImagem() {
         return lbImagem;
     }

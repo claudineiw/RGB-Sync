@@ -37,7 +37,7 @@ public final class efeitoOnda extends IEfeitos{
             ((IMotherBoard) motherBoard).colorirPorLed(i);
             tempo.calculo();
         }
-        esperar(chegou);
+        esperarExecucao(chegou);
     }
 
     @Override
@@ -56,21 +56,21 @@ public final class efeitoOnda extends IEfeitos{
             }
             tempo.calculo();
         }
-        esperar(chegou);
+        esperarExecucao(chegou);
     }
 
     @Override
     protected void colorirMouse(IPerifericos Mouse, ArrayList<Boolean> chegou) {
         Mouse.setCor(getCor());
         Mouse.colorirDispositivo();
-        esperar(chegou);
+        esperarExecucao(chegou);
     }
 
     @Override
     protected void colorirHeadSet(IPerifericos HeadSet, ArrayList<Boolean> chegou) {
         HeadSet.setCor(getCor());
         HeadSet.colorirDispositivo();
-        esperar(chegou);
+        esperarExecucao(chegou);
     }
 
     @Override
@@ -82,7 +82,7 @@ public final class efeitoOnda extends IEfeitos{
             ((IMouseMat) MouseMat).colorirPorLed(i);
             tempo.calculo();
         }
-        esperar(chegou);
+        esperarExecucao(chegou);
     }
 
     @Override
@@ -94,7 +94,7 @@ public final class efeitoOnda extends IEfeitos{
             ((IHeadsetStand) HeadsetStand).colorirPorLed(i);
             tempo.calculo();
         }
-        esperar(chegou);
+        esperarExecucao(chegou);
     }
 
     @Override
@@ -106,7 +106,7 @@ public final class efeitoOnda extends IEfeitos{
             ((ILightingNode) LightingNode).colorirPorLed(i);
             tempo.calculo();
         }
-        esperar(chegou);
+        esperarExecucao(chegou);
     }
 
     @Override
@@ -119,7 +119,7 @@ public final class efeitoOnda extends IEfeitos{
             tempo.calculo();
         }
 
-        esperar(chegou);
+        esperarExecucao(chegou);
     }
 
    

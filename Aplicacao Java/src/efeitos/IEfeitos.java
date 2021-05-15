@@ -90,13 +90,17 @@ public abstract class IEfeitos implements Runnable {
     }
     
     
-    protected void esperar(ArrayList<Boolean> chegou) {
+    protected void esperarExecucao(ArrayList<Boolean> chegou) {
         tempoPorVolta esperar = new tempoPorVolta(2000);
-        for (int i = 0; i < chegou.size(); i++) {
+         tempoPorVolta esperar2 = new tempoPorVolta(150);
+         esperar2.calculo();
+        for (int i = 0; i < chegou.size(); i++) {             
+             esperar2.calculo();
             if (!chegou.get(i)) {
                 chegou.set(i, true);
                 break;
             }
+            
         }
         while (true) {
             esperar.calculo();
@@ -123,8 +127,8 @@ public abstract class IEfeitos implements Runnable {
                 return;
             }
             tempo.calculo();
-            String continua = "";
-            for (Boolean che : chegou) {
+            String continua = "";          
+            for (Boolean che : chegou) {               
                 continua += che.toString();
             }
             if (!continua.contains("false")) {
@@ -141,12 +145,13 @@ public abstract class IEfeitos implements Runnable {
         chegou.clear();
 
         limparListaThread(tempo);
+       
     }
 
     protected void iniciarThreads() {
-        for (Thread thread : ListaTH) {
+        ListaTH.forEach(thread -> {
             thread.start();
-        }
+        });
     }
 
     protected void limparListaThread(tempoPorVolta tempo) {
@@ -155,12 +160,12 @@ public abstract class IEfeitos implements Runnable {
                 return;
             }
             tempo.calculo();
-            String continua = "";
-            for (Thread thread : ListaTH) {
+            String continua = "";            
+            for (Thread thread : ListaTH) {                
                 if (thread.isAlive()) {
                     continua += "true";
                 } else {
-                    continua += "false";
+                    continua += "false";                    
                 }
             }
             if (!continua.contains("true")) {
@@ -195,7 +200,7 @@ public abstract class IEfeitos implements Runnable {
     /**
      * @param cor the cor to set
      */
-    private void setCor(Color cor) {
+    protected void setCor(Color cor) {
         this.cor = cor;
     }
 

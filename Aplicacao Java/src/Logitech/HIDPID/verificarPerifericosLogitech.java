@@ -5,11 +5,11 @@ import java.util.List;
 import purejavahidapi.HidDeviceInfo;
 import purejavahidapi.PureJavaHidApi;
 
-public final class verificarPerifericos {
+public final class verificarPerifericosLogitech {
 
     private final ArrayList<listaPerifericos> listaPerifericos;
 
-    public verificarPerifericos() {
+    public verificarPerifericosLogitech() {
         this.listaPerifericos = new ArrayList<>();
         testePerifericos();
     }

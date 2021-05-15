@@ -1,5 +1,6 @@
 package efeitos;
 
+import IPerifericos.IPerifericos;
 import efeitosSound.Note;
 import efeitosSound.Sound;
 import java.util.HashMap;
@@ -23,15 +24,14 @@ import org.apache.commons.math3.transform.DftNormalization;
 import org.apache.commons.math3.transform.FastFourierTransformer;
 import org.apache.commons.math3.transform.TransformType;
 import IPerifericos.colecaoPerifericos;
+import Metodos.tempoPorVolta;
+import java.util.ArrayList;
 
-public final class efeitoMusica implements Runnable {
-
+public final class efeitoMusica extends IEfeitos {
     private static final FastFourierTransformer FFT = new FastFourierTransformer(DftNormalization.STANDARD);
     private static final long TIMESLICE = 50; // milissegundos
     private static final double THRESHOLD = 0.8; // percentual
     private static final TransformType FFT_TRANSFORM_TYPE = TransformType.FORWARD;
-
-
 
     private static int getByteArrayLength(AudioFormat audioFormat) {
         double seconds = efeitoMusica.TIMESLICE / 1000.0;
@@ -165,17 +165,19 @@ public final class efeitoMusica implements Runnable {
         return soundList;
     }
     private TargetDataLine line;
-    public boolean allDone = false;
-    private colecaoPerifericos listaPerifericos;
 
     public efeitoMusica(colecaoPerifericos listaPerifericos) {
-        this.listaPerifericos = listaPerifericos;
+        super(listaPerifericos);
     }
 
     @Override
     public void run() {
-        AudioFormat format = getAudioFormat();
-
+       efeitoAudioTrocarCor();
+    }
+    
+    
+    private void efeitoAudioTrocarCor(){
+         AudioFormat format = getAudioFormat();
         DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
         for (Mixer.Info in : AudioSystem.getMixerInfo()) {
             if (in.getName().contains("CABLE Output") && !in.getName().contains("Port")) {
@@ -183,7 +185,6 @@ public final class efeitoMusica implements Runnable {
                     info = (DataLine.Info) linha;
                 }
             }
-
         }
         try {
             line = (TargetDataLine) AudioSystem.getLine(info);
@@ -212,48 +213,45 @@ public final class efeitoMusica implements Runnable {
 
         long time = efeitoMusica.TIMESLICE;
         Map<Long, Set<Sound>> soundMap = new HashMap<>();
+        tempoPorVolta tempo = new tempoPorVolta(500);
         while (byteArray != null) {
-            if (allDone) {
-                line.close();
-                return;
-            }
-            try {
-                Random gerador = new Random();
-                double[] amplitudeArray = efeitoMusica.getAmplitudeArray(audioInputStream, byteArray);
-                double[][] frequencyMatrix = efeitoMusica.getFrequencyMatrix(audioInputStream, amplitudeArray);
-                if (byteArray[0] != 0 && byteArray[0] != -1 && byteArray[0] != 1) {
-                    soundMap.put(time, efeitoMusica.getSoundList(frequencyMatrix));
+             try {
+                 if (allDone) {
+                     line.close();
+                     return;
+                 }
+                 Random gerador = new Random();
+                 double[] amplitudeArray = efeitoMusica.getAmplitudeArray(audioInputStream, byteArray);
+                 double[][] frequencyMatrix = efeitoMusica.getFrequencyMatrix(audioInputStream, amplitudeArray);
+                 if (byteArray[0] != 0 && byteArray[0] != -1 && byteArray[0] != 1) {
+                     soundMap.put(time, efeitoMusica.getSoundList(frequencyMatrix));
+                     
+                     Double num = ((((Note.valor / 100) + 1) - ((Note.valor / 100) * 2)) * 255);
+                     Integer porcentagem = num.intValue();
+                     
+                     double redD = ((double) gerador.nextInt(porcentagem) / 255) * porcentagem;
+                     double greenD = ((double) gerador.nextInt(porcentagem) / 255) * porcentagem;
+                     double blueD = ((double) gerador.nextInt(porcentagem) / 255) * porcentagem;
+                     int red = new Double(redD).intValue();
+                     int green = new Double(greenD).intValue();
+                     int blue = new Double(blueD).intValue();
+                     setCor(new Color(red, green, blue));
+                     chamarMetodosClasse();
+                     iniciarThreads();
+                     limparListaThread(tempo);
+                     
+                 }
+                 
+                 byteArray = efeitoMusica.readByteArray(audioInputStream, byteArray);
+             } catch (Exception ex) {
+                 Logger.getLogger(efeitoMusica.class.getName()).log(Level.SEVERE, null, ex);
+             }
 
-                    Double num = ((((Note.valor / 100) + 1) - ((Note.valor / 100) * 2)) * 255);
-                    Integer porcentagem = num.intValue();
-
-                    double redD = ((double) gerador.nextInt(porcentagem) / 255) * porcentagem;
-                    double greenD = ((double) gerador.nextInt(porcentagem) / 255) * porcentagem;
-                    double blueD = ((double) gerador.nextInt(porcentagem) / 255) * porcentagem;
-                    int red = new Double(redD).intValue();
-                    int green = new Double(greenD).intValue();
-                    int blue = new Double(blueD).intValue();
-                    try {
-                        getListaPerifericos().getPerifericos().stream().map(periferico -> {
-                            periferico.setCor(new Color(red, green, blue));
-                            return periferico;
-                        }).forEachOrdered(periferico -> {
-                            periferico.colorirDispositivo();
-                        });
-                    } catch (Exception ex) {
-
-                    }
-                }
-
-                byteArray = efeitoMusica.readByteArray(audioInputStream, byteArray);
-            } catch (Exception ex) {
-
-            }
 
         }
-
     }
-
+    
+    
     private AudioFormat getAudioFormat() {
         float sampleRate = 48000;
         int sampleSizeInBits = 16;
@@ -265,17 +263,51 @@ public final class efeitoMusica implements Runnable {
         return format;
     }
 
-    /**
-     * @return the listaPerifericos
-     */
-    public colecaoPerifericos getListaPerifericos() {
-        return listaPerifericos;
+    @Override
+    protected void colorirMotherBoard(IPerifericos motherBoard, ArrayList<Boolean> chegou) {
+        motherBoard.setCor(getCor());
+        motherBoard.colorirDispositivo();
     }
 
-    /**
-     * @param listaPerifericos the listaPerifericos to set
-     */
-    public void setListaPerifericos(colecaoPerifericos listaPerifericos) {
-        this.listaPerifericos = listaPerifericos;
+    @Override
+    protected void colorirTeclado(IPerifericos teclado, ArrayList<Boolean> chegou) {
+        teclado.setCor(getCor());
+        teclado.colorirDispositivo();
+    }
+
+    @Override
+    protected void colorirMouse(IPerifericos Mouse, ArrayList<Boolean> chegou) {
+        Mouse.setCor(getCor());
+        Mouse.colorirDispositivo();
+    }
+
+    @Override
+    protected void colorirHeadSet(IPerifericos HeadSet, ArrayList<Boolean> chegou) {
+        HeadSet.setCor(getCor());
+        HeadSet.colorirDispositivo();
+    }
+
+    @Override
+    protected void colorirMouseMat(IPerifericos MouseMat, ArrayList<Boolean> chegou) {
+        MouseMat.setCor(getCor());
+        MouseMat.colorirDispositivo();
+    }
+
+    @Override
+    protected void colorirHeadsetStand(IPerifericos HeadsetStand, ArrayList<Boolean> chegou) {
+        HeadsetStand.setCor(getCor());
+        HeadsetStand.colorirDispositivo();
+    }
+
+    @Override
+    protected void colorirLightingNode(IPerifericos LightingNode, ArrayList<Boolean> chegou) {
+        LightingNode.setCor(getCor());
+        LightingNode.colorirDispositivo();
+    }
+
+    @Override
+    protected void colorirCoolerControl(IPerifericos CoolerControl, ArrayList<Boolean> chegou) {
+        CoolerControl.setCor(getCor());
+        CoolerControl.colorirDispositivo();
     }
 }
