@@ -7,14 +7,14 @@
     <framework targetVersion="4.7.2" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="RGB.exe.manifest" size="4804">
+    <dependentAssembly dependencyType="install" codebase="RGB.exe.manifest" size="4796">
       <assemblyIdentity name="RGB.exe" version="1.0.0.18" publicKeyToken="0000000000000000" language="pt-BR" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>zxH6YuACA9BhibMsn2r7qjCWIj/Jx+qctR6AoLa8KQE=</dsig:DigestValue>
+        <dsig:DigestValue>T9GbLA0ES8eTi6FqDp7uYkKf5MMm/UjbvS6JzHPI7xs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

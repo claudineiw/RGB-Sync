@@ -62,7 +62,7 @@ public final class principal extends javax.swing.JFrame {
     private ArrayList<Integer> temperaturas;
     private Mixer.Info[] mixerInfo;
     private ArrayList<Mixer.Info> mixerChoices;
-                
+
     public principal() {
         initComponents();
         iniciaBibliotecas();
@@ -558,20 +558,18 @@ public final class principal extends javax.swing.JFrame {
         iniciarMonitorTemperatura();
         iniciarDispositivosDeAudio();
     }
-    
 
-    private void iniciarDispositivosDeAudio(){
+    private void iniciarDispositivosDeAudio() {
         mixerInfo = AudioSystem.getMixerInfo();
         mixerChoices = new ArrayList<>();
         for (Mixer.Info info : mixerInfo) {
-                    if (info.getDescription().equals("Direct Audio Device: DirectSound Capture")) {
-                        jcbMusica.addItem(info.getName());
-                        mixerChoices.add(info);
-                    }
-                }     
+            if (info.getDescription().equals("Direct Audio Device: DirectSound Capture")) {
+                jcbMusica.addItem(info.getName());
+                mixerChoices.add(info);
+            }
+        }
     }
-    
-    
+
     private void iniciarMonitorTemperatura() {
         RGBexeCon = new RGBexeCon(tempCPU, tempGPU);
         Thread th = new Thread(RGBexeCon);
@@ -597,44 +595,9 @@ public final class principal extends javax.swing.JFrame {
     }
 
     private void alterarArrayCores() {
-        try {
-            if (!cores.isEmpty()) {
-                switch (jCbXEfeitos.getSelectedItem().toString()) {
-                    case "Musica":
-                        cores.clear();
-                        cores.add(jColorPrincipal.getSelectionModel().getSelectedColor());
-                        break;
-                    case "Tela":
-
-                        break;
-                    case "Stroob":
-
-                        break;
-                    case "ArcoIris":
-
-                        break;
-                    case "Onda":
-
-                        break;
-                    case "Decremental":
-                        cores.clear();
-                        cores.add(jColorPrincipal.getSelectionModel().getSelectedColor());
-                        break;
-                    case "Selecionada":
-                        cores.clear();
-                        cores.add(jColorPrincipal.getSelectionModel().getSelectedColor());
-                        break;
-                    case "Temperatura":
-
-                        break;
-                    case "Passagem":
-
-                        break;
-                }
-
-            }
-        } catch (Exception ex) {
-
+        if (efeito instanceof efeitoCorSelecionada || efeito instanceof efeitoDecremental || efeito instanceof efeitoMusica) {
+            cores.clear();
+            cores.add(jColorPrincipal.getSelectionModel().getSelectedColor());
         }
     }
 
@@ -697,10 +660,10 @@ public final class principal extends javax.swing.JFrame {
         Thread th;
         if (listaPerifericos.getPerifericos().size() > 0) {
             switch (jCbXEfeitos.getSelectedItem().toString()) {
-                case "Musica":     
+                case "Musica":
                     cores.clear();
                     cores.add(jColorPrincipal.getSelectionModel().getSelectedColor());
-                    efeito = new efeitoMusica(listaPerifericos,cores,mixerChoices.get(jcbMusica.getSelectedIndex()));
+                    efeito = new efeitoMusica(listaPerifericos, cores, mixerChoices.get(jcbMusica.getSelectedIndex()));
                     break;
                 case "Tela":
                     capturaTela.allDone = true;
@@ -835,7 +798,7 @@ public final class principal extends javax.swing.JFrame {
         painelOpcoes.removeAll();
         painelOpcoes.repaint();
         switch (jCbXEfeitos.getSelectedItem().toString()) {
-            case "Musica":   
+            case "Musica":
                 painelOpcoes.add(painelInternoMusica, absoluteConstraints);
                 break;
             case "Tela":
