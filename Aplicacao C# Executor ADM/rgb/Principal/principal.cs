@@ -42,6 +42,7 @@ namespace rgb
                                     proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                                     proc.StartInfo.ErrorDialog = true;
                                     proc.Start();
+                                    break;
                                 }
                             }
 

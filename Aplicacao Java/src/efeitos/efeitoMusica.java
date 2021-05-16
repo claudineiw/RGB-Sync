@@ -1,266 +1,130 @@
 package efeitos;
 
 import IPerifericos.IPerifericos;
-import efeitosSound.Note;
-import efeitosSound.Sound;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
 import javax.sound.sampled.TargetDataLine;
 import java.awt.Color;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.Line;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.Mixer;
-import org.apache.commons.math3.complex.Complex;
-import org.apache.commons.math3.transform.DftNormalization;
-import org.apache.commons.math3.transform.FastFourierTransformer;
-import org.apache.commons.math3.transform.TransformType;
 import IPerifericos.colecaoPerifericos;
 import Metodos.tempoPorVolta;
 import java.util.ArrayList;
+import javax.sound.sampled.AudioFormat;
 
 public final class efeitoMusica extends IEfeitos {
-    private static final FastFourierTransformer FFT = new FastFourierTransformer(DftNormalization.STANDARD);
-    private static final long TIMESLICE = 50; // milissegundos
-    private static final double THRESHOLD = 0.8; // percentual
-    private static final TransformType FFT_TRANSFORM_TYPE = TransformType.FORWARD;
 
-    private static int getByteArrayLength(AudioFormat audioFormat) {
-        double seconds = efeitoMusica.TIMESLICE / 1000.0;
-        float frameRate = audioFormat.getFrameRate();
-        int frameSize = audioFormat.getFrameSize();
-        int byteArrayLenth = (int) (seconds * frameRate * frameSize * 1.0);
-        if ((byteArrayLenth % 2) != 0) {
-            byteArrayLenth--;
-        }
+    private final Mixer.Info dispositivoSelecionado;
+    private TargetDataLine targetDataLine;
 
-        return byteArrayLenth;
-
-    }
-
-    private static byte[] readByteArray(AudioInputStream audioInputStream, byte[] byteArray) throws Exception {
-
-        int readResult = audioInputStream.read(byteArray);
-
-        if (readResult == -1) {
-            return null;
-        }
-
-        if (readResult < byteArray.length) {
-            if ((readResult % 2) != 0) {
-                readResult--;
-            }
-            byte[] auxArray = new byte[readResult];
-            System.arraycopy(byteArray, 0, auxArray, 0, readResult);
-            byteArray = auxArray;
-        }
-
-        return byteArray;
-
-    }
-
-    private static double[] getAmplitudeArray(AudioInputStream audioInputStream, byte[] byteArray) throws Exception {
-
-        int byteArrayLength = byteArray.length;
-        int amplitudeLength = byteArrayLength / 2;
-
-        boolean isPowerOfTwo = ((amplitudeLength & (amplitudeLength - 1)) == 0);
-
-        if (!isPowerOfTwo) {
-            // previous power of two
-            amplitudeLength = (int) Math.pow(2, Math.floor((Math.log(amplitudeLength) / Math.log(2))));
-        }
-
-        double[] amplitudeArray = new double[amplitudeLength];
-
-        boolean bigEndian = audioInputStream.getFormat().isBigEndian();
-        int channels = audioInputStream.getFormat().getChannels();
-
-        int index = 0;
-        for (int i = 0; i < byteArrayLength && index < amplitudeLength; i += 2, index++) {
-
-            byte first = byteArray[i];
-            byte second = byteArray[i + 1];
-
-            byte low = bigEndian ? second : first;
-            byte high = bigEndian ? first : second;
-
-            double amplitude = (low & 0xFF | high << 8) / 32767.0;
-
-            amplitudeArray[index] = amplitude;
-
-            if (channels > 1) {
-                i += channels;
-            }
-
-        }
-
-        return amplitudeArray;
-    }
-
-    private static double[][] getFrequencyMatrix(AudioInputStream audioInputStream, double[] amplitudeArray) {
-
-        Complex[] fftArray = efeitoMusica.FFT.transform(amplitudeArray, efeitoMusica.FFT_TRANSFORM_TYPE);
-
-        int fftArrayLength = fftArray.length;
-
-        int iterationCount = fftArrayLength / 2;
-
-        double[][] frequencyMatrix = new double[iterationCount][2];
-
-        double sampleRate = audioInputStream.getFormat().getSampleRate();
-
-        for (int i = 0; i < iterationCount; i++) {
-
-            double frequency = 1.0 * i * (sampleRate / fftArrayLength);
-            double magnitude = (2.0 / fftArrayLength) * Math.hypot(fftArray[i].getReal(), fftArray[i].getImaginary());
-            frequencyMatrix[i][0] = frequency;
-            frequencyMatrix[i][1] = magnitude;
-
-        }
-
-        return frequencyMatrix;
-    }
-
-    private static Set<Sound> getSoundList(double[][] frequencyMatrix) {
-
-        double[] maxFrequency = new double[2];
-
-        for (double[] frequency : frequencyMatrix) {
-            if (frequency[0] == 0) {
-                continue;
-            }
-            if (maxFrequency[1] >= frequency[1]) {
-                continue;
-            }
-            if (frequency[0] < Note.C.getFirstFrequency()) {
-                continue;
-            }
-            maxFrequency = frequency;
-        }
-
-        Set<Sound> soundList = new HashSet<>();
-
-        for (double[] frequency : frequencyMatrix) {
-            if (frequency[0] == 0) {
-                continue;
-            }
-            if (frequency[1] < (maxFrequency[1] * efeitoMusica.THRESHOLD)) {
-                continue;
-            }
-            if (frequency[0] < Note.C.getFirstFrequency()) {
-                continue;
-            }
-            soundList.add(new Sound(frequency[0]));
-        }
-
-        return soundList;
-    }
-    private TargetDataLine line;
-
-    public efeitoMusica(colecaoPerifericos listaPerifericos) {
-        super(listaPerifericos);
+    public efeitoMusica(colecaoPerifericos listaPerifericos, ArrayList<Color> cores, Mixer.Info dispositivoSelecionado) {
+        super(listaPerifericos, cores);
+        this.dispositivoSelecionado = dispositivoSelecionado;
     }
 
     @Override
-    public void run() {
+    public void run() {   
        efeitoAudioTrocarCor();
+
     }
-    
-    
+
+    private void iniciarLine() {
+        AudioFormat fmt = new AudioFormat(44100f, 16, 1, true, false);
+        Mixer mixer = AudioSystem.getMixer(dispositivoSelecionado);
+        Line.Info[] lineInfo = mixer.getTargetLineInfo();
+        Line.Info selectedInfo = null;
+        for (Line.Info print : lineInfo) {
+            selectedInfo = print;
+        }
+        try {
+            targetDataLine = (TargetDataLine) mixer.getLine(selectedInfo);
+            targetDataLine.open(fmt, 100);
+        } catch (Exception e) {
+        }
+        targetDataLine.flush();
+        targetDataLine.start();
+
+    }
+
     private void efeitoAudioTrocarCor(){
-         AudioFormat format = getAudioFormat();
-        DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
-        for (Mixer.Info in : AudioSystem.getMixerInfo()) {
-            if (in.getName().contains("CABLE Output") && !in.getName().contains("Port")) {
-                for (Line.Info linha : AudioSystem.getMixer(in).getTargetLineInfo()) {
-                    info = (DataLine.Info) linha;
-                }
+        iniciarLine();
+        tempoPorVolta tempo = new tempoPorVolta(0);
+        while (!allDone) {
+            escutarMusica(tempo);
+        }
+        targetDataLine.stop();
+
+    }
+
+    private void escutarMusica(tempoPorVolta tempo) {
+        final int bufferByteSize = 100;
+        byte[] buf = new byte[bufferByteSize];
+        float[] samples = new float[bufferByteSize / 2];
+        for (int b; (b = targetDataLine.read(buf, 0, buf.length)) > -1;) {
+            if (allDone) {
+                targetDataLine.stop();
+                return;
             }
-        }
-        try {
-            line = (TargetDataLine) AudioSystem.getLine(info);
+            float lastPeak = 0f;
+            for (int i = 0, s = 0; i < b;) {
+                int sample = 0;
 
-        } catch (LineUnavailableException ex) {
-            Logger.getLogger(efeitoMusica.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            line.open(format);
-        } catch (LineUnavailableException ex) {
-            Logger.getLogger(efeitoMusica.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                sample |= buf[i++] & 0xFF;
+                sample |= buf[i++] << 8;
 
-        line.start();
+                samples[s++] = sample / 32768f;
+            }
 
-        AudioInputStream audioInputStream = new AudioInputStream(line);
-        AudioFormat audioFormat = format;
+            float rms = 0f;
+            float peak = 0f;
+            for (float sample : samples) {
+                float abs = Math.abs(sample);
+                if (abs > peak) {
+                    peak = abs;
+                }
+                rms += sample * sample;
+            }
 
-        int byteArrayLength = efeitoMusica.getByteArrayLength(audioFormat);
-        byte[] byteArray = new byte[byteArrayLength];
-        try {
-            byteArray = efeitoMusica.readByteArray(audioInputStream, byteArray);
-        } catch (Exception ex) {
-            Logger.getLogger(efeitoMusica.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            rms = (float) Math.sqrt(rms / samples.length);
+            if (lastPeak > peak) {
+                peak = lastPeak * 0.875f;
+            }
+            lastPeak = peak;
+            int rmsApli = (Math.round(Math.abs(rms) * (2400 - 2)));
+            if (rmsApli > 255) {
+                rmsApli = 255;
+            }
 
-        long time = efeitoMusica.TIMESLICE;
-        Map<Long, Set<Sound>> soundMap = new HashMap<>();
-        tempoPorVolta tempo = new tempoPorVolta(500);
-        while (byteArray != null) {
-             try {
-                 if (allDone) {
-                     line.close();
-                     return;
-                 }
-                 Random gerador = new Random();
-                 double[] amplitudeArray = efeitoMusica.getAmplitudeArray(audioInputStream, byteArray);
-                 double[][] frequencyMatrix = efeitoMusica.getFrequencyMatrix(audioInputStream, amplitudeArray);
-                 if (byteArray[0] != 0 && byteArray[0] != -1 && byteArray[0] != 1) {
-                     soundMap.put(time, efeitoMusica.getSoundList(frequencyMatrix));
-                     
-                     Double num = ((((Note.valor / 100) + 1) - ((Note.valor / 100) * 2)) * 255);
-                     Integer porcentagem = num.intValue();
-                     
-                     double redD = ((double) gerador.nextInt(porcentagem) / 255) * porcentagem;
-                     double greenD = ((double) gerador.nextInt(porcentagem) / 255) * porcentagem;
-                     double blueD = ((double) gerador.nextInt(porcentagem) / 255) * porcentagem;
-                     int red = new Double(redD).intValue();
-                     int green = new Double(greenD).intValue();
-                     int blue = new Double(blueD).intValue();
-                     setCor(new Color(red, green, blue));
-                     chamarMetodosClasse();
-                     iniciarThreads();
-                     limparListaThread(tempo);
-                     
-                 }
-                 
-                 byteArray = efeitoMusica.readByteArray(audioInputStream, byteArray);
-             } catch (Exception ex) {
-                 Logger.getLogger(efeitoMusica.class.getName()).log(Level.SEVERE, null, ex);
-             }
-
+            chamadaMetodosColorir(rmsApli, tempo);
 
         }
     }
-    
-    
-    private AudioFormat getAudioFormat() {
-        float sampleRate = 48000;
-        int sampleSizeInBits = 16;
-        int channels = 2;
-        boolean signed = true;
-        boolean bigEndian = true;
-        AudioFormat format = new AudioFormat(sampleRate, sampleSizeInBits,
-                channels, signed, bigEndian);
-        return format;
+
+    private void chamadaMetodosColorir(int rmsApli, tempoPorVolta tempo) {
+        trocarCorSelecionada();
+        reduzirBrilhoCor(rmsApli);
+        chamarMetodosClasse();
+        iniciarThreads();
+        limparListaThread(tempo);
+    }
+
+    private void reduzirBrilhoCor(double rmsApli) {
+        Color cor = getCor();
+        double red = cor.getRed();
+        double green = cor.getGreen();
+        double blue = cor.getBlue();        
+        red = (red/ 255) * rmsApli;
+        green =(green/ 255) * rmsApli;
+        blue = (blue/ 255) * rmsApli;
+        
+        int r = new Double(red).intValue();
+        int g = new Double(green).intValue();
+        int b = new Double(blue).intValue();
+
+        setCor(new Color(r,g,b));
+
     }
 
     @Override
@@ -276,38 +140,45 @@ public final class efeitoMusica extends IEfeitos {
     }
 
     @Override
-    protected void colorirMouse(IPerifericos Mouse, ArrayList<Boolean> chegou) {
+    protected void colorirMouse(IPerifericos Mouse, ArrayList<Boolean> chegou
+    ) {
         Mouse.setCor(getCor());
         Mouse.colorirDispositivo();
     }
 
     @Override
-    protected void colorirHeadSet(IPerifericos HeadSet, ArrayList<Boolean> chegou) {
+    protected void colorirHeadSet(IPerifericos HeadSet, ArrayList<Boolean> chegou
+    ) {
         HeadSet.setCor(getCor());
         HeadSet.colorirDispositivo();
     }
 
     @Override
-    protected void colorirMouseMat(IPerifericos MouseMat, ArrayList<Boolean> chegou) {
+    protected void colorirMouseMat(IPerifericos MouseMat, ArrayList<Boolean> chegou
+    ) {
         MouseMat.setCor(getCor());
         MouseMat.colorirDispositivo();
     }
 
     @Override
-    protected void colorirHeadsetStand(IPerifericos HeadsetStand, ArrayList<Boolean> chegou) {
+    protected void colorirHeadsetStand(IPerifericos HeadsetStand, ArrayList<Boolean> chegou
+    ) {
         HeadsetStand.setCor(getCor());
         HeadsetStand.colorirDispositivo();
     }
 
     @Override
-    protected void colorirLightingNode(IPerifericos LightingNode, ArrayList<Boolean> chegou) {
+    protected void colorirLightingNode(IPerifericos LightingNode, ArrayList<Boolean> chegou
+    ) {
         LightingNode.setCor(getCor());
         LightingNode.colorirDispositivo();
     }
 
     @Override
-    protected void colorirCoolerControl(IPerifericos CoolerControl, ArrayList<Boolean> chegou) {
+    protected void colorirCoolerControl(IPerifericos CoolerControl, ArrayList<Boolean> chegou
+    ) {
         CoolerControl.setCor(getCor());
         CoolerControl.colorirDispositivo();
     }
+
 }

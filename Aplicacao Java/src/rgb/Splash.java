@@ -1,4 +1,4 @@
-package rgb;
+package RGB;
 
 import javax.swing.*;
 import java.awt.*;

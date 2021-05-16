@@ -1,4 +1,4 @@
-package rgb;
+package RGB;
 
 import efeitos.efeitoOnda;
 import efeitos.efeitoDecremental;
@@ -43,6 +43,8 @@ import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.cuesdk.CorsairDevice;
 import efeitos.IEfeitos;
 import efeitos.efeitoPassagem;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Mixer;
 import javax.swing.event.ChangeEvent;
 
 @SuppressWarnings("serial")
@@ -58,7 +60,9 @@ public final class principal extends javax.swing.JFrame {
     private verificarPerifericosLogitech verificarPerifericosLogitech;
     private ArrayList<Color> cores;
     private ArrayList<Integer> temperaturas;
-
+    private Mixer.Info[] mixerInfo;
+    private ArrayList<Mixer.Info> mixerChoices;
+                
     public principal() {
         initComponents();
         iniciaBibliotecas();
@@ -96,6 +100,9 @@ public final class principal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jLSelecionados = new javax.swing.JList<>();
+        painelInternoMusica = new javax.swing.JPanel();
+        jcbMusica = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
         painelPrincipal = new javax.swing.JLayeredPane();
         painelLateralEsquerda = new javax.swing.JPanel();
         painelCores = new javax.swing.JPanel();
@@ -336,6 +343,16 @@ public final class principal extends javax.swing.JFrame {
 
         painelInternoPerifericos.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, 130, 190));
 
+        painelInternoMusica.setMaximumSize(new java.awt.Dimension(360, 270));
+        painelInternoMusica.setMinimumSize(new java.awt.Dimension(360, 270));
+        painelInternoMusica.setPreferredSize(new java.awt.Dimension(360, 210));
+        painelInternoMusica.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        painelInternoMusica.add(jcbMusica, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 120, -1));
+
+        jLabel1.setText("Selecione o dispositivo de escuta");
+        painelInternoMusica.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, -1, -1));
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImages(null);
         setMinimumSize(new java.awt.Dimension(700, 400));
@@ -539,8 +556,22 @@ public final class principal extends javax.swing.JFrame {
         verificarPerifericosLogitech = new verificarPerifericosLogitech();
         preencherListaPerifericos();
         iniciarMonitorTemperatura();
+        iniciarDispositivosDeAudio();
     }
+    
 
+    private void iniciarDispositivosDeAudio(){
+        mixerInfo = AudioSystem.getMixerInfo();
+        mixerChoices = new ArrayList<>();
+        for (Mixer.Info info : mixerInfo) {
+                    if (info.getDescription().equals("Direct Audio Device: DirectSound Capture")) {
+                        jcbMusica.addItem(info.getName());
+                        mixerChoices.add(info);
+                    }
+                }     
+    }
+    
+    
     private void iniciarMonitorTemperatura() {
         RGBexeCon = new RGBexeCon(tempCPU, tempGPU);
         Thread th = new Thread(RGBexeCon);
@@ -570,7 +601,8 @@ public final class principal extends javax.swing.JFrame {
             if (!cores.isEmpty()) {
                 switch (jCbXEfeitos.getSelectedItem().toString()) {
                     case "Musica":
-
+                        cores.clear();
+                        cores.add(jColorPrincipal.getSelectionModel().getSelectedColor());
                         break;
                     case "Tela":
 
@@ -665,8 +697,10 @@ public final class principal extends javax.swing.JFrame {
         Thread th;
         if (listaPerifericos.getPerifericos().size() > 0) {
             switch (jCbXEfeitos.getSelectedItem().toString()) {
-                case "Musica":
-                    efeito = new efeitoMusica(listaPerifericos);
+                case "Musica":     
+                    cores.clear();
+                    cores.add(jColorPrincipal.getSelectionModel().getSelectedColor());
+                    efeito = new efeitoMusica(listaPerifericos,cores,mixerChoices.get(jcbMusica.getSelectedIndex()));
                     break;
                 case "Tela":
                     capturaTela.allDone = true;
@@ -801,7 +835,8 @@ public final class principal extends javax.swing.JFrame {
         painelOpcoes.removeAll();
         painelOpcoes.repaint();
         switch (jCbXEfeitos.getSelectedItem().toString()) {
-            case "Musica":
+            case "Musica":   
+                painelOpcoes.add(painelInternoMusica, absoluteConstraints);
                 break;
             case "Tela":
                 capturaTela = new capturaTela(lbImagem);
@@ -1121,11 +1156,13 @@ public final class principal extends javax.swing.JFrame {
     private javax.swing.JColorChooser jColorPrincipal;
     private javax.swing.JList<String> jLPerifericos;
     private javax.swing.JList<String> jLSelecionados;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JComboBox<String> jcBSelecaoDeCores;
+    private javax.swing.JComboBox<String> jcbMusica;
     private javax.swing.JLabel lbImagem;
     private javax.swing.JLabel lbMouse;
     private javax.swing.JLabel lbTeclado;
@@ -1135,6 +1172,7 @@ public final class principal extends javax.swing.JFrame {
     private javax.swing.JLabel lbTemp4;
     private javax.swing.JPanel painelCores;
     private javax.swing.JPanel painelInternoImagens;
+    private javax.swing.JPanel painelInternoMusica;
     private javax.swing.JPanel painelInternoPerifericos;
     private javax.swing.JPanel painelInternoSelecaoDeCores;
     private javax.swing.JPanel painelInternoTemperatuas;
