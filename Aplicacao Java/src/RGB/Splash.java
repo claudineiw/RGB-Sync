@@ -3,6 +3,7 @@ package RGB;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
  
@@ -47,7 +48,13 @@ public final class Splash extends JFrame
   public Splash() {
 
     setLayout(null); 
-    imSplash = new ImageIcon(Splash.class.getResource("/imagens/splash.jpg"));
+     
+    int img=new Random().nextInt(7);
+    if(img<1){
+        img=1;
+    }
+     System.out.println("/Splash/"+img+".jpg");
+    imSplash = new ImageIcon(Splash.class.getResource("/Splash/"+img+".jpg"));
     lbSplash = new JLabel(imSplash);
     lbSplash.setBounds(0,0,620,300);
     add(lbSplash);

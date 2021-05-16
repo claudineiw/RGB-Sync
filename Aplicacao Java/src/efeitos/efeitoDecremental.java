@@ -7,7 +7,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 public final class efeitoDecremental extends IEfeitos{
-    private ArrayList<Double> velocidade;
+    private final ArrayList<Double> velocidade;
     public efeitoDecremental(colecaoPerifericos listaPerifericos, ArrayList<Color> cores, ArrayList<Double> velocidade) {
         super(listaPerifericos, cores);
         this.velocidade=velocidade;

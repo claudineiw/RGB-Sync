@@ -258,7 +258,7 @@ public final class principal extends javax.swing.JFrame {
         lbMouse.getAccessibleContext().setAccessibleName("lbMouse");
 
         lbTeclado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbTeclado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/teclado 128.png"))); // NOI18N
+        lbTeclado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/teclado.png"))); // NOI18N
         lbTeclado.setName("lbTeclado"); // NOI18N
         lbTeclado.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -459,6 +459,7 @@ public final class principal extends javax.swing.JFrame {
         painelInternoDecremental.add(txtReducaoPorCiclo, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 80, -1));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setIconImages(null);
         setMinimumSize(new java.awt.Dimension(700, 400));
         setName("RGBPrincipal"); // NOI18N
@@ -1263,7 +1264,7 @@ public final class principal extends javax.swing.JFrame {
 
     private void tray() {
         this.dispose();
-        trayIcon = new TrayIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/ico.png")).getImage());
+        trayIcon = new TrayIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icone_tray.png")).getImage());
         trayIcon.setToolTip("RGB");
         final SystemTray tray = SystemTray.getSystemTray();
         final PopupMenu menu = new PopupMenu();
