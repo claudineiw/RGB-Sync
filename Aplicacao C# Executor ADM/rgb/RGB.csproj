@@ -50,7 +50,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\..\COMPILACAO\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -121,25 +121,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ico\m_rgb.ico" />
-    <Content Include="Jar\lib\AbsoluteLayout.jar" />
-    <Content Include="Jar\lib\AuraSdk.jar" />
-    <Content Include="Jar\lib\CollMasterSDK.jar" />
-    <Content Include="Jar\lib\com4j-2.1.jar" />
-    <Content Include="Jar\lib\commons-lang3-3.12.0.jar" />
-    <Content Include="Jar\lib\commons-math3-3.6.1.jar" />
-    <Content Include="Jar\lib\flatlaf-1.1.jar" />
-    <Content Include="Jar\lib\flatlaf-intellij-themes-1.1.jar" />
-    <Content Include="Jar\lib\gson-2.8.6.jar" />
-    <Content Include="Jar\lib\guava-30.1.1-jre.jar" />
-    <Content Include="Jar\lib\HID API.jar" />
-    <Content Include="Jar\lib\ICueSDKCorsair.jar" />
-    <Content Include="Jar\lib\jna-5.8.0.jar" />
-    <Content Include="Jar\lib\jna-platform-5.8.0.jar" />
-    <Content Include="Jar\lib\LogiledSdk.jar" />
-    <Content Include="Jar\lib\lombok.jar" />
-    <Content Include="Jar\lib\MsiSDK.jar" />
-    <Content Include="Jar\lib\RazerSDK.jar" />
-    <Content Include="Jar\RGB.jar" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
