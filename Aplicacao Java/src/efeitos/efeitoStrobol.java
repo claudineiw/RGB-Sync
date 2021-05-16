@@ -6,14 +6,17 @@ import Metodos.tempoPorVolta;
 import java.util.ArrayList;
 
 public final class efeitoStrobol extends IEfeitos{
-    public efeitoStrobol(colecaoPerifericos listaPerifericos) {
+    private final ArrayList<Integer> ciclo;
+    public efeitoStrobol(colecaoPerifericos listaPerifericos,ArrayList<Integer> ciclo) {
         super(listaPerifericos);
+        this.ciclo=ciclo;
     }
 
     @Override
     public void run() {
-        tempoPorVolta tempo = new tempoPorVolta(250);
+        tempoPorVolta tempo = new tempoPorVolta(ciclo.get(0));
         while (!allDone) {
+            tempo.setEspera(ciclo.get(0));
             trocarCorStrobol();
             tempo.calculo();
             chamarMetodosClasse();   

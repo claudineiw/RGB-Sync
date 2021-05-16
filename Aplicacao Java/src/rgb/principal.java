@@ -61,6 +61,7 @@ public final class principal extends javax.swing.JFrame {
     private ArrayList<Color> cores;
     private ArrayList<Integer> temperaturas;
     private ArrayList<Double> decremento;
+    private ArrayList<Integer> ciclo;
     private Mixer.Info[] mixerInfo;
     private ArrayList<Mixer.Info> mixerChoices;
 
@@ -95,15 +96,19 @@ public final class principal extends javax.swing.JFrame {
         painelInternoPerifericos = new javax.swing.JPanel();
         btnAdicionarNaLista = new javax.swing.JButton();
         btnRemoverDaLista = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        panelJscrollTodos = new javax.swing.JPanel();
+        jScrollTodosPerifericos = new javax.swing.JScrollPane();
         jLPerifericos = new javax.swing.JList<>();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        panelJscrollSelecionados = new javax.swing.JPanel();
+        jScrollPerifericosSelecionados = new javax.swing.JScrollPane();
         jLSelecionados = new javax.swing.JList<>();
         painelInternoMusica = new javax.swing.JPanel();
         jcbMusica = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
+        painelInternoStrobol = new javax.swing.JPanel();
+        lbVelocidadeCiclo1 = new javax.swing.JLabel();
+        sliderVelocidadeCicloStrobol = new javax.swing.JSlider();
+        txtVelocidadeCicloStrobol = new javax.swing.JTextField();
         painelInternoDecremental = new javax.swing.JPanel();
         lbVelocidadeDecremento = new javax.swing.JLabel();
         sliderReducaoPorCiclo = new javax.swing.JSlider();
@@ -325,46 +330,39 @@ public final class principal extends javax.swing.JFrame {
         painelInternoPerifericos.add(btnRemoverDaLista, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 50, -1));
 
         jLPerifericos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(jLPerifericos);
+        jScrollTodosPerifericos.setViewportView(jLPerifericos);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
-                .addContainerGap())
+        javax.swing.GroupLayout panelJscrollTodosLayout = new javax.swing.GroupLayout(panelJscrollTodos);
+        panelJscrollTodos.setLayout(panelJscrollTodosLayout);
+        panelJscrollTodosLayout.setHorizontalGroup(
+            panelJscrollTodosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollTodosPerifericos, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE))
+        panelJscrollTodosLayout.setVerticalGroup(
+            panelJscrollTodosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollTodosPerifericos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
         );
 
-        painelInternoPerifericos.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 140, 190));
+        painelInternoPerifericos.add(panelJscrollTodos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 140, 240));
 
         jLSelecionados.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane2.setViewportView(jLSelecionados);
+        jScrollPerifericosSelecionados.setViewportView(jLSelecionados);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelJscrollSelecionadosLayout = new javax.swing.GroupLayout(panelJscrollSelecionados);
+        panelJscrollSelecionados.setLayout(panelJscrollSelecionadosLayout);
+        panelJscrollSelecionadosLayout.setHorizontalGroup(
+            panelJscrollSelecionadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelJscrollSelecionadosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                .addComponent(jScrollPerifericosSelecionados, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE))
+        panelJscrollSelecionadosLayout.setVerticalGroup(
+            panelJscrollSelecionadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPerifericosSelecionados, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
         );
 
-        painelInternoPerifericos.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, 130, 190));
+        painelInternoPerifericos.add(panelJscrollSelecionados, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, 160, 240));
 
         painelInternoMusica.setMaximumSize(new java.awt.Dimension(360, 270));
         painelInternoMusica.setMinimumSize(new java.awt.Dimension(360, 270));
@@ -375,6 +373,36 @@ public final class principal extends javax.swing.JFrame {
 
         jLabel1.setText("Selecione o dispositivo de escuta");
         painelInternoMusica.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, -1, -1));
+
+        painelInternoStrobol.setMaximumSize(new java.awt.Dimension(360, 270));
+        painelInternoStrobol.setMinimumSize(new java.awt.Dimension(360, 270));
+        painelInternoStrobol.setPreferredSize(new java.awt.Dimension(360, 270));
+        painelInternoStrobol.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lbVelocidadeCiclo1.setText("Velocidade do Ciclo");
+        painelInternoStrobol.add(lbVelocidadeCiclo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, -1, -1));
+
+        sliderVelocidadeCicloStrobol.setMaximum(1000);
+        sliderVelocidadeCicloStrobol.setMinimum(1);
+        sliderVelocidadeCicloStrobol.setValue(500);
+        sliderVelocidadeCicloStrobol.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sliderVelocidadeCicloStrobolStateChanged(evt);
+            }
+        });
+        painelInternoStrobol.add(sliderVelocidadeCicloStrobol, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, -1, -1));
+
+        txtVelocidadeCicloStrobol.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtVelocidadeCicloStrobol.setText("500");
+        txtVelocidadeCicloStrobol.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtVelocidadeCicloStrobolKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtVelocidadeCicloStrobolKeyReleased(evt);
+            }
+        });
+        painelInternoStrobol.add(txtVelocidadeCicloStrobol, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 80, -1));
 
         painelInternoDecremental.setMaximumSize(new java.awt.Dimension(360, 270));
         painelInternoDecremental.setMinimumSize(new java.awt.Dimension(360, 270));
@@ -630,12 +658,14 @@ public final class principal extends javax.swing.JFrame {
         this.temperaturas = new ArrayList<>();
         this.cores = new ArrayList<>();
         this.decremento = new ArrayList<>();
+        this.ciclo = new ArrayList<>();
         listaPerifericos = new colecaoPerifericos();
         verificarPerifericosLogitech = new verificarPerifericosLogitech();
         preencherListaPerifericos();
         iniciarMonitorTemperatura();
         iniciarDispositivosDeAudio();
         iniciarValorDecremento();
+        pegarValorSliderCiclo();
     }
 
     private void iniciarValorDecremento() {
@@ -666,7 +696,11 @@ public final class principal extends javax.swing.JFrame {
         decremento.add(valorDecremento);
         decremento.add(new Double((double) sliderVelocidadeCiclo.getValue()));
     }
-
+    
+    private void pegarValorSliderCiclo() {
+        ciclo.clear();
+        ciclo.add(sliderVelocidadeCicloStrobol.getValue());
+    }
     private int iniciadoPerifericos() {
         return jLPerifericos.getModel().getSize();
     }
@@ -761,7 +795,7 @@ public final class principal extends javax.swing.JFrame {
                     efeito = new efeitoPorImagemDaTela(listaPerifericos, painelInternoImagens);
                     break;
                 case "Stroob":
-                    efeito = new efeitoStrobol(listaPerifericos);
+                    efeito = new efeitoStrobol(listaPerifericos,ciclo);
                     break;
                 case "ArcoIris":
                     if (jcBSelecaoDeCores.getModel().getSize() > 0) {
@@ -890,7 +924,7 @@ public final class principal extends javax.swing.JFrame {
                 painelOpcoes.add(painelInternoImagens, absoluteConstraints);
                 break;
             case "Stroob":
-
+                painelOpcoes.add(painelInternoStrobol, absoluteConstraints);
                 break;
             case "ArcoIris":
                 painelOpcoes.add(painelInternoSelecaoDeCores, absoluteConstraints);
@@ -1174,6 +1208,32 @@ public final class principal extends javax.swing.JFrame {
         lbTemp4.setForeground(jColorPrincipal.getSelectionModel().getSelectedColor());
     }//GEN-LAST:event_txtTemp4KeyReleased
 
+    private void txtVelocidadeCicloStrobolKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtVelocidadeCicloStrobolKeyReleased
+         if (!txtVelocidadeCicloStrobol.getText().equals("")) {
+            int valor = Integer.valueOf(txtVelocidadeCicloStrobol.getText());
+            if (valor > 1000) {
+                valor = 1000;
+                JOptionPane.showMessageDialog(this, "Maior valor aceito e 1000");
+            } else {
+                if (valor < 1) {
+                    valor = 1;
+                    JOptionPane.showMessageDialog(this, "Menor valor aceito e 1");
+                }
+            }
+            sliderVelocidadeCicloStrobol.setValue(valor);
+            
+         }
+    }//GEN-LAST:event_txtVelocidadeCicloStrobolKeyReleased
+
+    private void txtVelocidadeCicloStrobolKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtVelocidadeCicloStrobolKeyPressed
+        somenteDigitos(evt);
+    }//GEN-LAST:event_txtVelocidadeCicloStrobolKeyPressed
+
+    private void sliderVelocidadeCicloStrobolStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderVelocidadeCicloStrobolStateChanged
+       pegarValorSliderCiclo();
+       txtVelocidadeCicloStrobol.setText(sliderVelocidadeCicloStrobol.getValue() + "");
+    }//GEN-LAST:event_sliderVelocidadeCicloStrobolStateChanged
+
     private void alocarPerifericos(JLabel obj) {
         Point local = painelInternoImagens.getMousePosition();
         if (local != null) {
@@ -1270,10 +1330,8 @@ public final class principal extends javax.swing.JFrame {
     private javax.swing.JList<String> jLPerifericos;
     private javax.swing.JList<String> jLSelecionados;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPerifericosSelecionados;
+    private javax.swing.JScrollPane jScrollTodosPerifericos;
     private javax.swing.JComboBox<String> jcBSelecaoDeCores;
     private javax.swing.JComboBox<String> jcbMusica;
     private javax.swing.JLabel lbImagem;
@@ -1284,6 +1342,7 @@ public final class principal extends javax.swing.JFrame {
     private javax.swing.JLabel lbTemp3;
     private javax.swing.JLabel lbTemp4;
     private javax.swing.JLabel lbVelocidadeCiclo;
+    private javax.swing.JLabel lbVelocidadeCiclo1;
     private javax.swing.JLabel lbVelocidadeDecremento;
     private javax.swing.JPanel painelCores;
     private javax.swing.JPanel painelInternoDecremental;
@@ -1291,13 +1350,17 @@ public final class principal extends javax.swing.JFrame {
     private javax.swing.JPanel painelInternoMusica;
     private javax.swing.JPanel painelInternoPerifericos;
     private javax.swing.JPanel painelInternoSelecaoDeCores;
+    private javax.swing.JPanel painelInternoStrobol;
     private javax.swing.JPanel painelInternoTemperatuas;
     private javax.swing.JPanel painelLateralEsquerda;
     private javax.swing.JLayeredPane painelOpcoes;
     private javax.swing.JLayeredPane painelPrincipal;
     private javax.swing.JPanel painelSuperior;
+    private javax.swing.JPanel panelJscrollSelecionados;
+    private javax.swing.JPanel panelJscrollTodos;
     private javax.swing.JSlider sliderReducaoPorCiclo;
     private javax.swing.JSlider sliderVelocidadeCiclo;
+    private javax.swing.JSlider sliderVelocidadeCicloStrobol;
     private javax.swing.JLabel tempCPU;
     private javax.swing.JLabel tempCPUDescricao;
     private javax.swing.JLabel tempGPU;
@@ -1308,5 +1371,6 @@ public final class principal extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField txtTemp3;
     private javax.swing.JFormattedTextField txtTemp4;
     private javax.swing.JTextField txtVelocidadeCiclo;
+    private javax.swing.JTextField txtVelocidadeCicloStrobol;
     // End of variables declaration//GEN-END:variables
 }

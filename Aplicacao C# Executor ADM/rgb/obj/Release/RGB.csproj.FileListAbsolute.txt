@@ -13,3 +13,8 @@ C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Release\RGB.app
 C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Release\RGB.csproj.CopyComplete
 C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Release\RGB.exe
 C:\Users\Claud\Desktop\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Release\RGB.pdb
+C:\Users\Claud\Desktop\RGB\COMPILACAO\C\RGB.exe.config
+C:\Users\Claud\Desktop\RGB\COMPILACAO\C\RGB.exe.manifest
+C:\Users\Claud\Desktop\RGB\COMPILACAO\C\RGB.application
+C:\Users\Claud\Desktop\RGB\COMPILACAO\C\RGB.exe
+C:\Users\Claud\Desktop\RGB\COMPILACAO\C\RGB.pdb
