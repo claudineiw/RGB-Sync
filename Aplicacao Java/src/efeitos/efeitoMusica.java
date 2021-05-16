@@ -35,12 +35,12 @@ public final class efeitoMusica extends IEfeitos {
         Mixer mixer = AudioSystem.getMixer(dispositivoSelecionado);
         Line.Info[] lineInfo = mixer.getTargetLineInfo();
         Line.Info selectedInfo = null;
-        for (Line.Info print : lineInfo) {
-            selectedInfo = print;
+        for (Line.Info selecionada : lineInfo) {
+            selectedInfo = selecionada;
         }
         try {
             targetDataLine = (TargetDataLine) mixer.getLine(selectedInfo);
-            targetDataLine.open(fmt, 100);
+            targetDataLine.open(fmt, 2);
         } catch (Exception e) {
         }
         targetDataLine.flush();
@@ -50,7 +50,7 @@ public final class efeitoMusica extends IEfeitos {
 
     private void efeitoAudioTrocarCor(){
         iniciarLine();
-        tempoPorVolta tempo = new tempoPorVolta(0);
+        tempoPorVolta tempo = new tempoPorVolta(50);
         while (!allDone) {
             escutarMusica(tempo);
         }
@@ -59,7 +59,7 @@ public final class efeitoMusica extends IEfeitos {
     }
 
     private void escutarMusica(tempoPorVolta tempo) {
-        final int bufferByteSize = 100;
+        final int bufferByteSize = 2;
         byte[] buf = new byte[bufferByteSize];
         float[] samples = new float[bufferByteSize / 2];
         for (int b; (b = targetDataLine.read(buf, 0, buf.length)) > -1;) {
