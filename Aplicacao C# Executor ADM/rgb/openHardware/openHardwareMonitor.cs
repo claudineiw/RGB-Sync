@@ -24,7 +24,7 @@ namespace openHardware
 
 
 
-        public String getTemp()
+        public String getTempHardware()
         {           
            
             String formato = "[";
@@ -91,28 +91,28 @@ namespace openHardware
 
 
 
-        public void doChat()
+        public void servicoSocket()
         {           
             TcpListener server = new TcpListener(IPAddress.Any, 28350);
             server.Start();
             while (true)
             {
                 
-                TcpClient client = server.AcceptTcpClient();
-                NetworkStream ns = client.GetStream();
+                TcpClient cliente = server.AcceptTcpClient();
+                NetworkStream conecaoComCliente = cliente.GetStream();
                 
 
-                while (client.Connected)
+                while (cliente.Connected)
                 {
                     Thread.Sleep(500);
-                    string toSend = getTemp();    
-                    int toSendLen = System.Text.Encoding.ASCII.GetByteCount(toSend);
-                    byte[] toSendBytes = System.Text.Encoding.ASCII.GetBytes(toSend);
-                    byte[] toSendLenBytes = System.BitConverter.GetBytes(toSendLen);
+                    string enviar = getTempHardware();    
+                    int tamanhoDoEnvio = System.Text.Encoding.ASCII.GetByteCount(enviar);
+                    byte[] bytesParaEnviar = System.Text.Encoding.ASCII.GetBytes(enviar);
+                    byte[] quantidadeDeBytesASeremEnviados = System.BitConverter.GetBytes(tamanhoDoEnvio);
                     try
                     {
-                        ns.Write(toSendLenBytes, 0, toSendLenBytes.Length);
-                        ns.Write(toSendBytes, 0, toSendBytes.Length);
+                        conecaoComCliente.Write(quantidadeDeBytesASeremEnviados, 0, quantidadeDeBytesASeremEnviados.Length);
+                        conecaoComCliente.Write(bytesParaEnviar, 0, bytesParaEnviar.Length);
                     }
                     catch (Exception)
                     {
@@ -121,7 +121,7 @@ namespace openHardware
 
 
                 }
-                    client.Close();
+                    cliente.Close();
                     computador.Close();
                     return;
 

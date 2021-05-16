@@ -66,11 +66,14 @@ public abstract class IEfeitos implements Runnable {
         setCor(new Color((int) (Math.random() * 0x1000000)));
     }
     
-    protected  void trocarCorDecremental(){
-           if (getCor().getGreen() <= 30 && getCor().getBlue() <= 30 && getCor().getRed() <= 30) {
+    protected  void trocarCorDecremental(ArrayList<Double> velocidade){
+           if (getCor().getGreen() <= 10 && getCor().getBlue() <= 10 && getCor().getRed() <= 10) {
                 setCor(cores.get(0));
-            } else {
-                setCor(getCor().darker());
+            } else {               
+               Double red=getCor().getRed()*velocidade.get(0);
+               Double green=getCor().getGreen()*velocidade.get(0);
+               Double blue = getCor().getBlue()*velocidade.get(0);               
+               setCor(new Color(red.intValue(), green.intValue(), blue.intValue()));
             }
     }
     

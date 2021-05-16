@@ -24,8 +24,8 @@ namespace rgb
 
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
-        Process proc = new Process();
-        proc.StartInfo.WorkingDirectory = "System";
+        Process processo = new Process();
+            processo.StartInfo.WorkingDirectory = "System";
         AdminRelauncher();
 
             if (IsRunAsAdmin())
@@ -37,19 +37,18 @@ namespace rgb
                     string[] item = value.Split(new char[] { Path.PathSeparator }, StringSplitOptions.RemoveEmptyEntries);
                     for (int i = 0; i < item.Length; i++)
                     {
-                        string teste = item[i];
-                        if (teste.Contains("Java"))
+                        string javaDir = item[i];
+                        if (javaDir.Contains("Java"))
                         {
-                            if (teste.Contains("bin"))
+                            if (javaDir.Contains("bin"))
                             {
                                 entrou = 1;
                                 String filename = "\""+Directory.GetCurrentDirectory() + "\\Jar\\rgb.jar\"";
-                                Console.WriteLine(filename);
-                                proc.StartInfo.FileName = teste + "\\java.exe";       
-                                proc.StartInfo.Arguments = "-jar " + filename + " %1";
-                                proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                                proc.StartInfo.ErrorDialog = true;
-                                proc.Start();
+                                processo.StartInfo.FileName = javaDir + "\\java.exe";
+                                processo.StartInfo.Arguments = "-jar " + filename + " %1";
+                                processo.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                                processo.StartInfo.ErrorDialog = true;
+                                processo.Start();
                                 break;
                             }
                         }
@@ -64,26 +63,23 @@ namespace rgb
                     string caption = "Error";
                     MessageBoxButtons buttons = MessageBoxButtons.OK;
                     DialogResult result;
-
-                    // Displays the MessageBox.
                     result = MessageBox.Show(message, caption, buttons);
                     if (result == System.Windows.Forms.DialogResult.OK)
                     {
-                        // Closes the parent form.
                         Environment.Exit(0);
                     }
                 }
                 IniciarServidor();
-                proc.WaitForExit();
+                processo.WaitForExit();
             }
         }
 
         
         private static void IniciarServidor()
         {
-            openHardwareMonitor a = new openHardwareMonitor();
-            Thread ctThread = new Thread(a.doChat);
-            ctThread.Start();
+            openHardwareMonitor openHard = new openHardwareMonitor();
+            Thread thReadOpenHard = new Thread(openHard.servicoSocket);
+            thReadOpenHard.Start();
         }
         private static void AdminRelauncher()
         {
@@ -103,7 +99,7 @@ namespace rgb
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("This program must be run as an administrator! \n\n" + ex.ToString());
+                    Console.WriteLine("Esse programa so pode ser executado como administrador! \n\n" + ex.ToString());
                 }
             }
         }

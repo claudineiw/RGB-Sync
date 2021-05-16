@@ -60,6 +60,7 @@ public final class principal extends javax.swing.JFrame {
     private verificarPerifericosLogitech verificarPerifericosLogitech;
     private ArrayList<Color> cores;
     private ArrayList<Integer> temperaturas;
+    private ArrayList<Double> decremento;
     private Mixer.Info[] mixerInfo;
     private ArrayList<Mixer.Info> mixerChoices;
 
@@ -103,6 +104,13 @@ public final class principal extends javax.swing.JFrame {
         painelInternoMusica = new javax.swing.JPanel();
         jcbMusica = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
+        painelInternoDecremental = new javax.swing.JPanel();
+        lbVelocidadeDecremento = new javax.swing.JLabel();
+        sliderReducaoPorCiclo = new javax.swing.JSlider();
+        lbVelocidadeCiclo = new javax.swing.JLabel();
+        sliderVelocidadeCiclo = new javax.swing.JSlider();
+        txtVelocidadeCiclo = new javax.swing.JTextField();
+        txtReducaoPorCiclo = new javax.swing.JTextField();
         painelPrincipal = new javax.swing.JLayeredPane();
         painelLateralEsquerda = new javax.swing.JPanel();
         painelCores = new javax.swing.JPanel();
@@ -119,7 +127,9 @@ public final class principal extends javax.swing.JFrame {
         btnMinimizar = new javax.swing.JButton();
         painelOpcoes = new javax.swing.JLayeredPane();
 
-        painelInternoTemperatuas.setPreferredSize(new java.awt.Dimension(370, 310));
+        painelInternoTemperatuas.setMaximumSize(new java.awt.Dimension(360, 270));
+        painelInternoTemperatuas.setMinimumSize(new java.awt.Dimension(360, 270));
+        painelInternoTemperatuas.setPreferredSize(new java.awt.Dimension(360, 270));
 
         lbTemp4.setText("Temperatura 04");
 
@@ -134,6 +144,9 @@ public final class principal extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtTemp4KeyPressed(evt);
             }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTemp4KeyReleased(evt);
+            }
         });
 
         txtTemp1.setText("0");
@@ -142,6 +155,9 @@ public final class principal extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtTemp1KeyPressed(evt);
             }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTemp1KeyReleased(evt);
+            }
         });
 
         txtTemp2.setText("0");
@@ -149,12 +165,18 @@ public final class principal extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtTemp2KeyPressed(evt);
             }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTemp2KeyReleased(evt);
+            }
         });
 
         txtTemp3.setText("0");
         txtTemp3.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtTemp3KeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTemp3KeyReleased(evt);
             }
         });
 
@@ -280,6 +302,7 @@ public final class principal extends javax.swing.JFrame {
 
         painelInternoPerifericos.setMaximumSize(new java.awt.Dimension(360, 270));
         painelInternoPerifericos.setMinimumSize(new java.awt.Dimension(360, 270));
+        painelInternoPerifericos.setPreferredSize(new java.awt.Dimension(360, 270));
         painelInternoPerifericos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnAdicionarNaLista.setBackground(new java.awt.Color(60, 63, 255,0));
@@ -345,13 +368,67 @@ public final class principal extends javax.swing.JFrame {
 
         painelInternoMusica.setMaximumSize(new java.awt.Dimension(360, 270));
         painelInternoMusica.setMinimumSize(new java.awt.Dimension(360, 270));
-        painelInternoMusica.setPreferredSize(new java.awt.Dimension(360, 210));
+        painelInternoMusica.setPreferredSize(new java.awt.Dimension(360, 270));
         painelInternoMusica.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         painelInternoMusica.add(jcbMusica, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 120, -1));
 
         jLabel1.setText("Selecione o dispositivo de escuta");
         painelInternoMusica.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, -1, -1));
+
+        painelInternoDecremental.setMaximumSize(new java.awt.Dimension(360, 270));
+        painelInternoDecremental.setMinimumSize(new java.awt.Dimension(360, 270));
+        painelInternoDecremental.setPreferredSize(new java.awt.Dimension(360, 270));
+        painelInternoDecremental.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lbVelocidadeDecremento.setText("Redução por Ciclo");
+        painelInternoDecremental.add(lbVelocidadeDecremento, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, -1, -1));
+
+        sliderReducaoPorCiclo.setMaximum(99);
+        sliderReducaoPorCiclo.setMinimum(1);
+        sliderReducaoPorCiclo.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sliderReducaoPorCicloStateChanged(evt);
+            }
+        });
+        painelInternoDecremental.add(sliderReducaoPorCiclo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, -1, -1));
+
+        lbVelocidadeCiclo.setText("Velocidade do Ciclo");
+        painelInternoDecremental.add(lbVelocidadeCiclo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, -1, -1));
+
+        sliderVelocidadeCiclo.setMaximum(1000);
+        sliderVelocidadeCiclo.setMinimum(1);
+        sliderVelocidadeCiclo.setValue(500);
+        sliderVelocidadeCiclo.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sliderVelocidadeCicloStateChanged(evt);
+            }
+        });
+        painelInternoDecremental.add(sliderVelocidadeCiclo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, -1, -1));
+
+        txtVelocidadeCiclo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtVelocidadeCiclo.setText("500");
+        txtVelocidadeCiclo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtVelocidadeCicloKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtVelocidadeCicloKeyReleased(evt);
+            }
+        });
+        painelInternoDecremental.add(txtVelocidadeCiclo, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, 80, -1));
+
+        txtReducaoPorCiclo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtReducaoPorCiclo.setText("50");
+        txtReducaoPorCiclo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtReducaoPorCicloKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtReducaoPorCicloKeyReleased(evt);
+            }
+        });
+        painelInternoDecremental.add(txtReducaoPorCiclo, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 80, -1));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImages(null);
@@ -552,11 +629,17 @@ public final class principal extends javax.swing.JFrame {
         jColorPrincipal.setColor(Color.RED);
         this.temperaturas = new ArrayList<>();
         this.cores = new ArrayList<>();
+        this.decremento = new ArrayList<>();
         listaPerifericos = new colecaoPerifericos();
         verificarPerifericosLogitech = new verificarPerifericosLogitech();
         preencherListaPerifericos();
         iniciarMonitorTemperatura();
         iniciarDispositivosDeAudio();
+        iniciarValorDecremento();
+    }
+
+    private void iniciarValorDecremento() {
+        pegarValorSliderDecremento();
     }
 
     private void iniciarDispositivosDeAudio() {
@@ -574,6 +657,14 @@ public final class principal extends javax.swing.JFrame {
         RGBexeCon = new RGBexeCon(tempCPU, tempGPU);
         Thread th = new Thread(RGBexeCon);
         th.start();
+    }
+
+    private void pegarValorSliderDecremento() {
+        decremento.clear();
+        Double valorDecremento = new Double((double) sliderReducaoPorCiclo.getValue() / 100.0D);
+        valorDecremento = 1.0D - valorDecremento;
+        decremento.add(valorDecremento);
+        decremento.add(new Double((double) sliderVelocidadeCiclo.getValue()));
     }
 
     private int iniciadoPerifericos() {
@@ -659,10 +750,10 @@ public final class principal extends javax.swing.JFrame {
         pararEfeito();
         Thread th;
         if (listaPerifericos.getPerifericos().size() > 0) {
+            cores.clear();
+            cores.add(jColorPrincipal.getSelectionModel().getSelectedColor());
             switch (jCbXEfeitos.getSelectedItem().toString()) {
                 case "Musica":
-                    cores.clear();
-                    cores.add(jColorPrincipal.getSelectionModel().getSelectedColor());
                     efeito = new efeitoMusica(listaPerifericos, cores, mixerChoices.get(jcbMusica.getSelectedIndex()));
                     break;
                 case "Tela":
@@ -689,13 +780,9 @@ public final class principal extends javax.swing.JFrame {
                     }
                     break;
                 case "Decremental":
-                    cores.clear();
-                    cores.add(jColorPrincipal.getSelectionModel().getSelectedColor());
-                    efeito = new efeitoDecremental(listaPerifericos, cores);
+                    efeito = new efeitoDecremental(listaPerifericos, cores, decremento);
                     break;
                 case "Selecionada":
-                    cores.clear();
-                    cores.add(jColorPrincipal.getSelectionModel().getSelectedColor());
                     efeito = new efeitoCorSelecionada(listaPerifericos, cores);
                     break;
                 case "Temperatura":
@@ -769,24 +856,18 @@ public final class principal extends javax.swing.JFrame {
     }
     private void txtTemp1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTemp1KeyPressed
         somenteDigitos(evt);
-        lbTemp1.setForeground(jColorPrincipal.getSelectionModel().getSelectedColor());
-
     }//GEN-LAST:event_txtTemp1KeyPressed
 
     private void txtTemp2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTemp2KeyPressed
         somenteDigitos(evt);
-        lbTemp2.setForeground(jColorPrincipal.getSelectionModel().getSelectedColor());
-
     }//GEN-LAST:event_txtTemp2KeyPressed
 
     private void txtTemp3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTemp3KeyPressed
         somenteDigitos(evt);
-        lbTemp3.setForeground(jColorPrincipal.getSelectionModel().getSelectedColor());
     }//GEN-LAST:event_txtTemp3KeyPressed
 
     private void txtTemp4KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTemp4KeyPressed
         somenteDigitos(evt);
-        lbTemp4.setForeground(jColorPrincipal.getSelectionModel().getSelectedColor());
     }//GEN-LAST:event_txtTemp4KeyPressed
 
     private void jCbXEfeitosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCbXEfeitosActionPerformed
@@ -818,7 +899,7 @@ public final class principal extends javax.swing.JFrame {
                 painelOpcoes.add(painelInternoSelecaoDeCores, absoluteConstraints);
                 break;
             case "Decremental":
-
+                painelOpcoes.add(painelInternoDecremental, absoluteConstraints);
                 break;
             case "Selecionada":
                 painelOpcoes.add(painelInternoPerifericos, absoluteConstraints);
@@ -1024,6 +1105,75 @@ public final class principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tempGPUPropertyChange
 
+    private void sliderReducaoPorCicloStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderReducaoPorCicloStateChanged
+        pegarValorSliderDecremento();
+        txtReducaoPorCiclo.setText(sliderReducaoPorCiclo.getValue() + "");
+    }//GEN-LAST:event_sliderReducaoPorCicloStateChanged
+
+    private void sliderVelocidadeCicloStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderVelocidadeCicloStateChanged
+        pegarValorSliderDecremento();
+        txtVelocidadeCiclo.setText(sliderVelocidadeCiclo.getValue() + "");
+    }//GEN-LAST:event_sliderVelocidadeCicloStateChanged
+
+    private void txtVelocidadeCicloKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtVelocidadeCicloKeyPressed
+        somenteDigitos(evt);
+    }//GEN-LAST:event_txtVelocidadeCicloKeyPressed
+
+    private void txtReducaoPorCicloKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtReducaoPorCicloKeyPressed
+        somenteDigitos(evt);
+
+    }//GEN-LAST:event_txtReducaoPorCicloKeyPressed
+
+    private void txtVelocidadeCicloKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtVelocidadeCicloKeyReleased
+        if (!txtVelocidadeCiclo.getText().equals("")) {
+            int valor = Integer.valueOf(txtVelocidadeCiclo.getText());
+            if (valor > 1000) {
+                valor = 1000;
+                JOptionPane.showMessageDialog(this, "Maior valor aceito e 1000");
+            } else {
+                if (valor < 1) {
+                    valor = 1;
+                    JOptionPane.showMessageDialog(this, "Menor valor aceito e 1");
+                }
+            }
+            sliderVelocidadeCiclo.setValue(valor);
+        }
+
+    }//GEN-LAST:event_txtVelocidadeCicloKeyReleased
+
+    private void txtReducaoPorCicloKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtReducaoPorCicloKeyReleased
+        if (!txtReducaoPorCiclo.getText().equals("")) {
+            int valor = Integer.valueOf(txtReducaoPorCiclo.getText());
+            if (valor > 99) {
+                valor = 99;
+                JOptionPane.showMessageDialog(this, "Maior valor aceito e 99");
+            } else {
+                if (valor < 1) {
+                    valor = 1;
+                    JOptionPane.showMessageDialog(this, "Menor valor aceito e 1");
+                }
+            }
+            sliderReducaoPorCiclo.setValue(valor);
+        }
+
+    }//GEN-LAST:event_txtReducaoPorCicloKeyReleased
+
+    private void txtTemp1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTemp1KeyReleased
+        lbTemp1.setForeground(jColorPrincipal.getSelectionModel().getSelectedColor());
+    }//GEN-LAST:event_txtTemp1KeyReleased
+
+    private void txtTemp2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTemp2KeyReleased
+        lbTemp2.setForeground(jColorPrincipal.getSelectionModel().getSelectedColor());
+    }//GEN-LAST:event_txtTemp2KeyReleased
+
+    private void txtTemp3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTemp3KeyReleased
+        lbTemp3.setForeground(jColorPrincipal.getSelectionModel().getSelectedColor());
+    }//GEN-LAST:event_txtTemp3KeyReleased
+
+    private void txtTemp4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTemp4KeyReleased
+        lbTemp4.setForeground(jColorPrincipal.getSelectionModel().getSelectedColor());
+    }//GEN-LAST:event_txtTemp4KeyReleased
+
     private void alocarPerifericos(JLabel obj) {
         Point local = painelInternoImagens.getMousePosition();
         if (local != null) {
@@ -1133,7 +1283,10 @@ public final class principal extends javax.swing.JFrame {
     private javax.swing.JLabel lbTemp2;
     private javax.swing.JLabel lbTemp3;
     private javax.swing.JLabel lbTemp4;
+    private javax.swing.JLabel lbVelocidadeCiclo;
+    private javax.swing.JLabel lbVelocidadeDecremento;
     private javax.swing.JPanel painelCores;
+    private javax.swing.JPanel painelInternoDecremental;
     private javax.swing.JPanel painelInternoImagens;
     private javax.swing.JPanel painelInternoMusica;
     private javax.swing.JPanel painelInternoPerifericos;
@@ -1143,13 +1296,17 @@ public final class principal extends javax.swing.JFrame {
     private javax.swing.JLayeredPane painelOpcoes;
     private javax.swing.JLayeredPane painelPrincipal;
     private javax.swing.JPanel painelSuperior;
+    private javax.swing.JSlider sliderReducaoPorCiclo;
+    private javax.swing.JSlider sliderVelocidadeCiclo;
     private javax.swing.JLabel tempCPU;
     private javax.swing.JLabel tempCPUDescricao;
     private javax.swing.JLabel tempGPU;
     private javax.swing.JLabel tempGPUDescricao;
+    private javax.swing.JTextField txtReducaoPorCiclo;
     private javax.swing.JFormattedTextField txtTemp1;
     private javax.swing.JFormattedTextField txtTemp2;
     private javax.swing.JFormattedTextField txtTemp3;
     private javax.swing.JFormattedTextField txtTemp4;
+    private javax.swing.JTextField txtVelocidadeCiclo;
     // End of variables declaration//GEN-END:variables
 }

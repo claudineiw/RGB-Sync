@@ -7,16 +7,18 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 public final class efeitoDecremental extends IEfeitos{
-
-    public efeitoDecremental(colecaoPerifericos listaPerifericos, ArrayList<Color> cores) {
+    private ArrayList<Double> velocidade;
+    public efeitoDecremental(colecaoPerifericos listaPerifericos, ArrayList<Color> cores, ArrayList<Double> velocidade) {
         super(listaPerifericos, cores);
+        this.velocidade=velocidade;
     }
 
     @Override
     public void run() {
-       tempoPorVolta tempo = new tempoPorVolta(1000);
+       tempoPorVolta tempo = new tempoPorVolta(velocidade.get(1).intValue());
         while (!allDone) {    
-            trocarCorDecremental();
+            tempo.setEspera(velocidade.get(1).intValue());
+            trocarCorDecremental(velocidade);
             tempo.calculo();
             chamarMetodosClasse();   
             iniciarThreads();

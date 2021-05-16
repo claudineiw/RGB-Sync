@@ -41,7 +41,9 @@ public class tempoPorVolta {
     private long getEspera() {
         return espera;
     }
-    
+    public void setEspera(long espera){
+        this.espera=espera;
+    }
     public void calculo(){
         if(getComeco()==0l){
             setComeco(System.currentTimeMillis());
