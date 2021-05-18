@@ -46,6 +46,8 @@ import efeitos.efeitoPassagem;
 import java.util.List;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Mixer;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 
 @SuppressWarnings("serial")
@@ -857,7 +859,7 @@ public final class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAplicarEfeitoActionPerformed
 
     private boolean preencherTemperaturas() {
-        try {
+        if(efeito instanceof efeitoPorTemperatura){
             int temp1 = Integer.valueOf(txtTemp1.getText());
             int temp2 = Integer.valueOf(txtTemp2.getText());
             int temp3 = Integer.valueOf(txtTemp3.getText());
@@ -888,7 +890,7 @@ public final class principal extends javax.swing.JFrame {
             } else {
                 return false;
             }
-        } catch (Exception ex) {
+        }else{
             return false;
         }
     }
@@ -1142,17 +1144,13 @@ public final class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRemoverDaListaActionPerformed
 
     private void tempCPUPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tempCPUPropertyChange
-        alterarDadosTemperatura();
+        preencherTemperaturas();
     }//GEN-LAST:event_tempCPUPropertyChange
 
     private void tempGPUPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tempGPUPropertyChange
-        alterarDadosTemperatura();
+        preencherTemperaturas();
     }//GEN-LAST:event_tempGPUPropertyChange
-    private void alterarDadosTemperatura() {
-        if (efeito instanceof efeitoPorTemperatura) {
-            preencherTemperaturas();
-        }
-    }
+ 
     private void sliderReducaoPorCicloStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderReducaoPorCicloStateChanged
         pegarValorSliderDecremento();
         txtReducaoPorCiclo.setText(sliderReducaoPorCiclo.getValue() + "");
@@ -1173,39 +1171,31 @@ public final class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtReducaoPorCicloKeyPressed
 
     private void txtVelocidadeCicloKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtVelocidadeCicloKeyReleased
-        if (!txtVelocidadeCiclo.getText().equals("")) {
-            int valor = Integer.valueOf(txtVelocidadeCiclo.getText());
-            if (valor > 1000) {
-                valor = 1000;
-                JOptionPane.showMessageDialog(this, "Maior valor aceito e 1000");
-            } else {
-                if (valor < 1) {
-                    valor = 1;
-                    JOptionPane.showMessageDialog(this, "Menor valor aceito e 1");
-                }
-            }
-            sliderVelocidadeCiclo.setValue(valor);
-        }
+         tratarSliderDeCiclo(txtVelocidadeCiclo,sliderVelocidadeCiclo);        
 
     }//GEN-LAST:event_txtVelocidadeCicloKeyReleased
 
     private void txtReducaoPorCicloKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtReducaoPorCicloKeyReleased
-        if (!txtReducaoPorCiclo.getText().equals("")) {
-            int valor = Integer.valueOf(txtReducaoPorCiclo.getText());
-            if (valor > 99) {
-                valor = 99;
-                JOptionPane.showMessageDialog(this, "Maior valor aceito e 99");
+       tratarSliderDeCiclo(txtReducaoPorCiclo,sliderReducaoPorCiclo);
+    }//GEN-LAST:event_txtReducaoPorCicloKeyReleased
+    
+    private void tratarSliderDeCiclo(JTextField texto,JSlider slider){
+        if (!texto.getText().equals("")) {
+            int valor = Integer.valueOf(texto.getText());
+            int menor = slider.getMinimum();
+            int maior = slider.getMaximum();
+            if (valor > maior) {
+                valor = maior;
+                JOptionPane.showMessageDialog(this, "Maior valor aceito e "+maior);
             } else {
-                if (valor < 1) {
-                    valor = 1;
-                    JOptionPane.showMessageDialog(this, "Menor valor aceito e 1");
+                if (valor < menor) {
+                    valor = menor;
+                    JOptionPane.showMessageDialog(this, "Menor valor aceito e "+menor);
                 }
             }
-            sliderReducaoPorCiclo.setValue(valor);
+            slider.setValue(valor);
         }
-
-    }//GEN-LAST:event_txtReducaoPorCicloKeyReleased
-
+    }
     private void txtTemp1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTemp1KeyReleased
         lbTemp1.setForeground(jColorPrincipal.getSelectionModel().getSelectedColor());
     }//GEN-LAST:event_txtTemp1KeyReleased
@@ -1223,19 +1213,7 @@ public final class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTemp4KeyReleased
 
     private void txtVelocidadeCicloStrobolKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtVelocidadeCicloStrobolKeyReleased
-        if (!txtVelocidadeCicloStrobol.getText().equals("")) {
-            int valor = Integer.valueOf(txtVelocidadeCicloStrobol.getText());
-            if (valor > 1000) {
-                valor = 1000;
-                JOptionPane.showMessageDialog(this, "Maior valor aceito e 1000");
-            } else {
-                if (valor < 1) {
-                    valor = 1;
-                    JOptionPane.showMessageDialog(this, "Menor valor aceito e 1");
-                }
-            }
-            sliderVelocidadeCicloStrobol.setValue(valor);
-        }
+        tratarSliderDeCiclo(txtVelocidadeCicloStrobol,sliderVelocidadeCicloStrobol); 
     }//GEN-LAST:event_txtVelocidadeCicloStrobolKeyReleased
 
     private void txtVelocidadeCicloStrobolKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtVelocidadeCicloStrobolKeyPressed

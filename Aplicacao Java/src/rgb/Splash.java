@@ -3,7 +3,6 @@ package RGB;
 import Metodos.tempoPorVolta;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
