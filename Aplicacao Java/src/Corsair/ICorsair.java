@@ -14,6 +14,7 @@ public abstract class ICorsair implements IPerifericos{
     private CorsairColor cor;
     private final  CorsairDevice device;
     private final CueSDK CorsairSDK;
+    private final String tipo;
     private String nome;
     private String ID;
     private final int primeira;
@@ -26,13 +27,14 @@ public abstract class ICorsair implements IPerifericos{
     {139,140,141,49,51,52,53,54,55,56,57,58,59,60,91,93,116,117,118,108},
     {142,143,144,61,62,63,65,68,69,70,92,94,95,96,119,120,154}
     };
-    public ICorsair(String nome,CueSDK CorsairSDK, CorsairDevice device, int primeira,int ultima){
+    public ICorsair(String nome,String tipo,CueSDK CorsairSDK, CorsairDevice device, int primeira,int ultima){
         this.CorsairSDK=CorsairSDK;
         this.device=device;
         this.nome=nome;
         this.primeira=primeira;
         this.ultima=ultima;       
         this.ID=Arrays.toString(device.getDeviceId());
+        this.tipo=tipo;
     }
     
     
@@ -79,6 +81,11 @@ public abstract class ICorsair implements IPerifericos{
 
     }
 
+    public String getTipo() {
+        return tipo;
+    }
+    
+    
     @Override
     public void limparCorDispositivo() {
        

@@ -7,8 +7,8 @@ import ca.fiercest.cuesdk.enums.LedId;
 
 public class HeadsetStand extends ICorsair implements IHeadsetStand {
 
-    public HeadsetStand(String nome, CueSDK CorsairSDK, CorsairDevice device) {
-        super(nome, CorsairSDK, device, 191, 199);
+    public HeadsetStand(String nome, String tipo,CueSDK CorsairSDK, CorsairDevice device) {
+        super(nome,tipo, CorsairSDK, device, 191, 199);
     }
 
     @Override

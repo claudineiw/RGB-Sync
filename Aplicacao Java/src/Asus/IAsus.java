@@ -11,20 +11,27 @@ public abstract class IAsus implements IPerifericos {
 
     private AsusColor cor;
     private String nome;
-    private String ID;
+    private String tipo;
     private final int[] zonasRGB;
-    private final int tipoDoDispositivo;
     private final AuraSDK AsusAura;
     private final AuraSDKDevice AuraSDKDevice;
 
-    public IAsus(String nome, String ID, int[] zonasRGB, int tipoDoDispositivo, AuraSDK AsusAura, AuraSDKDevice AuraSDKDevice) {
+    public IAsus(String nome, String tipo, int[] zonasRGB, AuraSDK AsusAura, AuraSDKDevice AuraSDKDevice) {
         this.nome = nome;
-        this.ID = ID;
+        this.tipo = tipo;
         this.zonasRGB = zonasRGB;
-        this.tipoDoDispositivo = tipoDoDispositivo;
         this.AsusAura = AsusAura;
         this.AuraSDKDevice = AuraSDKDevice;
         AsusAura.GainControl();
+    }
+    @Override
+    public String getID() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setID(String ID) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -52,14 +59,13 @@ public abstract class IAsus implements IPerifericos {
         return "Asus";
     }
 
-    @Override
-    public String getID() {
-        return ID;
+    
+    public String getTipo() {
+        return tipo;
     }
-
-    @Override
-    public void setID(String ID) {
-        this.ID = ID;
+   
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     @Override
@@ -86,12 +92,5 @@ public abstract class IAsus implements IPerifericos {
         AsusAura.setAllColors(cor);
     }
 
-    public int getTipoDoDispositivo() {
-        return tipoDoDispositivo;
-    }
-
-    
-    
-    
     
 }

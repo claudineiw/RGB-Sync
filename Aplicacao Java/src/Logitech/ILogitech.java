@@ -17,8 +17,7 @@ public abstract class ILogitech extends com.logitech.gaming.LogiLED implements I
         {0xFFF5, 0x1D, 0x15B, 0x38, 0x39, 0x138, 0x15C, 0x15D, 0x11D, 0x14B, 0x150, 0x14D, 0x52, 0x53}
     };
 
-    public ILogitech(String nome, String ID, java.awt.Color cor, int[] zonasRGB, short tipoDoDispositivo) {
-        this.cor = new ColorLogitech(cor);
+    public ILogitech(String nome, String ID, int[] zonasRGB, short tipoDoDispositivo) {
         this.nome = nome;
         this.ID = ID;
         this.zonasRGB = zonasRGB;

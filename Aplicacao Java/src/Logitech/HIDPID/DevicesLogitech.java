@@ -51,7 +51,7 @@ public static ArrayList<DevicesLogitech> GetPerifericos() {
         DevicesLogitech.add(new DevicesLogitech("G903", "Mouse", (short) 0xC086, 2, "default"));
         DevicesLogitech.add(new DevicesLogitech("G903", "Mouse", (short) 0xC539, 2, "default"));
         DevicesLogitech.add(new DevicesLogitech("G903/G703", "Mouse", (short) 0XC53A, 2, "default"));
-        DevicesLogitech.add(new DevicesLogitech("POWERPLAY", "Mousepad", (short) 0xC53A, 1, "default"));
+        DevicesLogitech.add(new DevicesLogitech("POWERPLAY", "MousePad", (short) 0xC53A, 1, "default"));
         DevicesLogitech.add(new DevicesLogitech("G900", "Mouse", (short) 0xC539, 2, "default"));
         DevicesLogitech.add(new DevicesLogitech("G703", "Mouse", (short) 0xC087, 2, "default"));
         DevicesLogitech.add(new DevicesLogitech("G502 HERO", "Mouse", (short) 0xC08B, 2, "default"));

@@ -6,8 +6,8 @@ public final class MouseMat extends ILogitech implements IMouseMat {
 
     private final static int[] zonasRGB = {0};
 
-    public MouseMat(String nome, String ID, java.awt.Color cor) {
-        super(nome, ID, cor, zonasRGB, (short)0x4);
+    public MouseMat(String nome, String ID) {
+        super(nome, ID,  zonasRGB, (short)0x4);
     }
 
     @Override

@@ -5,11 +5,10 @@ import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.aurasdk.AuraSDKDevice;
 
 public final class MotherBoard extends IAsus implements IMotherBoard {
-
     private final static int[] zonasRGB = {0, 1};
 
-    public MotherBoard(String nome, String ID, int tipoDoDispositivo, AuraSDK AsusAura, AuraSDKDevice AuraSDKDevice) {
-        super(nome, ID, zonasRGB, tipoDoDispositivo, AsusAura, AuraSDKDevice);
+    public MotherBoard(String nome, String tipo, AuraSDK AsusAura, AuraSDKDevice AuraSDKDevice) {
+        super(nome, tipo, zonasRGB, AsusAura, AuraSDKDevice);        
     }
 
     @Override
@@ -22,5 +21,7 @@ public final class MotherBoard extends IAsus implements IMotherBoard {
     public int getCountLight() {
         return this.getLight().size();
     }
+
+    
 
 }

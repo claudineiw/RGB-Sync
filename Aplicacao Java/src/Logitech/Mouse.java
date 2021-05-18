@@ -1,7 +1,6 @@
 package Logitech;
 
 import IPerifericos.IMouse;
-import java.awt.Color;
 
 /**
  *
@@ -17,8 +16,8 @@ public final class Mouse extends ILogitech implements IMouse {
      * @param ID
      * @param cor
      */
-    public Mouse(String nome, String ID, Color cor) {
-        super(nome, ID, cor, zonasRGB, (short)3);
+    public Mouse(String nome, String ID) {
+        super(nome, ID, zonasRGB, (short)3);
     }
 
 }
