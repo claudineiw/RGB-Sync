@@ -335,9 +335,7 @@ public final class principal extends javax.swing.JFrame {
         );
         panelJscrollTodosLayout.setVerticalGroup(
             panelJscrollTodosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelJscrollTodosLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollTodosPerifericos, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jScrollTodosPerifericos, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
         );
 
         painelInternoPerifericos.add(panelJscrollTodos);
@@ -538,7 +536,7 @@ public final class principal extends javax.swing.JFrame {
                 .addComponent(jCbXEfeitos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAplicarEfeito)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         tempCPU.setText("0");
@@ -621,7 +619,6 @@ public final class principal extends javax.swing.JFrame {
         painelOpcoes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         painelOpcoes.setMaximumSize(new java.awt.Dimension(420, 365));
         painelOpcoes.setMinimumSize(new java.awt.Dimension(420, 365));
-        painelOpcoes.setPreferredSize(new java.awt.Dimension(420, 365));
         painelOpcoes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         painelPrincipal.setLayer(painelLateralEsquerda, javax.swing.JLayeredPane.DEFAULT_LAYER);
