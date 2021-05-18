@@ -65,8 +65,8 @@ public final class efeitoPorImagemDaTela extends IEfeitos {
     private void capturarImagem() {
         try {
             image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-            Image img = image.getScaledInstance(60, 30, BufferedImage.SCALE_SMOOTH);
-            image = new BufferedImage(60, 30, TYPE_INT_ARGB);
+            Image img = image.getScaledInstance(80, 50, BufferedImage.SCALE_SMOOTH);
+            image = new BufferedImage(80, 50, TYPE_INT_ARGB);
             image.getGraphics().drawImage(img, 0, 0, null);
             largura = image.getWidth();
             altura = image.getHeight();

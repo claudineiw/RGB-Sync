@@ -1,6 +1,6 @@
 package capturaImagem;
 
-import efeitos.efeitoPorImagemDaTela;
+import Metodos.tempoPorVolta;
 import java.awt.AWTException;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 import javax.swing.JLabel;
 
 public final class capturaTela implements Runnable {
-
     private BufferedImage image;
     public boolean allDone = false;
     private final JLabel lbImagem;
@@ -24,19 +23,18 @@ public final class capturaTela implements Runnable {
 
     @Override
     public void run() {
+        tempoPorVolta tempo = new tempoPorVolta(500);
         while (!allDone) {
             try {
-                Thread.sleep(500);
+                tempo.calculo();
                 image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+                Image img = image.getScaledInstance(lbImagem.getWidth(), lbImagem.getHeight(), BufferedImage.SCALE_SMOOTH);
+                image = new BufferedImage(lbImagem.getWidth(), lbImagem.getHeight(), TYPE_INT_ARGB);
+                image.getGraphics().drawImage(img, 0, 0, null);
+                getLbImagem().setIcon(new javax.swing.ImageIcon(image));
             } catch (AWTException ex) {
-                Logger.getLogger(efeitoPorImagemDaTela.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
                 Logger.getLogger(capturaTela.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Image img = image.getScaledInstance(360, 270, BufferedImage.SCALE_SMOOTH);
-            image = new BufferedImage(360, 270, TYPE_INT_ARGB);
-            image.getGraphics().drawImage(img, 0, 0, null);
-            getLbImagem().setIcon(new javax.swing.ImageIcon(image));
         }
     }
 

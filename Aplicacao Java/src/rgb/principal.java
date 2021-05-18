@@ -43,6 +43,7 @@ import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.cuesdk.CorsairDevice;
 import efeitos.IEfeitos;
 import efeitos.efeitoPassagem;
+import java.util.List;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Mixer;
 import javax.swing.event.ChangeEvent;
@@ -132,17 +133,26 @@ public final class principal extends javax.swing.JFrame {
         btnMinimizar = new javax.swing.JButton();
         painelOpcoes = new javax.swing.JLayeredPane();
 
-        painelInternoTemperatuas.setMaximumSize(new java.awt.Dimension(360, 270));
-        painelInternoTemperatuas.setMinimumSize(new java.awt.Dimension(360, 270));
-        painelInternoTemperatuas.setPreferredSize(new java.awt.Dimension(360, 270));
+        painelInternoTemperatuas.setMaximumSize(new java.awt.Dimension(420, 365));
+        painelInternoTemperatuas.setMinimumSize(new java.awt.Dimension(420, 365));
+        painelInternoTemperatuas.setPreferredSize(new java.awt.Dimension(420, 365));
+        painelInternoTemperatuas.setLayout(null);
 
         lbTemp4.setText("Temperatura 04");
+        painelInternoTemperatuas.add(lbTemp4);
+        lbTemp4.setBounds(146, 224, 91, 21);
 
         lbTemp1.setText("Temperatura 01");
+        painelInternoTemperatuas.add(lbTemp1);
+        lbTemp1.setBounds(146, 125, 91, 21);
 
         lbTemp2.setText("Temperatura 02");
+        painelInternoTemperatuas.add(lbTemp2);
+        lbTemp2.setBounds(146, 158, 91, 21);
 
         lbTemp3.setText("Temperatura 03");
+        painelInternoTemperatuas.add(lbTemp3);
+        lbTemp3.setBounds(146, 191, 91, 21);
 
         txtTemp4.setText("0");
         txtTemp4.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -153,6 +163,8 @@ public final class principal extends javax.swing.JFrame {
                 txtTemp4KeyReleased(evt);
             }
         });
+        painelInternoTemperatuas.add(txtTemp4);
+        txtTemp4.setBounds(248, 224, 30, 21);
 
         txtTemp1.setText("0");
         txtTemp1.setPreferredSize(new java.awt.Dimension(11, 21));
@@ -164,6 +176,8 @@ public final class principal extends javax.swing.JFrame {
                 txtTemp1KeyReleased(evt);
             }
         });
+        painelInternoTemperatuas.add(txtTemp1);
+        txtTemp1.setBounds(248, 125, 30, 21);
 
         txtTemp2.setText("0");
         txtTemp2.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -174,6 +188,8 @@ public final class principal extends javax.swing.JFrame {
                 txtTemp2KeyReleased(evt);
             }
         });
+        painelInternoTemperatuas.add(txtTemp2);
+        txtTemp2.setBounds(248, 158, 30, 21);
 
         txtTemp3.setText("0");
         txtTemp3.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -184,60 +200,16 @@ public final class principal extends javax.swing.JFrame {
                 txtTemp3KeyReleased(evt);
             }
         });
+        painelInternoTemperatuas.add(txtTemp3);
+        txtTemp3.setBounds(248, 191, 30, 21);
 
         jCbDispositivo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CPU", "GPU" }));
+        painelInternoTemperatuas.add(jCbDispositivo);
+        jCbDispositivo.setBounds(150, 80, 80, 26);
 
-        javax.swing.GroupLayout painelInternoTemperatuasLayout = new javax.swing.GroupLayout(painelInternoTemperatuas);
-        painelInternoTemperatuas.setLayout(painelInternoTemperatuasLayout);
-        painelInternoTemperatuasLayout.setHorizontalGroup(
-            painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(painelInternoTemperatuasLayout.createSequentialGroup()
-                .addGap(99, 99, 99)
-                .addGroup(painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(painelInternoTemperatuasLayout.createSequentialGroup()
-                        .addGroup(painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbTemp1)
-                            .addComponent(lbTemp2)
-                            .addComponent(lbTemp3)
-                            .addComponent(lbTemp4))
-                        .addGap(11, 11, 11)
-                        .addGroup(painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTemp1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTemp4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTemp2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTemp3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(painelInternoTemperatuasLayout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jCbDispositivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(139, Short.MAX_VALUE))
-        );
-        painelInternoTemperatuasLayout.setVerticalGroup(
-            painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(painelInternoTemperatuasLayout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(jCbDispositivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtTemp1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lbTemp1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtTemp2, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
-                    .addComponent(lbTemp2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtTemp3, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
-                    .addComponent(lbTemp3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(painelInternoTemperatuasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtTemp4, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
-                    .addComponent(lbTemp4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(86, Short.MAX_VALUE))
-        );
-
-        painelInternoImagens.setMaximumSize(new java.awt.Dimension(360, 270));
-        painelInternoImagens.setMinimumSize(new java.awt.Dimension(360, 270));
-        painelInternoImagens.setPreferredSize(new java.awt.Dimension(360, 270));
+        painelInternoImagens.setMaximumSize(new java.awt.Dimension(420, 365));
+        painelInternoImagens.setMinimumSize(new java.awt.Dimension(420, 365));
+        painelInternoImagens.setPreferredSize(new java.awt.Dimension(420, 365));
         painelInternoImagens.setSize(360,270);
         painelInternoImagens.setRequestFocusEnabled(false);
         painelInternoImagens.setVerifyInputWhenFocusTarget(false);
@@ -254,7 +226,7 @@ public final class principal extends javax.swing.JFrame {
             }
         });
         painelInternoImagens.add(lbMouse);
-        lbMouse.setBounds(290, 100, 60, 70);
+        lbMouse.setBounds(350, 140, 60, 70);
         lbMouse.getAccessibleContext().setAccessibleName("lbMouse");
 
         lbTeclado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -266,17 +238,19 @@ public final class principal extends javax.swing.JFrame {
             }
         });
         painelInternoImagens.add(lbTeclado);
-        lbTeclado.setBounds(120, 200, 130, 70);
+        lbTeclado.setBounds(140, 290, 130, 70);
         lbTeclado.getAccessibleContext().setAccessibleName("lbTeclado");
 
+        lbImagem.setMaximumSize(new java.awt.Dimension(420, 365));
+        lbImagem.setMinimumSize(new java.awt.Dimension(420, 365));
         lbImagem.setName("lbImagem"); // NOI18N
         painelInternoImagens.add(lbImagem);
-        lbImagem.setBounds(0, 0, 360, 270);
+        lbImagem.setBounds(0, 0, 420, 365);
         lbImagem.getAccessibleContext().setAccessibleName("lbImagem");
 
-        painelInternoSelecaoDeCores.setMaximumSize(new java.awt.Dimension(360, 270));
-        painelInternoSelecaoDeCores.setMinimumSize(new java.awt.Dimension(360, 270));
-        painelInternoSelecaoDeCores.setPreferredSize(new java.awt.Dimension(360, 270));
+        painelInternoSelecaoDeCores.setMaximumSize(new java.awt.Dimension(420, 365));
+        painelInternoSelecaoDeCores.setMinimumSize(new java.awt.Dimension(420, 365));
+        painelInternoSelecaoDeCores.setPreferredSize(new java.awt.Dimension(420, 365));
         painelInternoSelecaoDeCores.setLayout(null);
 
         jcBSelecaoDeCores.addActionListener(new java.awt.event.ActionListener() {
@@ -285,7 +259,7 @@ public final class principal extends javax.swing.JFrame {
             }
         });
         painelInternoSelecaoDeCores.add(jcBSelecaoDeCores);
-        jcBSelecaoDeCores.setBounds(100, 80, 144, 26);
+        jcBSelecaoDeCores.setBounds(143, 132, 144, 26);
 
         btnAdicionarCorSelecionada.setText("Adicionar");
         btnAdicionarCorSelecionada.addActionListener(new java.awt.event.ActionListener() {
@@ -294,7 +268,7 @@ public final class principal extends javax.swing.JFrame {
             }
         });
         painelInternoSelecaoDeCores.add(btnAdicionarCorSelecionada);
-        btnAdicionarCorSelecionada.setBounds(60, 140, 84, 32);
+        btnAdicionarCorSelecionada.setBounds(103, 192, 84, 32);
 
         btnRemoverCorSelecionada.setText("Remover");
         btnRemoverCorSelecionada.addActionListener(new java.awt.event.ActionListener() {
@@ -303,84 +277,91 @@ public final class principal extends javax.swing.JFrame {
             }
         });
         painelInternoSelecaoDeCores.add(btnRemoverCorSelecionada);
-        btnRemoverCorSelecionada.setBounds(187, 141, 81, 32);
+        btnRemoverCorSelecionada.setBounds(230, 193, 81, 32);
 
-        painelInternoPerifericos.setMaximumSize(new java.awt.Dimension(360, 270));
-        painelInternoPerifericos.setMinimumSize(new java.awt.Dimension(360, 270));
-        painelInternoPerifericos.setPreferredSize(new java.awt.Dimension(360, 270));
-        painelInternoPerifericos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        painelInternoPerifericos.setMaximumSize(new java.awt.Dimension(420, 365));
+        painelInternoPerifericos.setMinimumSize(new java.awt.Dimension(420, 365));
+        painelInternoPerifericos.setPreferredSize(new java.awt.Dimension(420, 365));
+        painelInternoPerifericos.setLayout(null);
 
         btnAdicionarNaLista.setBackground(new java.awt.Color(60, 63, 255,0));
-        btnAdicionarNaLista.setText(">>");
+        btnAdicionarNaLista.setText(">");
         btnAdicionarNaLista.setPreferredSize(new java.awt.Dimension(10, 10));
         btnAdicionarNaLista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAdicionarNaListaActionPerformed(evt);
             }
         });
-        painelInternoPerifericos.add(btnAdicionarNaLista, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, 50, 30));
+        painelInternoPerifericos.add(btnAdicionarNaLista);
+        btnAdicionarNaLista.setBounds(194, 128, 40, 30);
 
         btnRemoverDaLista.setBackground(new java.awt.Color(60, 63, 255,0));
-        btnRemoverDaLista.setText("<<");
+        btnRemoverDaLista.setText("<");
         btnRemoverDaLista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRemoverDaListaActionPerformed(evt);
             }
         });
-        painelInternoPerifericos.add(btnRemoverDaLista, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 50, -1));
+        painelInternoPerifericos.add(btnRemoverDaLista);
+        btnRemoverDaLista.setBounds(194, 178, 40, 32);
 
-        jLPerifericos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jLPerifericos.setToolTipText("");
         jScrollTodosPerifericos.setViewportView(jLPerifericos);
 
         javax.swing.GroupLayout panelJscrollTodosLayout = new javax.swing.GroupLayout(panelJscrollTodos);
         panelJscrollTodos.setLayout(panelJscrollTodosLayout);
         panelJscrollTodosLayout.setHorizontalGroup(
             panelJscrollTodosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollTodosPerifericos, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+            .addGroup(panelJscrollTodosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollTodosPerifericos, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE))
         );
         panelJscrollTodosLayout.setVerticalGroup(
             panelJscrollTodosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollTodosPerifericos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
         );
 
-        painelInternoPerifericos.add(panelJscrollTodos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 140, 240));
+        painelInternoPerifericos.add(panelJscrollTodos);
+        panelJscrollTodos.setBounds(6, 58, 182, 240);
 
-        jLSelecionados.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPerifericosSelecionados.setViewportView(jLSelecionados);
 
         javax.swing.GroupLayout panelJscrollSelecionadosLayout = new javax.swing.GroupLayout(panelJscrollSelecionados);
         panelJscrollSelecionados.setLayout(panelJscrollSelecionadosLayout);
         panelJscrollSelecionadosLayout.setHorizontalGroup(
             panelJscrollSelecionadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelJscrollSelecionadosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPerifericosSelecionados, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(panelJscrollSelecionadosLayout.createSequentialGroup()
+                .addComponent(jScrollPerifericosSelecionados, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         panelJscrollSelecionadosLayout.setVerticalGroup(
             panelJscrollSelecionadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPerifericosSelecionados, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
         );
 
-        painelInternoPerifericos.add(panelJscrollSelecionados, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, 160, 240));
+        painelInternoPerifericos.add(panelJscrollSelecionados);
+        panelJscrollSelecionados.setBounds(234, 58, 182, 240);
 
-        painelInternoMusica.setMaximumSize(new java.awt.Dimension(360, 270));
-        painelInternoMusica.setMinimumSize(new java.awt.Dimension(360, 270));
-        painelInternoMusica.setPreferredSize(new java.awt.Dimension(360, 270));
-        painelInternoMusica.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        painelInternoMusica.setMaximumSize(new java.awt.Dimension(420, 365));
+        painelInternoMusica.setMinimumSize(new java.awt.Dimension(420, 365));
+        painelInternoMusica.setPreferredSize(new java.awt.Dimension(420, 365));
+        painelInternoMusica.setLayout(null);
 
-        painelInternoMusica.add(jcbMusica, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 120, -1));
+        painelInternoMusica.add(jcbMusica);
+        jcbMusica.setBounds(149, 164, 120, 26);
 
         jLabel1.setText("Selecione o dispositivo de escuta");
-        painelInternoMusica.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, -1, -1));
+        painelInternoMusica.add(jLabel1);
+        jLabel1.setBounds(119, 134, 189, 16);
 
-        painelInternoStrobol.setMaximumSize(new java.awt.Dimension(360, 270));
-        painelInternoStrobol.setMinimumSize(new java.awt.Dimension(360, 270));
-        painelInternoStrobol.setPreferredSize(new java.awt.Dimension(360, 270));
-        painelInternoStrobol.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        painelInternoStrobol.setMaximumSize(new java.awt.Dimension(420, 365));
+        painelInternoStrobol.setMinimumSize(new java.awt.Dimension(420, 365));
+        painelInternoStrobol.setPreferredSize(new java.awt.Dimension(420, 365));
+        painelInternoStrobol.setLayout(null);
 
         lbVelocidadeCiclo1.setText("Velocidade do Ciclo");
-        painelInternoStrobol.add(lbVelocidadeCiclo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, -1, -1));
+        painelInternoStrobol.add(lbVelocidadeCiclo1);
+        lbVelocidadeCiclo1.setBounds(160, 139, 111, 16);
 
         sliderVelocidadeCicloStrobol.setMaximum(1000);
         sliderVelocidadeCicloStrobol.setMinimum(1);
@@ -390,7 +371,8 @@ public final class principal extends javax.swing.JFrame {
                 sliderVelocidadeCicloStrobolStateChanged(evt);
             }
         });
-        painelInternoStrobol.add(sliderVelocidadeCicloStrobol, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, -1, -1));
+        painelInternoStrobol.add(sliderVelocidadeCicloStrobol);
+        sliderVelocidadeCicloStrobol.setBounds(110, 169, 200, 16);
 
         txtVelocidadeCicloStrobol.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtVelocidadeCicloStrobol.setText("500");
@@ -402,15 +384,17 @@ public final class principal extends javax.swing.JFrame {
                 txtVelocidadeCicloStrobolKeyReleased(evt);
             }
         });
-        painelInternoStrobol.add(txtVelocidadeCicloStrobol, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 80, -1));
+        painelInternoStrobol.add(txtVelocidadeCicloStrobol);
+        txtVelocidadeCicloStrobol.setBounds(170, 189, 80, 24);
 
-        painelInternoDecremental.setMaximumSize(new java.awt.Dimension(360, 270));
-        painelInternoDecremental.setMinimumSize(new java.awt.Dimension(360, 270));
-        painelInternoDecremental.setPreferredSize(new java.awt.Dimension(360, 270));
-        painelInternoDecremental.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        painelInternoDecremental.setMaximumSize(new java.awt.Dimension(420, 365));
+        painelInternoDecremental.setMinimumSize(new java.awt.Dimension(420, 365));
+        painelInternoDecremental.setPreferredSize(new java.awt.Dimension(420, 365));
+        painelInternoDecremental.setLayout(null);
 
         lbVelocidadeDecremento.setText("Redução por Ciclo");
-        painelInternoDecremental.add(lbVelocidadeDecremento, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, -1, -1));
+        painelInternoDecremental.add(lbVelocidadeDecremento);
+        lbVelocidadeDecremento.setBounds(164, 100, 103, 16);
 
         sliderReducaoPorCiclo.setMaximum(99);
         sliderReducaoPorCiclo.setMinimum(1);
@@ -419,10 +403,12 @@ public final class principal extends javax.swing.JFrame {
                 sliderReducaoPorCicloStateChanged(evt);
             }
         });
-        painelInternoDecremental.add(sliderReducaoPorCiclo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, -1, -1));
+        painelInternoDecremental.add(sliderReducaoPorCiclo);
+        sliderReducaoPorCiclo.setBounds(114, 130, 200, 16);
 
         lbVelocidadeCiclo.setText("Velocidade do Ciclo");
-        painelInternoDecremental.add(lbVelocidadeCiclo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, -1, -1));
+        painelInternoDecremental.add(lbVelocidadeCiclo);
+        lbVelocidadeCiclo.setBounds(164, 190, 111, 16);
 
         sliderVelocidadeCiclo.setMaximum(1000);
         sliderVelocidadeCiclo.setMinimum(1);
@@ -432,7 +418,8 @@ public final class principal extends javax.swing.JFrame {
                 sliderVelocidadeCicloStateChanged(evt);
             }
         });
-        painelInternoDecremental.add(sliderVelocidadeCiclo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, -1, -1));
+        painelInternoDecremental.add(sliderVelocidadeCiclo);
+        sliderVelocidadeCiclo.setBounds(114, 220, 200, 16);
 
         txtVelocidadeCiclo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtVelocidadeCiclo.setText("500");
@@ -444,7 +431,8 @@ public final class principal extends javax.swing.JFrame {
                 txtVelocidadeCicloKeyReleased(evt);
             }
         });
-        painelInternoDecremental.add(txtVelocidadeCiclo, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, 80, -1));
+        painelInternoDecremental.add(txtVelocidadeCiclo);
+        txtVelocidadeCiclo.setBounds(174, 240, 80, 24);
 
         txtReducaoPorCiclo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtReducaoPorCiclo.setText("50");
@@ -456,7 +444,8 @@ public final class principal extends javax.swing.JFrame {
                 txtReducaoPorCicloKeyReleased(evt);
             }
         });
-        painelInternoDecremental.add(txtReducaoPorCiclo, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 80, -1));
+        painelInternoDecremental.add(txtReducaoPorCiclo);
+        txtReducaoPorCiclo.setBounds(174, 150, 80, 24);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -520,13 +509,13 @@ public final class principal extends javax.swing.JFrame {
         painelLateralEsquerdaLayout.setVerticalGroup(
             painelLateralEsquerdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelLateralEsquerdaLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(painelCores, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(painelCores, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jCbXEfeitos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAplicarEfeito)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tempCPU.setText("0");
@@ -606,11 +595,15 @@ public final class principal extends javax.swing.JFrame {
         );
 
         painelOpcoes.setBackground(new java.awt.Color(60, 63, 255,0));
+        painelOpcoes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        painelOpcoes.setMaximumSize(new java.awt.Dimension(420, 365));
+        painelOpcoes.setMinimumSize(new java.awt.Dimension(420, 365));
+        painelOpcoes.setPreferredSize(new java.awt.Dimension(420, 365));
         painelOpcoes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         painelPrincipal.setLayer(painelLateralEsquerda, javax.swing.JLayeredPane.DEFAULT_LAYER);
         painelPrincipal.setLayer(painelSuperior, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        painelPrincipal.setLayer(painelOpcoes, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        painelPrincipal.setLayer(painelOpcoes, javax.swing.JLayeredPane.PALETTE_LAYER);
 
         javax.swing.GroupLayout painelPrincipalLayout = new javax.swing.GroupLayout(painelPrincipal);
         painelPrincipal.setLayout(painelPrincipalLayout);
@@ -621,29 +614,26 @@ public final class principal extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(painelPrincipalLayout.createSequentialGroup()
                 .addComponent(painelLateralEsquerda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(painelOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(painelOpcoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         painelPrincipalLayout.setVerticalGroup(
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelPrincipalLayout.createSequentialGroup()
                 .addComponent(painelSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(painelLateralEsquerda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(painelPrincipalLayout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(painelOpcoes)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                    .addComponent(painelLateralEsquerda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(painelOpcoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(painelPrincipal)
-                .addContainerGap())
+            .addComponent(painelPrincipal)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -692,16 +682,17 @@ public final class principal extends javax.swing.JFrame {
 
     private void pegarValorSliderDecremento() {
         decremento.clear();
-        Double valorDecremento = new Double((double) sliderReducaoPorCiclo.getValue() / 100.0D);
+        Double valorDecremento = sliderReducaoPorCiclo.getValue() / 100.0D;
         valorDecremento = 1.0D - valorDecremento;
         decremento.add(valorDecremento);
-        decremento.add(new Double((double) sliderVelocidadeCiclo.getValue()));
+        decremento.add((double) sliderVelocidadeCiclo.getValue());
     }
-    
+
     private void pegarValorSliderCiclo() {
         ciclo.clear();
         ciclo.add(sliderVelocidadeCicloStrobol.getValue());
     }
+
     private int iniciadoPerifericos() {
         return jLPerifericos.getModel().getSize();
     }
@@ -755,7 +746,7 @@ public final class principal extends javax.swing.JFrame {
         if (jLPerifericos.getModel().getSize() == 0) {
             model.addElement("Sem Hardwares Compativeis");
         }
-        painelOpcoes.add(painelInternoPerifericos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 270));
+        painelOpcoes.add(painelInternoPerifericos, new AbsoluteConstraints(0, 0));
     }
 
 
@@ -796,7 +787,7 @@ public final class principal extends javax.swing.JFrame {
                     efeito = new efeitoPorImagemDaTela(listaPerifericos, painelInternoImagens);
                     break;
                 case "Stroob":
-                    efeito = new efeitoStrobol(listaPerifericos,ciclo);
+                    efeito = new efeitoStrobol(listaPerifericos, ciclo);
                     break;
                 case "ArcoIris":
                     if (jcBSelecaoDeCores.getModel().getSize() > 0) {
@@ -909,8 +900,8 @@ public final class principal extends javax.swing.JFrame {
         try {
             capturaTela.allDone = true;
         } catch (Exception ex) {
-        }
-        AbsoluteConstraints absoluteConstraints = new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 270);
+        }        
+        AbsoluteConstraints absoluteConstraints = new AbsoluteConstraints(0, 0);
         painelOpcoes.removeAll();
         painelOpcoes.repaint();
         switch (jCbXEfeitos.getSelectedItem().toString()) {
@@ -991,27 +982,29 @@ public final class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRemoverCorSelecionadaActionPerformed
 
     private void btnAdicionarNaListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarNaListaActionPerformed
-        try {
-            DefaultListModel<String> model = new DefaultListModel<>();
-            for (int i = 0; i < jLSelecionados.getModel().getSize(); i++) {
-                model.addElement(jLSelecionados.getModel().getElementAt(i));
-
-            }
-            jLSelecionados.setModel(model);
-            criarListaPerifericos(jLPerifericos.getSelectedValue());
-            model.addElement(jLPerifericos.getSelectedValue());
-
-            int selectedIndex = jLPerifericos.getSelectedIndex();
-            String[] ListData = new String[jLPerifericos.getModel().getSize()];
-            for (int i = 0; i < ListData.length; i++) {
-                if (i != selectedIndex) {
-                    ListData[i] = jLPerifericos.getModel().getElementAt(i);
-                }
-            }
-            jLPerifericos.setListData(ListData);
-        } catch (Exception ex) {
+        DefaultListModel<String> model = new DefaultListModel<>();
+        for (int i = 0; i < jLSelecionados.getModel().getSize(); i++) {
+            model.addElement(jLSelecionados.getModel().getElementAt(i));
 
         }
+        jLSelecionados.setModel(model);
+
+        List<String> selecionados = jLPerifericos.getSelectedValuesList();
+        selecionados.stream().map(periferico -> {
+            criarListaPerifericos(periferico);
+            return periferico;
+        }).forEachOrdered(periferico -> {
+            model.addElement(periferico);
+        });
+
+        DefaultListModel<String> modelPerifericos = new DefaultListModel<>();
+        for (int i = 0; i < jLPerifericos.getModel().getSize(); i++) {
+            String atual = jLPerifericos.getModel().getElementAt(i);
+            if (!selecionados.contains(atual)) {
+                modelPerifericos.addElement(atual);
+            }
+        }
+        jLPerifericos.setModel(modelPerifericos);
 
     }//GEN-LAST:event_btnAdicionarNaListaActionPerformed
 
@@ -1102,44 +1095,44 @@ public final class principal extends javax.swing.JFrame {
 
     private void btnRemoverDaListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverDaListaActionPerformed
 
-        try {
-            DefaultListModel<String> model = new DefaultListModel<>();
-            for (int i = 0; i < jLPerifericos.getModel().getSize(); i++) {
-                model.addElement(jLPerifericos.getModel().getElementAt(i));
-
-            }
-            jLPerifericos.setModel(model);
-            model.addElement(jLSelecionados.getSelectedValue());
-            tirarDaListaPerifericos(jLSelecionados.getSelectedValue());
-            int selectedIndex = jLSelecionados.getSelectedIndex();
-            String[] ListData = new String[jLSelecionados.getModel().getSize()];
-            for (int i = 0; i < ListData.length; i++) {
-                if (i != selectedIndex) {
-                    ListData[i] = jLSelecionados.getModel().getElementAt(i);
-                }
-            }
-            jLSelecionados.setListData(ListData);
-        } catch (Exception ex) {
+        DefaultListModel<String> model = new DefaultListModel<>();
+        for (int i = 0; i < jLPerifericos.getModel().getSize(); i++) {
+            model.addElement(jLPerifericos.getModel().getElementAt(i));
 
         }
+        jLPerifericos.setModel(model);
+
+        List<String> selecionados = jLSelecionados.getSelectedValuesList();
+        selecionados.stream().map(periferico -> {
+            tirarDaListaPerifericos(periferico);
+            return periferico;
+        }).forEachOrdered(periferico -> {
+            model.addElement(periferico);
+        });
+        DefaultListModel<String> modelPerifericos = new DefaultListModel<>();
+        for (int i = 0; i < jLSelecionados.getModel().getSize(); i++) {
+            String atual = jLSelecionados.getModel().getElementAt(i);
+            if (!selecionados.contains(atual)) {
+                modelPerifericos.addElement(atual);
+            }
+        }
+        jLSelecionados.setModel(modelPerifericos);
+
+
     }//GEN-LAST:event_btnRemoverDaListaActionPerformed
 
     private void tempCPUPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tempCPUPropertyChange
-        switch (jCbXEfeitos.getSelectedItem().toString()) {
-            case "Temperatura":
-                preencherTemperaturas();
-                break;
-        }
+        alterarDadosTemperatura();
     }//GEN-LAST:event_tempCPUPropertyChange
 
     private void tempGPUPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tempGPUPropertyChange
-        switch (jCbXEfeitos.getSelectedItem().toString()) {
-            case "Temperatura":
-                preencherTemperaturas();
-                break;
-        }
+        alterarDadosTemperatura();
     }//GEN-LAST:event_tempGPUPropertyChange
-
+    private void alterarDadosTemperatura() {
+        if (efeito instanceof efeitoPorTemperatura) {
+            preencherTemperaturas();
+        }
+    }
     private void sliderReducaoPorCicloStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderReducaoPorCicloStateChanged
         pegarValorSliderDecremento();
         txtReducaoPorCiclo.setText(sliderReducaoPorCiclo.getValue() + "");
@@ -1210,7 +1203,7 @@ public final class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTemp4KeyReleased
 
     private void txtVelocidadeCicloStrobolKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtVelocidadeCicloStrobolKeyReleased
-         if (!txtVelocidadeCicloStrobol.getText().equals("")) {
+        if (!txtVelocidadeCicloStrobol.getText().equals("")) {
             int valor = Integer.valueOf(txtVelocidadeCicloStrobol.getText());
             if (valor > 1000) {
                 valor = 1000;
@@ -1222,8 +1215,7 @@ public final class principal extends javax.swing.JFrame {
                 }
             }
             sliderVelocidadeCicloStrobol.setValue(valor);
-            
-         }
+        }
     }//GEN-LAST:event_txtVelocidadeCicloStrobolKeyReleased
 
     private void txtVelocidadeCicloStrobolKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtVelocidadeCicloStrobolKeyPressed
@@ -1231,8 +1223,8 @@ public final class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtVelocidadeCicloStrobolKeyPressed
 
     private void sliderVelocidadeCicloStrobolStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderVelocidadeCicloStrobolStateChanged
-       pegarValorSliderCiclo();
-       txtVelocidadeCicloStrobol.setText(sliderVelocidadeCicloStrobol.getValue() + "");
+        pegarValorSliderCiclo();
+        txtVelocidadeCicloStrobol.setText(sliderVelocidadeCicloStrobol.getValue() + "");
     }//GEN-LAST:event_sliderVelocidadeCicloStrobolStateChanged
 
     private void alocarPerifericos(JLabel obj) {
