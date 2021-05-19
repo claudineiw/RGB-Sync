@@ -761,7 +761,9 @@ public final class principal extends javax.swing.JFrame {
         try {
             this.CorsairSDK = new CueSDK();
             CorsairSDK.getDevices().forEach(corsair -> {
-                model.addElement("Corsair: " + corsair.getModelName());
+                if(!corsair.getModelName().toLowerCase().contains("asus".toLowerCase())){
+                    model.addElement("Corsair: " + corsair.getModelName());
+                }                
             });
         } catch (NoServerException ex) {
         }
