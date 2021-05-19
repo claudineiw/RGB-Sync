@@ -35,15 +35,13 @@ public class efeitoPassagem extends IEfeitos {
         motherBoard.setCor(getCor());
         for (int i = 0; i < ((IMotherBoard) motherBoard).getCountLight(); i++) {
             tempo.calculo();
-            ((IMotherBoard) motherBoard).colorirPorLed(i);
-            tempo.calculo();
+            ((IMotherBoard) motherBoard).colorirPorLed(i);      
         }
         esperarExecucao(chegou, pos);
         motherBoard.setCor(getCor());
         for (int i = ((IMotherBoard) motherBoard).getCountLight() - 1; i >= 0; i--) {
             tempo.calculo();
             ((IMotherBoard) motherBoard).colorirPorLed(i);
-            tempo.calculo();
         }
 
     }
@@ -51,7 +49,7 @@ public class efeitoPassagem extends IEfeitos {
     @Override
     protected void colorirTeclado(IPerifericos teclado, ArrayList<Boolean> chegou, int pos) {
         teclado.setCor(getCor());
-        tempoPorVolta tempo = new tempoPorVolta(100);
+        tempoPorVolta tempo = new tempoPorVolta(200);
         for (int y = 0; y < 25; y++) {
             tempo.calculo();
             for (int[] sequencia : ((IKeyboard) teclado).getTeclas()) {
@@ -60,7 +58,6 @@ public class efeitoPassagem extends IEfeitos {
                 }
 
             }
-            tempo.calculo();
         }
         esperarExecucao(chegou, pos);
 
@@ -73,7 +70,6 @@ public class efeitoPassagem extends IEfeitos {
                 }
 
             }
-            tempo.calculo();
         }
 
     }
@@ -100,12 +96,11 @@ public class efeitoPassagem extends IEfeitos {
     @Override
     protected void colorirMouseMat(IPerifericos MouseMat, ArrayList<Boolean> chegou, int pos) {
 
-        tempoPorVolta tempo = new tempoPorVolta(150);
+        tempoPorVolta tempo = new tempoPorVolta(300);
         MouseMat.setCor(getCor());
         for (int i = 0; i < ((IMouseMat) MouseMat).getCountLight(); i++) {
             tempo.calculo();
             ((IMouseMat) MouseMat).colorirPorLed(i);
-            tempo.calculo();
         }
         esperarExecucao(chegou, pos);
 
@@ -113,7 +108,6 @@ public class efeitoPassagem extends IEfeitos {
         for (int i = ((IMouseMat) MouseMat).getCountLight() - 1; i >= 0; i--) {
             tempo.calculo();
             ((IMouseMat) MouseMat).colorirPorLed(i);
-            tempo.calculo();
         }
     }
 
@@ -121,11 +115,10 @@ public class efeitoPassagem extends IEfeitos {
     protected void colorirHeadsetStand(IPerifericos HeadsetStand, ArrayList<Boolean> chegou, int pos) {
 
         HeadsetStand.setCor(getCor());
-        tempoPorVolta tempo = new tempoPorVolta(50);
+        tempoPorVolta tempo = new tempoPorVolta(100);
         for (int i = 0; i < ((IHeadsetStand) HeadsetStand).getCountLight(); i++) {
             tempo.calculo();
             ((IHeadsetStand) HeadsetStand).colorirPorLed(i);
-            tempo.calculo();
         }
         esperarExecucao(chegou, pos);
 
@@ -133,19 +126,17 @@ public class efeitoPassagem extends IEfeitos {
         for (int i = ((IHeadsetStand) HeadsetStand).getCountLight() - 1; i >= 0; i--) {
             tempo.calculo();
             ((IHeadsetStand) HeadsetStand).colorirPorLed(i);
-            tempo.calculo();
         }
     }
 
     @Override
     protected void colorirLightingNode(IPerifericos LightingNode, ArrayList<Boolean> chegou, int pos) {
-        tempoPorVolta tempo = new tempoPorVolta(50);
+        tempoPorVolta tempo = new tempoPorVolta(100);
 
         LightingNode.setCor(getCor());
         for (int i = 0; i < ((ILightingNode) LightingNode).getCountLight(); i++) {
             tempo.calculo();
             ((ILightingNode) LightingNode).colorirPorLed(i);
-            tempo.calculo();
         }
 
         esperarExecucao(chegou, pos);
@@ -154,18 +145,16 @@ public class efeitoPassagem extends IEfeitos {
         for (int i = ((ILightingNode) LightingNode).getCountLight() - 1; i >= 0; i--) {
             tempo.calculo();
             ((ILightingNode) LightingNode).colorirPorLed(i);
-            tempo.calculo();
         }
     }
 
     @Override
     protected void colorirCoolerControl(IPerifericos CoolerControl, ArrayList<Boolean> chegou, int pos) {
         CoolerControl.setCor(getCor());
-        tempoPorVolta tempo = new tempoPorVolta(50);
+        tempoPorVolta tempo = new tempoPorVolta(100);
         for (int i = 0; i < ((ICoolerControl) CoolerControl).getCountLight(); i++) {
             tempo.calculo();
             ((ICoolerControl) CoolerControl).colorirPorLed(i);
-            tempo.calculo();
         }
 
         esperarExecucao(chegou, pos);
@@ -174,7 +163,6 @@ public class efeitoPassagem extends IEfeitos {
         for (int i = ((ICoolerControl) CoolerControl).getCountLight() - 1; i >= 0; i--) {
             tempo.calculo();
             ((ICoolerControl) CoolerControl).colorirPorLed(i);
-            tempo.calculo();
         }
     }
 }
