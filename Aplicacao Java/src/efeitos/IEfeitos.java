@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 public abstract class IEfeitos implements Runnable {
+
     private colecaoPerifericos listaPerifericos;
     private Color cor;
     public boolean allDone = false;
@@ -23,27 +24,25 @@ public abstract class IEfeitos implements Runnable {
     private int conta = 0;
     private final ArrayList<Thread> ListaTH = new ArrayList<>();
     private final ArrayList<Boolean> chegou = new ArrayList<>();
-    
-    
+    private int posicao=0;
     public IEfeitos(colecaoPerifericos listaPerifericos) {
-        this.listaPerifericos = listaPerifericos;     
+        this.listaPerifericos = listaPerifericos;
         trocarCorStrobol();
     }
-    
-    
+
     public IEfeitos(colecaoPerifericos listaPerifericos, ArrayList<Color> cores) {
         this.listaPerifericos = listaPerifericos;
         this.cores = cores;
         setCor(cores.get(0));
     }
 
-   public IEfeitos(colecaoPerifericos listaPerifericos, ArrayList<Color> cores,ArrayList<Integer> temperaturas) {
+    public IEfeitos(colecaoPerifericos listaPerifericos, ArrayList<Color> cores, ArrayList<Integer> temperaturas) {
         this.temperaturas = temperaturas;
         this.listaPerifericos = listaPerifericos;
-        this.cores=cores;
+        this.cores = cores;
         setCor(cores.get(0));
     }
-    
+
     protected void criarListaChegou() {
         getListaPerifericos().getPerifericos().forEach(_item -> {
             getChegou().add(false);
@@ -57,56 +56,47 @@ public abstract class IEfeitos implements Runnable {
         setCor(cores.get(conta));
         conta++;
     }
-    
-    protected  void trocarCorSelecionada(){           
-        setCor(cores.get(0));            
+
+    protected void trocarCorSelecionada() {
+        setCor(cores.get(0));
     }
-    
-    protected void trocarCorStrobol(){
+
+    protected void trocarCorStrobol() {
         setCor(new Color((int) (Math.random() * 0x1000000)));
     }
-    
-    protected  void trocarCorDecremental(ArrayList<Double> velocidade){
-           if (getCor().getGreen() <= 10 && getCor().getBlue() <= 10 && getCor().getRed() <= 10) {
-                setCor(cores.get(0));
-            } else {               
-               Double red=getCor().getRed()*velocidade.get(0);
-               Double green=getCor().getGreen()*velocidade.get(0);
-               Double blue = getCor().getBlue()*velocidade.get(0);               
-               setCor(new Color(red.intValue(), green.intValue(), blue.intValue()));
-            }
-    }
-    
-    protected void trocarCorTemperatura(){
-        int temperaturaLocal = temperaturas.get(4);
-            if (temperaturaLocal < temperaturas.get(0)) {
-                setCor(cores.get(0));
-            } else if (temperaturaLocal >= temperaturas.get(0) && temperaturaLocal < temperaturas.get(1)) {
-                setCor(cores.get(0));
-            } else if (temperaturaLocal >= temperaturas.get(1) && temperaturaLocal < temperaturas.get(2)) {
-                setCor(cores.get(1));
-            } else if (temperaturaLocal >= temperaturas.get(2) && temperaturaLocal < temperaturas.get(3)) {
-               setCor(cores.get(2));
-            } else {
-              setCor(cores.get(3));
-            }
-    }
-    
-    
-    protected void esperarExecucao(ArrayList<Boolean> chegou) {
-        tempoPorVolta esperar = new tempoPorVolta(2000);
-         tempoPorVolta esperar2 = new tempoPorVolta(150);
-         esperar2.calculo();
-        for (int i = 0; i < chegou.size(); i++) {             
-             esperar2.calculo();
-            if (!chegou.get(i)) {
-                chegou.set(i, true);
-                break;
-            }
-            
+
+    protected void trocarCorDecremental(ArrayList<Double> velocidade) {
+        if (getCor().getGreen() <= 10 && getCor().getBlue() <= 10 && getCor().getRed() <= 10) {
+            setCor(cores.get(0));
+        } else {
+            Double red = getCor().getRed() * velocidade.get(0);
+            Double green = getCor().getGreen() * velocidade.get(0);
+            Double blue = getCor().getBlue() * velocidade.get(0);
+            setCor(new Color(red.intValue(), green.intValue(), blue.intValue()));
         }
+    }
+
+    protected void trocarCorTemperatura() {
+        int temperaturaLocal = temperaturas.get(4);
+        if (temperaturaLocal < temperaturas.get(0)) {
+            setCor(cores.get(0));
+        } else if (temperaturaLocal >= temperaturas.get(0) && temperaturaLocal < temperaturas.get(1)) {
+            setCor(cores.get(0));
+        } else if (temperaturaLocal >= temperaturas.get(1) && temperaturaLocal < temperaturas.get(2)) {
+            setCor(cores.get(1));
+        } else if (temperaturaLocal >= temperaturas.get(2) && temperaturaLocal < temperaturas.get(3)) {
+            setCor(cores.get(2));
+        } else {
+            setCor(cores.get(3));
+        }
+    }
+
+    protected void esperarExecucao(ArrayList<Boolean> chegou,int pos) {
+        tempoPorVolta tempo = new tempoPorVolta(300);
+        chegou.set(pos, true);    
+        
         while (true) {
-            esperar.calculo();
+            tempo.calculo();
             String continua = "";
             try {
                 for (Boolean che : chegou) {
@@ -124,31 +114,29 @@ public abstract class IEfeitos implements Runnable {
     protected void tratarSequenciaThread(ArrayList<Thread> ListaTH, ArrayList<Boolean> chegou) {
         tempoPorVolta tempo = new tempoPorVolta(300);
         iniciarThreads();
-
         while (true) {
             if (allDone) {
                 return;
             }
             tempo.calculo();
-            String continua = "";          
-            for (Boolean che : chegou) {               
+            String continua = "";
+            for (Boolean che : chegou) {
                 continua += che.toString();
             }
             if (!continua.contains("false")) {
                 break;
             }
         }
-
+        
         trocarCor();
 
         for (int i = 0; i < chegou.size(); i++) {
             chegou.set(i, false);
         }
-
+        limparListaThread(tempo);
         chegou.clear();
 
-        limparListaThread(tempo);
-       
+
     }
 
     protected void iniciarThreads() {
@@ -163,12 +151,12 @@ public abstract class IEfeitos implements Runnable {
                 return;
             }
             tempo.calculo();
-            String continua = "";            
-            for (Thread thread : ListaTH) {                
+            String continua = "";
+            for (Thread thread : ListaTH) {
                 if (thread.isAlive()) {
                     continua += "true";
                 } else {
-                    continua += "false";                    
+                    continua += "false";
                 }
             }
             if (!continua.contains("true")) {
@@ -234,41 +222,38 @@ public abstract class IEfeitos implements Runnable {
 
     protected void setConta(int conta) {
         this.conta = conta;
-    }    
-    
-    
-    protected void chamarMetodosClasse() {
+    }
 
-        try {
+    protected void chamarMetodosClasse() {    
+            posicao=0;
             for (IPerifericos periferico : getListaPerifericos().getPerifericos()) {
+                int local=posicao;
                 if (allDone) {
                     return;
                 }
                 if (periferico instanceof IKeyboard) {
-                    getListaTH().add(new Thread(() -> colorirTeclado(periferico, getChegou())));
+                    getListaTH().add(new Thread(() -> colorirTeclado(periferico, getChegou(),local)));                     
                 } else {
                     if (periferico instanceof IMouse) {
-                        getListaTH().add(new Thread(() -> colorirMouse(periferico, getChegou())));
+                        getListaTH().add(new Thread(() -> colorirMouse(periferico, getChegou(),local)));                        
                     } else {
                         if (periferico instanceof IHeadSet) {
-                            getListaTH().add(new Thread(() -> colorirHeadSet(periferico, getChegou())));
+                            getListaTH().add(new Thread(() -> colorirHeadSet(periferico, getChegou(),local)));
                         } else {
                             if (periferico instanceof IMotherBoard) {
-                                getListaTH().add(new Thread(() -> colorirMotherBoard(periferico, getChegou())));
+                                getListaTH().add(new Thread(() -> colorirMotherBoard(periferico, getChegou(),local)));
                             } else {
                                 if (periferico instanceof IHeadsetStand) {
-                                    getListaTH().add(new Thread(() -> colorirHeadsetStand(periferico, getChegou())));
+                                    getListaTH().add(new Thread(() -> colorirHeadsetStand(periferico, getChegou(),local)));
                                 } else {
                                     if (periferico instanceof ILightingNode) {
-                                        getListaTH().add(new Thread(() -> colorirLightingNode(periferico, getChegou())));
+                                        getListaTH().add(new Thread(() -> colorirLightingNode(periferico, getChegou(),local)));
                                     } else {
                                         if (periferico instanceof ICoolerControl) {
-                                            getListaTH().add(new Thread(() -> colorirCoolerControl(periferico, getChegou())));
-
+                                            getListaTH().add(new Thread(() -> colorirCoolerControl(periferico, getChegou(),local)));
                                         } else {
                                             if (periferico instanceof IMouseMat) {
-                                                getListaTH().add(new Thread(() -> colorirMouseMat(periferico, getChegou())));
-
+                                                getListaTH().add(new Thread(() -> colorirMouseMat(periferico, getChegou(),local)));
                                             }
                                         }
                                     }
@@ -276,27 +261,25 @@ public abstract class IEfeitos implements Runnable {
                             }
                         }
                     }
-                }
+                } 
+                posicao++;
             }
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
     }
 
-    protected abstract void colorirMotherBoard(IPerifericos motherBoard, ArrayList<Boolean> chegou);
+    protected abstract void colorirMotherBoard(IPerifericos motherBoard, ArrayList<Boolean> chegou,int pos);
 
-    protected abstract void colorirTeclado(IPerifericos teclado, ArrayList<Boolean> chegou);
+    protected abstract void colorirTeclado(IPerifericos teclado, ArrayList<Boolean> chegou,int pos);
 
-    protected abstract void colorirMouse(IPerifericos Mouse, ArrayList<Boolean> chegou);
+    protected abstract void colorirMouse(IPerifericos Mouse, ArrayList<Boolean> chegou,int pos);
 
-    protected abstract void colorirHeadSet(IPerifericos HeadSet, ArrayList<Boolean> chegou);
+    protected abstract void colorirHeadSet(IPerifericos HeadSet, ArrayList<Boolean> chegou,int pos);
 
-    protected abstract void colorirMouseMat(IPerifericos MouseMat, ArrayList<Boolean> chegou);
+    protected abstract void colorirMouseMat(IPerifericos MouseMat, ArrayList<Boolean> chegou,int pos);
 
-    protected abstract void colorirHeadsetStand(IPerifericos HeadsetStand, ArrayList<Boolean> chegou);
+    protected abstract void colorirHeadsetStand(IPerifericos HeadsetStand, ArrayList<Boolean> chegou,int pos);
 
-    protected abstract void colorirLightingNode(IPerifericos LightingNode, ArrayList<Boolean> chegou);
+    protected abstract void colorirLightingNode(IPerifericos LightingNode, ArrayList<Boolean> chegou,int pos);
 
-    protected abstract void colorirCoolerControl(IPerifericos CoolerControl, ArrayList<Boolean> chegou);
-    
+    protected abstract void colorirCoolerControl(IPerifericos CoolerControl, ArrayList<Boolean> chegou,int pos);
+
 }

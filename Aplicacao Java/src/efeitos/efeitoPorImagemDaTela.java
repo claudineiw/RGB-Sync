@@ -85,7 +85,7 @@ public final class efeitoPorImagemDaTela extends IEfeitos {
     }
 
     @Override
-    protected void colorirMotherBoard(IPerifericos motherBoard, ArrayList<Boolean> chegou) {
+    protected void colorirMotherBoard(IPerifericos motherBoard, ArrayList<Boolean> chegou,int pos) {
         int leds=((IMotherBoard)motherBoard).getCountLight();
         for(int i=0;i<leds;i++){
              motherBoard.setCor(new java.awt.Color(dataBuffInt[i+300]));            
@@ -94,7 +94,7 @@ public final class efeitoPorImagemDaTela extends IEfeitos {
     }
 
     @Override
-    protected void colorirTeclado(IPerifericos teclado, ArrayList<Boolean> chegou) {
+    protected void colorirTeclado(IPerifericos teclado, ArrayList<Boolean> chegou,int pos) {
         int[][] botao = ((IKeyboard) teclado).getTeclas();
         for (int i = 0; i < botao.length; i++) {
             for (int y = 0; y < botao[i].length; y++) {
@@ -108,37 +108,37 @@ public final class efeitoPorImagemDaTela extends IEfeitos {
     }
 
     @Override
-    protected void colorirMouse(IPerifericos Mouse, ArrayList<Boolean> chegou) {
+    protected void colorirMouse(IPerifericos Mouse, ArrayList<Boolean> chegou,int pos) {
         Mouse.setCor(new java.awt.Color(matrix[lbM.getY() / 10][lbM.getX() / 7]));
         Mouse.colorirDispositivo();
     }
 
     @Override
-    protected void colorirHeadSet(IPerifericos HeadSet, ArrayList<Boolean> chegou) {
+    protected void colorirHeadSet(IPerifericos HeadSet, ArrayList<Boolean> chegou,int pos) {
         HeadSet.setCor(new java.awt.Color(matrix[lbM.getY() / 10][lbM.getX() / 7]));
         HeadSet.colorirDispositivo();
     }
 
     @Override
-    protected void colorirMouseMat(IPerifericos MouseMat, ArrayList<Boolean> chegou) {
+    protected void colorirMouseMat(IPerifericos MouseMat, ArrayList<Boolean> chegou,int pos) {
        MouseMat.setCor(new java.awt.Color(matrix[lbM.getY() / 10][lbM.getX() / 7]));
        MouseMat.colorirDispositivo();
     }
 
     @Override
-    protected void colorirHeadsetStand(IPerifericos HeadsetStand, ArrayList<Boolean> chegou) {
+    protected void colorirHeadsetStand(IPerifericos HeadsetStand, ArrayList<Boolean> chegou,int pos) {
        HeadsetStand.setCor(new java.awt.Color(matrix[lbM.getY() / 10][lbM.getX() / 7]));
        HeadsetStand.colorirDispositivo();
     }
 
     @Override
-    protected void colorirLightingNode(IPerifericos LightingNode, ArrayList<Boolean> chegou) {
+    protected void colorirLightingNode(IPerifericos LightingNode, ArrayList<Boolean> chegou,int pos) {
        LightingNode.setCor(new java.awt.Color(matrix[lbM.getY() / 10][lbM.getX() / 7]));
        LightingNode.colorirDispositivo();
     }
 
     @Override
-    protected void colorirCoolerControl(IPerifericos CoolerControl, ArrayList<Boolean> chegou) {
+    protected void colorirCoolerControl(IPerifericos CoolerControl, ArrayList<Boolean> chegou,int pos) {
        CoolerControl.setCor(new java.awt.Color(matrix[lbM.getY() / 10][lbM.getX() / 7]));
        CoolerControl.colorirDispositivo();
     }

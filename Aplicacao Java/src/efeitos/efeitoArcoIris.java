@@ -33,7 +33,7 @@ public final class efeitoArcoIris extends IEfeitos {
     }
 
     @Override
-    protected void colorirMotherBoard(IPerifericos motherBoard, ArrayList<Boolean> chegou) {
+    protected void colorirMotherBoard(IPerifericos motherBoard, ArrayList<Boolean> chegou,int pos) {
         motherBoard.setCor(getCor());
         for (int i = 0; i < ((IMotherBoard) motherBoard).getCountLight(); i++) {
             if (i % 10 == 0) {
@@ -46,7 +46,7 @@ public final class efeitoArcoIris extends IEfeitos {
     }
 
     @Override
-    protected void colorirTeclado(IPerifericos teclado, ArrayList<Boolean> chegou) {
+    protected void colorirTeclado(IPerifericos teclado, ArrayList<Boolean> chegou,int pos) {
         for (int y = 0; y < 25; y++) {
             trocarCor();
             teclado.setCor(getCor());
@@ -60,19 +60,19 @@ public final class efeitoArcoIris extends IEfeitos {
     }
 
     @Override
-    protected void colorirMouse(IPerifericos mouse, ArrayList<Boolean> chegou) {
+    protected void colorirMouse(IPerifericos mouse, ArrayList<Boolean> chegou,int pos) {
         mouse.setCor(getCor());
         mouse.colorirDispositivo();
     }
 
     @Override
-    protected void colorirHeadSet(IPerifericos headSet, ArrayList<Boolean> chegou) {
+    protected void colorirHeadSet(IPerifericos headSet, ArrayList<Boolean> chegou,int pos) {
         headSet.setCor(getCor());
         headSet.colorirDispositivo();
     }
 
     @Override
-    protected void colorirMouseMat(IPerifericos mouseMat, ArrayList<Boolean> chegou) {
+    protected void colorirMouseMat(IPerifericos mouseMat, ArrayList<Boolean> chegou,int pos) {
         mouseMat.setCor(getCor());
         for (int i = 0; i < ((IMouseMat) mouseMat).getCountLight(); i++) {
             if (i % 10 == 0) {
@@ -84,7 +84,7 @@ public final class efeitoArcoIris extends IEfeitos {
     }
 
     @Override
-    protected void colorirHeadsetStand(IPerifericos HeadsetStand, ArrayList<Boolean> chegou) {
+    protected void colorirHeadsetStand(IPerifericos HeadsetStand, ArrayList<Boolean> chegou,int pos) {
         HeadsetStand.setCor(getCor());
         for (int i = 0; i < ((IHeadsetStand) HeadsetStand).getCountLight(); i++) {
             if (i % 10 == 0) {
@@ -96,7 +96,7 @@ public final class efeitoArcoIris extends IEfeitos {
     }
 
     @Override
-    protected void colorirLightingNode(IPerifericos LightingNode, ArrayList<Boolean> chegou) {
+    protected void colorirLightingNode(IPerifericos LightingNode, ArrayList<Boolean> chegou,int pos) {
         LightingNode.setCor(getCor());
         for (int i = 0; i < ((ILightingNode) LightingNode).getCountLight(); i++) {
             if (i % 10 == 0) {
@@ -108,7 +108,7 @@ public final class efeitoArcoIris extends IEfeitos {
     }
 
     @Override
-    protected void colorirCoolerControl(IPerifericos CoolerControl, ArrayList<Boolean> chegou) {
+    protected void colorirCoolerControl(IPerifericos CoolerControl, ArrayList<Boolean> chegou,int pos) {
         CoolerControl.setCor(getCor());
         for (int i = 0; i < ((ICoolerControl) CoolerControl).getCountLight(); i++) {
             if (i % 10 == 0) {
