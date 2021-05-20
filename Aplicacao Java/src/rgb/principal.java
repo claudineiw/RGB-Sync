@@ -67,8 +67,9 @@ public final class principal extends javax.swing.JFrame {
     private ArrayList<Integer> ciclo;
     private Mixer.Info[] mixerInfo;
     private ArrayList<Mixer.Info> mixerChoices;
+       
 
-    public principal() {
+    public principal() {      
         initComponents();
         iniciaBibliotecas();
 
@@ -667,6 +668,7 @@ public final class principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void iniciaBibliotecas() {
+
         jColorPrincipal.setColor(Color.RED);
         this.temperaturas = new ArrayList<>();
         this.cores = new ArrayList<>();
