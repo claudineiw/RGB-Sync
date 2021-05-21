@@ -1,6 +1,7 @@
 package CoolerMaster;
 
 import IPerifericos.IKeyboard;
+import com.CollMaster.CoolerMasterDevice;
 
 public class Keyboard extends ICoolerMaster implements IKeyboard {
 
@@ -12,8 +13,8 @@ public class Keyboard extends ICoolerMaster implements IKeyboard {
                                        {0x00000046,0x00000047,0x00000048,0x0000004A,0x0000004C,0x0000004D,0x0000004E,0x0000004F,0x0000100B,0x0000100C,0x0000100D,0x00002011,0x00002013}                                       
                                         };
 
-    public Keyboard(com.CollMaster.CoolerMasterSDK CoolerMasterSDK) {
-        super(CoolerMasterSDK, zonasRGB);
+    public Keyboard(com.CollMaster.CoolerMasterSDK CoolerMasterSDK,CoolerMasterDevice device) {
+        super(CoolerMasterSDK,device, zonasRGB);
     }
 
     @Override
@@ -26,7 +27,7 @@ public class Keyboard extends ICoolerMaster implements IKeyboard {
         for (int i = 0; i < getTeclas().length; i++) {
             for (int y = 0; y < getTeclas()[i].length; y++) {
                 if (getTeclas()[i][y] == (short) tecla) {
-                    getCoolerMasterSDK().setKeyColor(i, y, super.getCor());
+                    getCoolerMasterSDK().setKeyColor(i, y, super.getCor(),super.getDevice());
                     break;
                 }
             }

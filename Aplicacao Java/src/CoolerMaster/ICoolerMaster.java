@@ -7,6 +7,7 @@ package CoolerMaster;
 
 import IPerifericos.IPerifericos;
 import com.CollMaster.CoolerMasterColor;
+import com.CollMaster.CoolerMasterDevice;
 import com.CollMaster.CoolerMasterSDK;
 import java.awt.Color;
 
@@ -16,6 +17,7 @@ import java.awt.Color;
  */
 public class ICoolerMaster implements IPerifericos{
     private final CoolerMasterSDK CoolerMasterSDK;
+    private CoolerMasterDevice device;
     private String nome;
     private final int [][] zonas;
     private CoolerMasterColor CoolerMasterColor;
@@ -26,15 +28,17 @@ public class ICoolerMaster implements IPerifericos{
                                        {0x00000039,0x0000003B,0x0000003C,0x0000003D,0x0000003E,0x0000003F,0x00000040,0x00000041,0x00000042,0x00000043,0x00000044,0x00000045,0x0000100A,0x0000200D,0x0000200E,0x0000200F,0x00002010},
                                        {0x00000046,0x00000047,0x00000048,0x0000004A,0x0000004C,0x0000004D,0x0000004E,0x0000004F,0x0000100B,0x0000100C,0x0000100D,0x00002011,0x00002013}                                       
                                         };
-    public ICoolerMaster(CoolerMasterSDK CoolerMasterSDK,int [][] zonasRGB){
+    public ICoolerMaster(CoolerMasterSDK CoolerMasterSDK,CoolerMasterDevice device,int [][] zonasRGB){
         this.CoolerMasterSDK=CoolerMasterSDK;
         this.zonas=zonasRGB;
+        this.device=device;
+        CoolerMasterSDK.enable(device);
     }
 
     protected CoolerMasterSDK getCoolerMasterSDK() {
         return CoolerMasterSDK;
     }
-
+    
     
     
     @Override
@@ -76,7 +80,7 @@ public class ICoolerMaster implements IPerifericos{
     public void colorirDispositivo() {
         for(int i=0;i<zonas.length;i++){
             for(int y=0;i<zonas[i].length;y++){
-                CoolerMasterSDK.setKeyColor(i, y, CoolerMasterColor);
+                CoolerMasterSDK.setKeyColor(i, y, CoolerMasterColor,device);
             }
         }
        
@@ -98,7 +102,10 @@ public class ICoolerMaster implements IPerifericos{
     
     @Override
     public void colorirTudo() {
-        this.CoolerMasterSDK.setKeyboardColor(CoolerMasterColor);
+        this.CoolerMasterSDK.setKeyboardColor(CoolerMasterColor,device);
     }
     
+    public CoolerMasterDevice getDevice(){
+        return device;
+    }
 }

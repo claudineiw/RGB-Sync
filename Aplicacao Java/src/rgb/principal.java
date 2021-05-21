@@ -41,6 +41,8 @@ import Logitech.HIDPID.verificarPerifericosLogitech;
 import Metodos.tempoPorVolta;
 import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.cuesdk.CorsairDevice;
+import com.CollMaster.CoolerMasterDevice;
+import com.CollMaster.CoolerMasterSDK;
 import efeitos.IEfeitos;
 import efeitos.efeitoPassagem;
 import java.util.List;
@@ -55,6 +57,7 @@ public final class principal extends javax.swing.JFrame {
 
     private AuraSDK AsusAura;
     private CueSDK CorsairSDK;
+    private CoolerMasterSDK CoolerMasterSDK;
     private static TrayIcon trayIcon;
     private IEfeitos efeito;
     private RGBexeCon RGBexeCon;
@@ -67,9 +70,9 @@ public final class principal extends javax.swing.JFrame {
     private ArrayList<Integer> ciclo;
     private Mixer.Info[] mixerInfo;
     private ArrayList<Mixer.Info> mixerChoices;
-       
+    
 
-    public principal() {      
+    public principal() {
         initComponents();
         iniciaBibliotecas();
 
@@ -668,7 +671,7 @@ public final class principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void iniciaBibliotecas() {
-
+        this.CoolerMasterSDK = new CoolerMasterSDK();
         jColorPrincipal.setColor(Color.RED);
         this.temperaturas = new ArrayList<>();
         this.cores = new ArrayList<>();
@@ -763,11 +766,19 @@ public final class principal extends javax.swing.JFrame {
         try {
             this.CorsairSDK = new CueSDK();
             CorsairSDK.getDevices().forEach(corsair -> {
-                if(!corsair.getModelName().toLowerCase().contains("asus".toLowerCase())){
+                if (!corsair.getModelName().toLowerCase().contains("asus".toLowerCase())) {
                     model.addElement("Corsair: " + corsair.getModelName());
-                }                
+                }
             });
         } catch (NoServerException ex) {
+        }
+        
+        try{
+            CoolerMasterSDK.getDevicesConected().forEach(CoolerMaster -> {
+                model.addElement("CoolerMaster: " +CoolerMaster);
+            });
+        }catch(Exception ex){
+            
         }
         if (jLPerifericos.getModel().getSize() == 0) {
             model.addElement("Sem Hardwares Compativeis");
@@ -1038,8 +1049,8 @@ public final class principal extends javax.swing.JFrame {
         if (periferico.toLowerCase().contains("logitech:".toLowerCase())) {
             DevicesLogitech.GetPerifericos().stream().filter(device -> (verificarPerifericosLogitech.testarPeriferico(device.toString()))).forEachOrdered(device -> {
 
-                if (periferico.toLowerCase().contains(device.getModel().toLowerCase()) && device.getDeviceType().toLowerCase().equals("Mouse".toLowerCase())) {                     
-                        listaPerifericos.setPerifericos(new Mouse(device.getModel(), device.toString()));                    
+                if (periferico.toLowerCase().contains(device.getModel().toLowerCase()) && device.getDeviceType().toLowerCase().equals("Mouse".toLowerCase())) {
+                    listaPerifericos.setPerifericos(new Mouse(device.getModel(), device.toString()));
                 }
                 if (periferico.toLowerCase().contains(device.getModel().toLowerCase()) && device.getDeviceType().toLowerCase().equals("Keyboard".toLowerCase())) {
                     listaPerifericos.setPerifericos(new Keyboard(device.getModel(), device.toString()));
