@@ -43,6 +43,7 @@ import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.cuesdk.CorsairDevice;
 import com.CollMaster.CoolerMasterDevice;
 import com.CollMaster.CoolerMasterSDK;
+import com.CollMaster.CoolerMasterTipoDevice;
 import efeitos.IEfeitos;
 import efeitos.efeitoPassagem;
 import java.util.List;
@@ -1114,6 +1115,18 @@ public final class principal extends javax.swing.JFrame {
                             break;
                         }
 
+                    }
+                }else{
+                    if (periferico.toLowerCase().contains("CoolerMaster:".toLowerCase())) {       
+                        if(CoolerMasterTipoDevice.tipoDevice(periferico.replace("CoolerMaster: ","")).equals("Keyboard")){              
+                            listaPerifericos.setPerifericos(new CoolerMaster.Keyboard(CoolerMasterSDK,  CoolerMasterDevice.valueOf(periferico.replace("CoolerMaster: ",""))));   
+                        }else{
+                            if(CoolerMasterTipoDevice.tipoDevice(periferico.replace("CoolerMaster: ","")).equals("Mouse")){                 
+                                listaPerifericos.setPerifericos(new CoolerMaster.Mouse(CoolerMasterSDK, CoolerMasterDevice.valueOf(periferico.replace("CoolerMaster: ",""))));
+                            }
+                        }
+                        
+                                             
                     }
                 }
             }
