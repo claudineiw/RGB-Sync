@@ -768,7 +768,7 @@ public final class principal extends javax.swing.JFrame {
             this.CorsairSDK = new CueSDK();
             CorsairSDK.getDevices().forEach(corsair -> {
                 if (!corsair.getModelName().toLowerCase().contains("asus".toLowerCase())) {
-                    model.addElement("Corsair: " + corsair.getModelName());
+                    model.addElement("Corsair: " + corsair.getModelName());                    
                 }
             });
         } catch (NoServerException ex) {
@@ -777,10 +777,11 @@ public final class principal extends javax.swing.JFrame {
         try {
             CoolerMasterSDK.getDevicesConected().forEach(CoolerMaster -> {
                 model.addElement("CoolerMaster: " + CoolerMaster);
-            });
-        } catch (Exception ex) {
-
-        }
+            });            
+        } catch (Exception ex) {           
+           
+        }         
+          
         if (jLPerifericos.getModel().getSize() == 0) {
             model.addElement("Sem Hardwares Compativeis");
         }
@@ -791,10 +792,11 @@ public final class principal extends javax.swing.JFrame {
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         this.dispose();
         pararEfeito();
-        RGBexeCon.allDone = true;        
+        RGBexeCon.allDone = true;  
         LogiTechSDK.Shutdown();
-        AsusAura.ReleaseControl();
+        AsusAura.ReleaseControl();          
         System.exit(0);
+        
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnHideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHideActionPerformed

@@ -5,6 +5,10 @@ import com.sun.jna.Library;
 interface CoolerMasterLibrary extends Library {
 
     int GetCM_SDK_DllVer();
+    int GetRamUsage();
+    long GetNowCPUUsage(int pErrorCode);
+    byte[] GetNowTime();
+    float GetNowVolumePeekValue();
 
     byte IsDevicePlug(int deviceIndex);
 
@@ -13,7 +17,6 @@ interface CoolerMasterLibrary extends Library {
     byte SetLedColor(int iRow, int iColumn, byte r, byte g, byte b, int deviceIndex);
 
     byte SetFullLedColor(byte r, byte g, byte b, int deviceIndex);
-
 
     byte SwitchLedEffect(int iEffectIndex, int deviceIndex);
 
