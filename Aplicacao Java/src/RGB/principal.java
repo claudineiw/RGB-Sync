@@ -29,7 +29,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
 import IPerifericos.colecaoPerifericos;
 import Asus.MotherBoard;
-import Logitech.HIDPID.DevicesLogitech;
 import Logitech.HeadSet;
 import Logitech.Mouse;
 import Logitech.Keyboard;
@@ -37,13 +36,15 @@ import Logitech.MouseMat;
 import ca.fiercest.cuesdk.CueSDK;
 import ca.fiercest.cuesdk.NoServerException;
 import javax.swing.DefaultListModel;
-import Logitech.HIDPID.verificarPerifericosLogitech;
 import Metodos.tempoPorVolta;
 import ca.fiercest.aurasdk.AuraSDK;
 import ca.fiercest.cuesdk.CorsairDevice;
+import com.logitech.gaming.LogiTechSDK;
 import com.CollMaster.CoolerMasterDevice;
 import com.CollMaster.CoolerMasterSDK;
 import com.CollMaster.CoolerMasterTipoDevice;
+import com.logitech.gaming.HIDPID.DevicesLogitech;
+import com.logitech.gaming.LogiTechDevicesType;
 import efeitos.IEfeitos;
 import efeitos.efeitoPassagem;
 import java.util.List;
@@ -56,6 +57,7 @@ import javax.swing.event.ChangeEvent;
 @SuppressWarnings("serial")
 public final class principal extends javax.swing.JFrame {
 
+    private LogiTechSDK LogiTechSDK;
     private AuraSDK AsusAura;
     private CueSDK CorsairSDK;
     private CoolerMasterSDK CoolerMasterSDK;
@@ -64,14 +66,12 @@ public final class principal extends javax.swing.JFrame {
     private RGBexeCon RGBexeCon;
     private capturaTela capturaTela;
     private colecaoPerifericos listaPerifericos;
-    private verificarPerifericosLogitech verificarPerifericosLogitech;
     private ArrayList<Color> cores;
     private ArrayList<Integer> temperaturas;
     private ArrayList<Double> decremento;
     private ArrayList<Integer> ciclo;
     private Mixer.Info[] mixerInfo;
     private ArrayList<Mixer.Info> mixerChoices;
-    
 
     public principal() {
         initComponents();
@@ -679,7 +679,6 @@ public final class principal extends javax.swing.JFrame {
         this.decremento = new ArrayList<>();
         this.ciclo = new ArrayList<>();
         listaPerifericos = new colecaoPerifericos();
-        verificarPerifericosLogitech = new verificarPerifericosLogitech();
         preencherListaPerifericos();
         iniciarMonitorTemperatura();
         iniciarDispositivosDeAudio();
@@ -759,9 +758,10 @@ public final class principal extends javax.swing.JFrame {
         }
 
         try {
-            DevicesLogitech.GetPerifericos().stream().filter(device -> (verificarPerifericosLogitech.testarPeriferico(device.toString()))).forEachOrdered(device -> {
+            this.LogiTechSDK = new LogiTechSDK();
+            for (DevicesLogitech device : LogiTechSDK.getDevices()) {
                 model.addElement(device.getMarca() + ": " + device.getDeviceType() + " " + device.getModel());
-            });
+            }
         } catch (Exception ex) {
         }
         try {
@@ -773,13 +773,13 @@ public final class principal extends javax.swing.JFrame {
             });
         } catch (NoServerException ex) {
         }
-        
-        try{
+
+        try {
             CoolerMasterSDK.getDevicesConected().forEach(CoolerMaster -> {
-                model.addElement("CoolerMaster: " +CoolerMaster);
+                model.addElement("CoolerMaster: " + CoolerMaster);
             });
-        }catch(Exception ex){
-            
+        } catch (Exception ex) {
+
         }
         if (jLPerifericos.getModel().getSize() == 0) {
             model.addElement("Sem Hardwares Compativeis");
@@ -791,7 +791,8 @@ public final class principal extends javax.swing.JFrame {
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         this.dispose();
         pararEfeito();
-        RGBexeCon.allDone = true;
+        RGBexeCon.allDone = true;        
+        LogiTechSDK.Shutdown();
         AsusAura.ReleaseControl();
         System.exit(0);
     }//GEN-LAST:event_btnSairActionPerformed
@@ -1048,22 +1049,22 @@ public final class principal extends javax.swing.JFrame {
 
     private void criarListaPerifericos(String periferico) {
         if (periferico.toLowerCase().contains("logitech:".toLowerCase())) {
-            DevicesLogitech.GetPerifericos().stream().filter(device -> (verificarPerifericosLogitech.testarPeriferico(device.toString()))).forEachOrdered(device -> {
 
-                if (periferico.toLowerCase().contains(device.getModel().toLowerCase()) && device.getDeviceType().toLowerCase().equals("Mouse".toLowerCase())) {
-                    listaPerifericos.setPerifericos(new Mouse(device.getModel(), device.toString()));
+            for (DevicesLogitech device : LogiTechSDK.getDevices()) {
+                if (periferico.toLowerCase().contains(device.getModel().toLowerCase()) && device.getDeviceType() == LogiTechDevicesType.Mouse) {
+                    listaPerifericos.setPerifericos(new Mouse(LogiTechSDK, device));
                 }
-                if (periferico.toLowerCase().contains(device.getModel().toLowerCase()) && device.getDeviceType().toLowerCase().equals("Keyboard".toLowerCase())) {
-                    listaPerifericos.setPerifericos(new Keyboard(device.getModel(), device.toString()));
+                if (periferico.toLowerCase().contains(device.getModel().toLowerCase()) && device.getDeviceType() == LogiTechDevicesType.Keyboard) {
+                    listaPerifericos.setPerifericos(new Keyboard(LogiTechSDK, device));
                 }
-                if (periferico.toLowerCase().contains(device.getModel().toLowerCase()) && device.getDeviceType().toLowerCase().equals("HeadSet".toLowerCase())) {
-                    listaPerifericos.setPerifericos(new HeadSet(device.getModel(), device.toString()));
+                if (periferico.toLowerCase().contains(device.getModel().toLowerCase()) && device.getDeviceType() == LogiTechDevicesType.Headset) {
+                    listaPerifericos.setPerifericos(new HeadSet(LogiTechSDK, device));
                 }
-                if (periferico.toLowerCase().contains(device.getModel().toLowerCase()) && device.getDeviceType().toLowerCase().equals("MousePad".toLowerCase())) {
-                    listaPerifericos.setPerifericos(new MouseMat(device.getModel(), device.toString()));
+                if (periferico.toLowerCase().contains(device.getModel().toLowerCase()) && device.getDeviceType() == LogiTechDevicesType.MouseMat) {
+                    listaPerifericos.setPerifericos(new MouseMat(LogiTechSDK, device));
                 }
+            }
 
-            });
         } else {
             if (periferico.toLowerCase().contains("asus:".toLowerCase())) {
                 AsusAura.getDevices().stream().filter(device -> (periferico.toLowerCase().contains(device.getName().toLowerCase()))).forEachOrdered(device -> {
@@ -1116,17 +1117,16 @@ public final class principal extends javax.swing.JFrame {
                         }
 
                     }
-                }else{
-                    if (periferico.toLowerCase().contains("CoolerMaster:".toLowerCase())) {       
-                        if(CoolerMasterTipoDevice.tipoDevice(periferico.replace("CoolerMaster: ","")).equals("Keyboard")){              
-                            listaPerifericos.setPerifericos(new CoolerMaster.Keyboard(CoolerMasterSDK,  CoolerMasterDevice.valueOf(periferico.replace("CoolerMaster: ",""))));   
-                        }else{
-                            if(CoolerMasterTipoDevice.tipoDevice(periferico.replace("CoolerMaster: ","")).equals("Mouse")){                 
-                                listaPerifericos.setPerifericos(new CoolerMaster.Mouse(CoolerMasterSDK, CoolerMasterDevice.valueOf(periferico.replace("CoolerMaster: ",""))));
+                } else {
+                    if (periferico.toLowerCase().contains("CoolerMaster:".toLowerCase())) {
+                        if (CoolerMasterTipoDevice.tipoDevice(periferico.replace("CoolerMaster: ", "")).equals("Keyboard")) {
+                            listaPerifericos.setPerifericos(new CoolerMaster.Keyboard(CoolerMasterSDK, CoolerMasterDevice.valueOf(periferico.replace("CoolerMaster: ", ""))));
+                        } else {
+                            if (CoolerMasterTipoDevice.tipoDevice(periferico.replace("CoolerMaster: ", "")).equals("Mouse")) {
+                                listaPerifericos.setPerifericos(new CoolerMaster.Mouse(CoolerMasterSDK, CoolerMasterDevice.valueOf(periferico.replace("CoolerMaster: ", ""))));
                             }
                         }
-                        
-                                             
+
                     }
                 }
             }
@@ -1304,6 +1304,7 @@ public final class principal extends javax.swing.JFrame {
 
         exit.addActionListener((ActionEvent e) -> {
             pararEfeito();
+            LogiTechSDK.Shutdown();
             AsusAura.ReleaseControl();
             System.exit(0);
         });

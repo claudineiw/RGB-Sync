@@ -19,7 +19,7 @@ public enum CoolerMasterLayout {
         return this.index;
     }
 
-    protected static CoolerMasterLayout fromIndex(int index) {
+    public static CoolerMasterLayout fromIndex(int index) {
         for (CoolerMasterLayout layout : CoolerMasterLayout.values()) {
             if (index == layout.getIndex())
                 return layout;

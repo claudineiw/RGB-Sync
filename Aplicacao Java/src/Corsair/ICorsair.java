@@ -37,11 +37,6 @@ public abstract class ICorsair implements IPerifericos{
         this.tipo=tipo;
     }
     
-    
-    @Override
-    public void setNome(String nome) {
-       this.nome=nome;
-    }
 
     @Override
     public String getNome() {
@@ -63,15 +58,6 @@ public abstract class ICorsair implements IPerifericos{
         return "Corsair";
     }
 
-    @Override
-    public String getID() {
-      return ID;
-    }
-
-    @Override
-    public void setID(String ID) {
-       this.ID=ID;
-    }
 
      @Override
     public void colorirDispositivo() {
@@ -92,7 +78,7 @@ public abstract class ICorsair implements IPerifericos{
     }
 
     @Override
-    public int[] getZonasRGB() {
+    public int getZonasRGB() {
          throw new UnsupportedOperationException("Not supported yet.");
     }
 

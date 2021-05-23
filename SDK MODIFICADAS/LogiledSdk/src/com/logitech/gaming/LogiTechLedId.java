@@ -126,7 +126,8 @@ public enum LogiTechLedId {
     G_8(0xFFF8),
     G_9(0xFFF9),
     G_LOGO(0xFFFF1),
-    G_BADGE(0xFFFF2);
+    G_BADGE(0xFFFF2),
+    DEVICE(0xFFFFFFF);
 
     private int index;
 
@@ -134,7 +135,7 @@ public enum LogiTechLedId {
         this.index = index;
     }
 
-    protected int getIndex() {
+    public int getIndex() {
         return this.index;
     }
 }

@@ -1,14 +1,14 @@
-package Logitech.HIDPID;
+package com.logitech.gaming.HIDPID;
 
 
-public final class listaPerifericos {
+public final class LogiTechPerifericoHID {
 
     private short VID;
     private short PID;
     private String Manufacturer;
     private String Path;
     private String Product;
-    public listaPerifericos(short VID, short PID, String Manufacturer, String Path , String Product) {
+    public LogiTechPerifericoHID(short VID, short PID, String Manufacturer, String Path , String Product) {
         this.VID = VID;
         this.PID = PID;
         this.Manufacturer = Manufacturer;

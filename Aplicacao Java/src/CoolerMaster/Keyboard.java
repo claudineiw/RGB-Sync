@@ -5,19 +5,18 @@ import com.CollMaster.CoolerMasterDevice;
 import com.CollMaster.CoolerMasterRowColumn;
 
 public class Keyboard extends ICoolerMaster implements IKeyboard {
-
+    private int[][] teclas = new int[8][25];
     public Keyboard(com.CollMaster.CoolerMasterSDK CoolerMasterSDK,CoolerMasterDevice device) {
         super(CoolerMasterSDK,device);
     }
 
     @Override
     public int[][] getTeclas() {
-        int [][] teclasInt={};
         super.getZonas().forEach(tecla -> {
-            teclasInt[tecla.getRow()][tecla.getColumn()]=tecla.getCoolerMasterLedId().ordinal();
+            teclas[tecla.getRow()][tecla.getColumn()]=tecla.getCoolerMasterLedId().ordinal();
         });
         
-        return teclasInt;
+        return teclas;
     }
 
     @Override

@@ -1339,7 +1339,7 @@ public enum CoolerMasterLedId {
         this.index = index;
     }
 
-    protected int getIndex() {
+    public int getIndex() {
         return this.index;
     }
 

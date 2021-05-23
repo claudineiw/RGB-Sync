@@ -1,10 +1,7 @@
 package com.logitech.gaming;
 
 import java.io.*;
-import java.lang.annotation.Native;
-
 public class LogiLED {
-
     public static final int 
             ESC = 0x01,
             F1 = 0x3b,
@@ -127,14 +124,17 @@ public class LogiLED {
             DeviceType_Mousemat = 0x4,
             DeviceType_Headset = 0x8,
             DeviceType_Speaker = 0xE,
+            
             LOGI_LED_BITMAP_WIDTH = 21,
             LOGI_LED_BITMAP_HEIGHT = 6,
             LOGI_LED_BITMAP_BYTES_PER_KEY = 4,
             LOGI_LED_BITMAP_SIZE = LOGI_LED_BITMAP_WIDTH * LOGI_LED_BITMAP_HEIGHT * LOGI_LED_BITMAP_BYTES_PER_KEY,
             LOGI_LED_DURATION_INFINITE = 0,
+            
             LOGI_DEVICETYPE_MONOCHROME_ORD = 0,
             LOGI_DEVICETYPE_RGB_ORD = 1,
             LOGI_DEVICETYPE_PERKEY_RGB_ORD = 2,
+            
             LOGI_DEVICETYPE_MONOCHROME = 1 << LOGI_DEVICETYPE_MONOCHROME_ORD,
             LOGI_DEVICETYPE_RGB = 1 << LOGI_DEVICETYPE_RGB_ORD,
             LOGI_DEVICETYPE_PERKEY_RGB = 1 << LOGI_DEVICETYPE_PERKEY_RGB_ORD,
@@ -226,12 +226,10 @@ public class LogiLED {
             osJarDll.close();
             isJarDll.close();
             pa = targetFile.getAbsolutePath();
-            System.out.println("DLLJNI: "+pa);
         } catch (IOException e) {
             System.out.println("Unable to extract the LogitechLedJNI.dll from the jar.");
         }
         return pa;
-
     }
 
     // Extract the JNI DLL from the JAR and load it.

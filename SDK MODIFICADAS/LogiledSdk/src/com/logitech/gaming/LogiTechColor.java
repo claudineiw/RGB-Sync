@@ -1,12 +1,12 @@
-package Logitech;
+package com.logitech.gaming;
 
-public final class ColorLogitech {
+public final class LogiTechColor {
 
     private int r;
     private int g;
     private int b;
 
-    public ColorLogitech(java.awt.Color cor) {        
+    public LogiTechColor(java.awt.Color cor) {        
         this.r = (cor.getRed() * 100) / 255;
         this.g = (cor.getGreen() * 100) / 255;
         this.b = (cor.getBlue() * 100) / 255;

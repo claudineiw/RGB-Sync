@@ -32,7 +32,7 @@ public enum CoolerMasterDevice {
         this.index = index;
     }
 
-    protected int getIndex() {
+    public int getIndex() {
         return this.index;
     }
 }

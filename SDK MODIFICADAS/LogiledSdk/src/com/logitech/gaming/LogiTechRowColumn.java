@@ -18,7 +18,7 @@ public class LogiTechRowColumn {
         return column;
     }
 
-    public LogiTechLedId getCoolerMasterLedId() {
+    public LogiTechLedId getLogiTechLedId() {
         return LogiTechLedId;
     }
 }

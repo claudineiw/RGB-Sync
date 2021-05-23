@@ -1,13 +1,12 @@
 package Logitech;
 
 import IPerifericos.ISpeaker;
+import com.logitech.gaming.HIDPID.DevicesLogitech;
+import com.logitech.gaming.LogiTechSDK;
 
 public final class Speaker extends ILogitech implements ISpeaker {
-
-    private final static int[] zonasRGB = {0, 1, 2, 3};
-
-    public Speaker(String nome, String ID) {
-        super(nome, ID, zonasRGB,(short) 14);
+    public Speaker(LogiTechSDK sdk,DevicesLogitech device) {
+        super(sdk, device);
     }
 
 }

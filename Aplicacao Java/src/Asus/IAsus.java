@@ -12,32 +12,18 @@ public abstract class IAsus implements IPerifericos {
     private AsusColor cor;
     private String nome;
     private String tipo;
-    private final int[] zonasRGB;
+    private final int zonasRGB=2;
     private final AuraSDK AsusAura;
     private final AuraSDKDevice AuraSDKDevice;
 
-    public IAsus(String nome, String tipo, int[] zonasRGB, AuraSDK AsusAura, AuraSDKDevice AuraSDKDevice) {
+    public IAsus(String nome, String tipo, AuraSDK AsusAura, AuraSDKDevice AuraSDKDevice) {
         this.nome = nome;
         this.tipo = tipo;
-        this.zonasRGB = zonasRGB;
         this.AsusAura = AsusAura;
         this.AuraSDKDevice = AuraSDKDevice;
         AsusAura.GainControl();
     }
-    @Override
-    public String getID() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    @Override
-    public void setID(String ID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 
     @Override
     public String getNome() {
@@ -83,7 +69,7 @@ public abstract class IAsus implements IPerifericos {
     }
 
     @Override
-    public int[] getZonasRGB() {
+    public int getZonasRGB() {
         return zonasRGB;
     }
 

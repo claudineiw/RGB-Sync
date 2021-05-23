@@ -36,12 +36,7 @@ public class ICoolerMaster implements IPerifericos{
     }
     
     
-    
-    @Override
-    public void setNome(String nome) {
-        this.nome=nome;
-    }
-
+   
     @Override
     public String getNome() {
         return nome;
@@ -62,15 +57,6 @@ public class ICoolerMaster implements IPerifericos{
         return "CoolerMaster";
     }
 
-    @Override
-    public String getID() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setID(String ID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public void colorirDispositivo() {   
@@ -87,7 +73,7 @@ public class ICoolerMaster implements IPerifericos{
     }
 
     @Override
-    public int[] getZonasRGB() {
+    public int getZonasRGB() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

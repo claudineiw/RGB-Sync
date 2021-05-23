@@ -1,13 +1,12 @@
 package Logitech;
 
 import IPerifericos.IHeadSet;
+import com.logitech.gaming.HIDPID.DevicesLogitech;
+import com.logitech.gaming.LogiTechSDK;
 
 public final class HeadSet extends ILogitech implements IHeadSet {
-
-    private final static int[] zonasRGB = {0, 1};
-
-    public HeadSet(String nome, String ID) {
-        super(nome, ID, zonasRGB,(short) 8);
+    public HeadSet(LogiTechSDK sdk,DevicesLogitech device) {
+        super(sdk, device);
     }
 
 }

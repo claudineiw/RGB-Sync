@@ -8,9 +8,7 @@ public class LogiTechKeyBoardMap {
     private static final List<LogiTechRowColumn> G815 = new ArrayList<>();
 
     private static final List<LogiTechRowColumn> NAODEFINIDO = new ArrayList<>();
-    public LogiTechKeyBoardMap() {
-        
-        
+    public LogiTechKeyBoardMap() {    
         G815.add(new LogiTechRowColumn(LogiTechLedId.G_LOGO,0,0));
         G815.add(new LogiTechRowColumn(LogiTechLedId.ESC,0,1));
         G815.add(new LogiTechRowColumn(LogiTechLedId.F1,0,2));
