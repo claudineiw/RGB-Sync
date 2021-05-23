@@ -9,9 +9,10 @@ import IPerifericos.IPerifericos;
 import com.CollMaster.CoolerMasterColor;
 import com.CollMaster.CoolerMasterDevice;
 import com.CollMaster.CoolerMasterKeyMaps;
-import com.CollMaster.CoolerMasterLedId;
+import com.CollMaster.CoolerMasterRowColumn;
 import com.CollMaster.CoolerMasterSDK;
 import java.awt.Color;
+import java.util.List;
 
 /**
  *
@@ -73,12 +74,10 @@ public class ICoolerMaster implements IPerifericos{
 
     @Override
     public void colorirDispositivo() {   
-       CoolerMasterLedId[][] leds= keysMaps.getKeys(CoolerMasterSDK.getLayout(device), device);
-        for(int i=0;i<leds.length;i++){
-            for(int y=0;i<leds[i].length;y++){
-                CoolerMasterSDK.setKeyColor(i, y, CoolerMasterColor,device);
-            }
-        }
+       List<CoolerMasterRowColumn> leds= keysMaps.getKeys(CoolerMasterSDK.getLayout(device), device);
+       leds.forEach(LED -> {
+           CoolerMasterSDK.setKeyColor(LED.getRow(), LED.getColumn(), CoolerMasterColor,device);
+        });
        
     }
 
@@ -92,7 +91,7 @@ public class ICoolerMaster implements IPerifericos{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public CoolerMasterLedId[][] getZonas() {
+    public List<CoolerMasterRowColumn> getZonas() {
         return  keysMaps.getKeys(CoolerMasterSDK.getLayout(device), device);
     }
     

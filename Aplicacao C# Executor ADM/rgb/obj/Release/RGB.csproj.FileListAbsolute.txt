@@ -18,3 +18,18 @@ C:\Users\Claud\Desktop\RGB\COMPILACAO\C\RGB.exe.manifest
 C:\Users\Claud\Desktop\RGB\COMPILACAO\C\RGB.application
 C:\Users\Claud\Desktop\RGB\COMPILACAO\C\RGB.exe
 C:\Users\Claud\Desktop\RGB\COMPILACAO\C\RGB.pdb
+D:\Projeto\RGB\COMPILACAO\C\RGB.exe.config
+D:\Projeto\RGB\COMPILACAO\C\RGB.exe.manifest
+D:\Projeto\RGB\COMPILACAO\C\RGB.application
+D:\Projeto\RGB\COMPILACAO\C\RGB.exe
+D:\Projeto\RGB\COMPILACAO\C\RGB.pdb
+D:\Projeto\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Release\RGB.csprojAssemblyReference.cache
+D:\Projeto\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Release\RGB.Properties.Resources.resources
+D:\Projeto\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Release\RGB.csproj.GenerateResource.cache
+D:\Projeto\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Release\RGB.csproj.CoreCompileInputs.cache
+D:\Projeto\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Release\RGB.TrustInfo.xml
+D:\Projeto\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Release\RGB.exe.manifest
+D:\Projeto\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Release\RGB.application
+D:\Projeto\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Release\RGB.csproj.CopyComplete
+D:\Projeto\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Release\RGB.exe
+D:\Projeto\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Release\RGB.pdb

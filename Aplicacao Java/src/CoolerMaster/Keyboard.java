@@ -2,7 +2,7 @@ package CoolerMaster;
 
 import IPerifericos.IKeyboard;
 import com.CollMaster.CoolerMasterDevice;
-import com.CollMaster.CoolerMasterLedId;
+import com.CollMaster.CoolerMasterRowColumn;
 
 public class Keyboard extends ICoolerMaster implements IKeyboard {
 
@@ -13,26 +13,19 @@ public class Keyboard extends ICoolerMaster implements IKeyboard {
     @Override
     public int[][] getTeclas() {
         int [][] teclasInt={};
-        CoolerMasterLedId[][] teclas=super.getZonas();
-        for(int i=0;i<teclas.length;i++){
-            int vez[]={};            
-            for(int y=0;y<teclas[i].length;y++){
-                vez[y]=teclas[i][y].ordinal();
-            }
-            teclasInt[i]=vez;        
-    }
+        super.getZonas().forEach(tecla -> {
+            teclasInt[tecla.getRow()][tecla.getColumn()]=tecla.getCoolerMasterLedId().ordinal();
+        });
         
         return teclasInt;
     }
 
     @Override
-    public void colorirPorTecla(int tecla) {
-        for (int i = 0; i < getTeclas().length; i++) {
-            for (int y = 0; y < getTeclas()[i].length; y++) {
-                if (getTeclas()[i][y] == (short) tecla) {
-                    getCoolerMasterSDK().setKeyColor(i, y, super.getCor(),super.getDevice());
-                    break;
-                }
+    public void colorirPorTecla(int tecla) {        
+        for(CoolerMasterRowColumn teclas:super.getZonas()){
+            if(tecla==teclas.getCoolerMasterLedId().ordinal()){
+                getCoolerMasterSDK().setKeyColor(teclas.getRow(), teclas.getColumn(), super.getCor(),super.getDevice());
+                break;
             }
         }
 
