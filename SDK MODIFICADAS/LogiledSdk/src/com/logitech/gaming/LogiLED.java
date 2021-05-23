@@ -5,7 +5,8 @@ import java.lang.annotation.Native;
 
 public class LogiLED {
 
-    public static final int ESC = 0x01,
+    public static final int 
+            ESC = 0x01,
             F1 = 0x3b,
             F2 = 0x3c,
             F3 = 0x3d,
@@ -120,6 +121,7 @@ public class LogiLED {
             G_9 = 0xFFF9,
             G_LOGO = 0xFFFF1,
             G_BADGE = 0xFFFF2,
+            
             DeviceType_Keyboard = 0x0,
             DeviceType_Mouse = 0x3,
             DeviceType_Mousemat = 0x4,
