@@ -1,5 +1,5 @@
 package RGB;
-
+// <editor-fold defaultstate="collapsed" desc="BIBLIOTECAS">  
 import efeitos.efeitoOnda;
 import efeitos.efeitoDecremental;
 import efeitos.efeitoMusica;
@@ -52,7 +52,7 @@ import javax.sound.sampled.Mixer;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
-
+// </editor-fold>  
 @SuppressWarnings("serial")
 public final class Main extends javax.swing.JFrame {
 
