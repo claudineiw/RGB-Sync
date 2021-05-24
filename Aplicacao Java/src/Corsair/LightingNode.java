@@ -7,8 +7,8 @@ import ca.fiercest.cuesdk.enums.LedId;
 
 public class LightingNode extends ICorsair implements ILightingNode {
 
-    public LightingNode(String nome,String tipo, CueSDK CorsairSDK, CorsairDevice device) {
-        super(nome, tipo, CorsairSDK, device, 200, 499);
+    public LightingNode(CueSDK CorsairSDK, CorsairDevice device) {
+        super(CorsairSDK, device, 200, 499);
    }
 
     @Override

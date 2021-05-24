@@ -23,7 +23,6 @@ D:\Projeto\RGB\COMPILACAO\C\RGB.exe.manifest
 D:\Projeto\RGB\COMPILACAO\C\RGB.application
 D:\Projeto\RGB\COMPILACAO\C\RGB.exe
 D:\Projeto\RGB\COMPILACAO\C\RGB.pdb
-D:\Projeto\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Release\RGB.csprojAssemblyReference.cache
 D:\Projeto\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Release\RGB.Properties.Resources.resources
 D:\Projeto\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Release\RGB.csproj.GenerateResource.cache
 D:\Projeto\RGB\RGB\Aplicacao C# Executor ADM\rgb\obj\Release\RGB.csproj.CoreCompileInputs.cache

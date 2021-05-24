@@ -45,7 +45,7 @@ namespace rgb
                                 entrou = 1;
                                 String filename = "\""+Directory.GetCurrentDirectory() + "\\Jar\\rgb.jar\"";
                                 processo.StartInfo.FileName = javaDir + "\\java.exe";
-                                processo.StartInfo.Arguments = "-jar " + filename + " %1";
+                                processo.StartInfo.Arguments = " -Dsun.java2d.uiScale=2.5 -Dsun.java2d.dpiaware=false -XX:ErrorFile=./error.log -jar " + filename + " %1";
                                 processo.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                                 processo.StartInfo.ErrorDialog = true;
                                 processo.Start();

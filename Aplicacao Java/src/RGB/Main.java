@@ -10,7 +10,6 @@ import capturaImagem.capturaTela;
 import efeitos.efeitoCorSelecionada;
 import efeitos.efeitoPorTemperatura;
 import java.awt.AWTException;
-
 import java.awt.Color;
 import java.awt.MenuItem;
 import java.awt.Point;
@@ -55,12 +54,13 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 
 @SuppressWarnings("serial")
-public final class principal extends javax.swing.JFrame {
+public final class Main extends javax.swing.JFrame {
 
     private LogiTechSDK LogiTechSDK;
     private AuraSDK AsusAura;
     private CueSDK CorsairSDK;
     private CoolerMasterSDK CoolerMasterSDK;
+
     private static TrayIcon trayIcon;
     private IEfeitos efeito;
     private RGBexeCon RGBexeCon;
@@ -73,7 +73,7 @@ public final class principal extends javax.swing.JFrame {
     private Mixer.Info[] mixerInfo;
     private ArrayList<Mixer.Info> mixerChoices;
 
-    public principal() {
+    public Main() {
         initComponents();
         iniciaBibliotecas();
 
@@ -355,8 +355,8 @@ public final class principal extends javax.swing.JFrame {
         panelJscrollSelecionadosLayout.setHorizontalGroup(
             panelJscrollSelecionadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelJscrollSelecionadosLayout.createSequentialGroup()
-                .addComponent(jScrollPerifericosSelecionados, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jScrollPerifericosSelecionados, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                .addContainerGap())
         );
         panelJscrollSelecionadosLayout.setVerticalGroup(
             panelJscrollSelecionadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -672,7 +672,6 @@ public final class principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void iniciaBibliotecas() {
-        this.CoolerMasterSDK = new CoolerMasterSDK();
         jColorPrincipal.setColor(Color.RED);
         this.temperaturas = new ArrayList<>();
         this.cores = new ArrayList<>();
@@ -751,37 +750,38 @@ public final class principal extends javax.swing.JFrame {
 
         try {
             this.AsusAura = new AuraSDK();
-            AsusAura.getDevices().forEach(de -> {
-                model.addElement("Asus: " + de.getName());
+            AsusAura.getDevices().forEach(Asus -> {
+                model.addElement("Asus: " + Asus.getName());
             });
         } catch (Exception ex) {
         }
 
         try {
             this.LogiTechSDK = new LogiTechSDK();
-            for (DevicesLogitech device : LogiTechSDK.getDevices()) {
-                model.addElement(device.getMarca() + ": " + device.getDeviceType() + " " + device.getModel());
-            }
+            LogiTechSDK.getDevices().forEach(LogiTech -> {
+                model.addElement(LogiTech.getMarca() + ": " + LogiTech.getDeviceType() + " " + LogiTech.getModel());
+            });
         } catch (Exception ex) {
         }
         try {
             this.CorsairSDK = new CueSDK();
-            CorsairSDK.getDevices().forEach(corsair -> {
-                if (!corsair.getModelName().toLowerCase().contains("asus".toLowerCase())) {
-                    model.addElement("Corsair: " + corsair.getModelName());                    
+            CorsairSDK.getDevices().forEach(Corsair -> {
+                if (!Corsair.getModelName().toLowerCase().contains("asus".toLowerCase())) {
+                    model.addElement("Corsair: " + Corsair.getModelName());
                 }
             });
         } catch (NoServerException ex) {
         }
 
         try {
+            CoolerMasterSDK = new CoolerMasterSDK();
             CoolerMasterSDK.getDevicesConected().forEach(CoolerMaster -> {
                 model.addElement("CoolerMaster: " + CoolerMaster);
-            });            
-        } catch (Exception ex) {           
-           
-        }         
-          
+            });
+        } catch (Exception ex) {
+
+        }
+
         if (jLPerifericos.getModel().getSize() == 0) {
             model.addElement("Sem Hardwares Compativeis");
         }
@@ -792,11 +792,11 @@ public final class principal extends javax.swing.JFrame {
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         this.dispose();
         pararEfeito();
-        RGBexeCon.allDone = true;  
+        RGBexeCon.allDone = true;
         LogiTechSDK.Shutdown();
-        AsusAura.ReleaseControl();          
+        AsusAura.ReleaseControl();
         System.exit(0);
-        
+
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnHideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHideActionPerformed
@@ -1077,44 +1077,44 @@ public final class principal extends javax.swing.JFrame {
                 if (periferico.toLowerCase().contains("corsair:".toLowerCase())) {
                     for (CorsairDevice corsair : CorsairSDK.getDevices()) {
                         if (corsair.getType().toString().toLowerCase().contains("keyboard".toLowerCase()) && periferico.toLowerCase().contains(corsair.getModelName().toLowerCase())) {
-                            listaPerifericos.setPerifericos(new Corsair.Keyboard(corsair.getModelName(), corsair.getType().toString(), CorsairSDK, corsair));
+                            listaPerifericos.setPerifericos(new Corsair.Keyboard(CorsairSDK, corsair));
                             break;
                         }
                         if (corsair.getType().toString().toLowerCase().contains("Mouse".toLowerCase()) && periferico.toLowerCase().contains(corsair.getModelName().toLowerCase())) {
                             if (!corsair.getType().toString().toLowerCase().contains("MouseMat".toLowerCase())) {
-                                listaPerifericos.setPerifericos(new Corsair.Mouse(corsair.getModelName(), corsair.getType().toString(), CorsairSDK, corsair));
+                                listaPerifericos.setPerifericos(new Corsair.Mouse(CorsairSDK, corsair));
                                 break;
                             }
                         }
 
                         if (corsair.getType().toString().toLowerCase().contains("Headset".toLowerCase()) && periferico.toLowerCase().contains(corsair.getModelName().toLowerCase())) {
                             if (!corsair.getType().toString().toLowerCase().contains("HeadsetStand".toLowerCase())) {
-                                listaPerifericos.setPerifericos(new Corsair.HeadSet(corsair.getModelName(), corsair.getType().toString(), CorsairSDK, corsair));
+                                listaPerifericos.setPerifericos(new Corsair.HeadSet(CorsairSDK, corsair));
                                 break;
                             }
                         }
 
                         if (corsair.getType().toString().toLowerCase().contains("HeadsetStand".toLowerCase()) && periferico.toLowerCase().contains(corsair.getModelName().toLowerCase())) {
-                            listaPerifericos.setPerifericos(new Corsair.HeadsetStand(corsair.getModelName(), corsair.getType().toString(), CorsairSDK, corsair));
+                            listaPerifericos.setPerifericos(new Corsair.HeadsetStand(CorsairSDK, corsair));
                             break;
                         }
                         if (corsair.getType().toString().toLowerCase().contains("MouseMat".toLowerCase()) && periferico.toLowerCase().contains(corsair.getModelName().toLowerCase())) {
-                            listaPerifericos.setPerifericos(new Corsair.MouseMat(corsair.getModelName(), corsair.getType().toString(), CorsairSDK, corsair));
+                            listaPerifericos.setPerifericos(new Corsair.MouseMat(CorsairSDK, corsair));
                             break;
                         }
 
                         if (corsair.getType().toString().toLowerCase().contains("CommanderPro".toLowerCase()) && periferico.toLowerCase().contains(corsair.getModelName().toLowerCase())) {
-                            listaPerifericos.setPerifericos(new Corsair.CoolerControl(corsair.getModelName(), corsair.getType().toString(), CorsairSDK, corsair));
+                            listaPerifericos.setPerifericos(new Corsair.CoolerControl(CorsairSDK, corsair));
                             break;
                         }
 
                         if (corsair.getType().toString().toLowerCase().contains("LightingNodePro".toLowerCase()) && periferico.toLowerCase().contains(corsair.getModelName().toLowerCase())) {
-                            listaPerifericos.setPerifericos(new Corsair.LightingNode(corsair.getModelName(), corsair.getType().toString(), CorsairSDK, corsair));
+                            listaPerifericos.setPerifericos(new Corsair.LightingNode(CorsairSDK, corsair));
                             break;
                         }
 
                         if (corsair.getType().toString().toLowerCase().contains("Motherboard".toLowerCase()) && periferico.toLowerCase().contains(corsair.getModelName().toLowerCase())) {
-                            listaPerifericos.setPerifericos(new Corsair.MotherBoard(corsair.getModelName(), corsair.getType().toString(), CorsairSDK, corsair));
+                            listaPerifericos.setPerifericos(new Corsair.MotherBoard(CorsairSDK, corsair));
                             break;
                         }
 
@@ -1136,9 +1136,8 @@ public final class principal extends javax.swing.JFrame {
     }
 
     private void tirarDaListaPerifericos(String periferico) {
-
         for (int i = 0; i < listaPerifericos.getPerifericos().size(); i++) {
-            if (listaPerifericos.getPerifericos().get(i).getNome().toLowerCase().contains(periferico.toLowerCase())) {
+            if (periferico.toLowerCase().contains(listaPerifericos.getPerifericos().get(i).getNome().toLowerCase())) {
                 listaPerifericos.getPerifericos().remove(i);
             }
         }
@@ -1146,7 +1145,6 @@ public final class principal extends javax.swing.JFrame {
     }
 
     private void btnRemoverDaListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverDaListaActionPerformed
-
         DefaultListModel<String> model = new DefaultListModel<>();
         for (int i = 0; i < jLPerifericos.getModel().getSize(); i++) {
             model.addElement(jLPerifericos.getModel().getElementAt(i));
@@ -1274,7 +1272,7 @@ public final class principal extends javax.swing.JFrame {
                     Robot robot = new Robot();
                     robot.keyPress(java.awt.event.KeyEvent.VK_BACK_SPACE);
                 } catch (AWTException ex) {
-                    Logger.getLogger(principal.class
+                    Logger.getLogger(Main.class
                             .getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -1315,7 +1313,7 @@ public final class principal extends javax.swing.JFrame {
         try {
             tray.add(trayIcon);
         } catch (AWTException ex) {
-            Logger.getLogger(principal.class
+            Logger.getLogger(Main.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
     }

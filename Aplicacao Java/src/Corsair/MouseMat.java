@@ -7,8 +7,8 @@ import ca.fiercest.cuesdk.enums.LedId;
 
 public class MouseMat extends ICorsair implements IMouseMat {
 
-    public MouseMat(String nome,String tipo, CueSDK CorsairSDK, CorsairDevice device) {
-        super(nome, tipo, CorsairSDK, device, 155, 169);
+    public MouseMat(CueSDK CorsairSDK, CorsairDevice device) {
+        super(CorsairSDK, device, 155, 169);
     }
 
     @Override

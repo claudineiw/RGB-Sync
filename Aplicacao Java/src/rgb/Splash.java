@@ -15,7 +15,7 @@ import java.util.zip.ZipInputStream;
 
 public final class Splash extends JFrame {
 
-    private static principal principal;
+    private static Main Main;
     private static JLabel lbSplash;
     private static ImageIcon imSplash;
     private static final long serialVersionUID = 1L;
@@ -33,9 +33,9 @@ public final class Splash extends JFrame {
             Splash.setVisible(true);
             Splash.setIconImage(Toolkit.getDefaultToolkit().getImage(url));
             UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatDraculaIJTheme");
-            principal = new principal();
-            principal.setIconImage(Toolkit.getDefaultToolkit().getImage(url));
-            while (principal.iniciado() < 0) {
+            Main = new Main();
+            Main.setIconImage(Toolkit.getDefaultToolkit().getImage(url));
+            while (Main.iniciado() < 0) {
                 tempo.calculo();
             }
 
@@ -90,7 +90,7 @@ public final class Splash extends JFrame {
     
     @Override
     public void dispose() {
-        principal.setVisible(true);
+        Main.setVisible(true);
         super.dispose();
     }
 

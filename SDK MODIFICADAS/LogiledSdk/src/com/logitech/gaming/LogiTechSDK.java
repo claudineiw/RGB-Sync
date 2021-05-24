@@ -24,7 +24,7 @@ public class LogiTechSDK implements Runnable{
         return LogiLED.LogiLedInit();        
     }
 
-    public boolean InitWithName(char name[]){        
+    private boolean InitWithName(char name[]){        
          return LogiLED.LogiLedInitWithName(name);        
     } 
     public double GetConfigOptionNumber(String configPath, double defaultValue){

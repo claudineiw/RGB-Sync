@@ -18,5 +18,8 @@ public final class MouseMat extends ILogitech implements IMouseMat {
     public int getCountLight() {
         return 1;
     }
+       
+       
+    
 
 }

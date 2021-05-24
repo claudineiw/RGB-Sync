@@ -16,8 +16,8 @@ import ca.fiercest.cuesdk.enums.LedId;
  */
 public final class MotherBoard extends ICorsair implements IMotherBoard{
 
-    public MotherBoard(String nome,String tipo, CueSDK CorsairSDK, CorsairDevice device) {
-        super(nome, tipo,CorsairSDK, device, 0, 1543);
+    public MotherBoard(CueSDK CorsairSDK, CorsairDevice device) {
+        super(CorsairSDK, device, 0, 1543);
     }
 
     @Override

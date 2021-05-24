@@ -7,8 +7,8 @@ import ca.fiercest.cuesdk.enums.LedId;
 
 public class CoolerControl extends ICorsair implements ICoolerControl {
 
-    public CoolerControl(String nome,String tipo, CueSDK CorsairSDK, CorsairDevice device) {
-        super(nome,tipo, CorsairSDK, device, 200, 499);
+    public CoolerControl(CueSDK CorsairSDK, CorsairDevice device) {
+        super(CorsairSDK, device, 200, 499);
     }
 
     @Override
