@@ -8,7 +8,7 @@ import com.logitech.gaming.LogiTechSDK;
 
 public final class Keyboard extends ILogitech implements IKeyboard {
 
-    private int[][] teclas = new int[6][25];
+    private int[][] teclas = new int[6][23];
 
     public Keyboard(LogiTechSDK sdk, DevicesLogitech device) {
         super(sdk, device);
@@ -30,9 +30,10 @@ public final class Keyboard extends ILogitech implements IKeyboard {
 
     private void preencherTeclas() {
         LogiTechKeyBoardMap mapaTeclas = new LogiTechKeyBoardMap();
-        for (LogiTechRowColumn tecla : mapaTeclas.getKeys(getDevice().getModel())) {
+        for (LogiTechRowColumn tecla : mapaTeclas.getKeys(getDevice().getModel())) {          
             teclas[tecla.getRow()][tecla.getColumn()] = tecla.getLogiTechLedId().getIndex();
         }
+        
     }
 
     @Override
