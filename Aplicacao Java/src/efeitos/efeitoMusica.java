@@ -10,14 +10,17 @@ import javax.sound.sampled.Mixer;
 import IPerifericos.colecaoPerifericos;
 import Metodos.tempoPorVolta;
 import java.util.ArrayList;
-import javax.sound.sampled.AudioFormat;
 
 public final class efeitoMusica extends IEfeitos {
 
+    private int frameSize = 2;
     private final Mixer.Info dispositivoSelecionado;
     private TargetDataLine targetDataLine;
     private int rmsGlobal = 0;
+    private int rmsDireita = 0;
+    private int rmsEsquerda = 0;
     private Color corTeclado;
+
     public efeitoMusica(colecaoPerifericos listaPerifericos, ArrayList<Color> cores, Mixer.Info dispositivoSelecionado) {
         super(listaPerifericos, cores);
         this.dispositivoSelecionado = dispositivoSelecionado;
@@ -30,7 +33,6 @@ public final class efeitoMusica extends IEfeitos {
     }
 
     private void iniciarLine() {
-        AudioFormat fmt = new AudioFormat(44100f, 16, 1, true, false);
         Mixer mixer = AudioSystem.getMixer(dispositivoSelecionado);
         Line.Info[] lineInfo = mixer.getTargetLineInfo();
         Line.Info selectedInfo = null;
@@ -39,7 +41,8 @@ public final class efeitoMusica extends IEfeitos {
         }
         try {
             targetDataLine = (TargetDataLine) mixer.getLine(selectedInfo);
-            targetDataLine.open(fmt, 2);
+            frameSize = targetDataLine.getFormat().getFrameSize();
+            targetDataLine.open(targetDataLine.getFormat(), frameSize);
         } catch (Exception e) {
         }
         targetDataLine.flush();
@@ -51,6 +54,7 @@ public final class efeitoMusica extends IEfeitos {
         iniciarLine();
         tempoPorVolta tempo = new tempoPorVolta(0);
         while (!allDone) {
+            System.out.println(".");
             escutarMusica(tempo);
         }
         targetDataLine.stop();
@@ -58,45 +62,46 @@ public final class efeitoMusica extends IEfeitos {
     }
 
     private void escutarMusica(tempoPorVolta tempo) {
-        final int bufferByteSize = 2;
-        byte[] buf = new byte[bufferByteSize];
-        float[] samples = new float[bufferByteSize / 2];
-        for (int b; (b = targetDataLine.read(buf, 0, buf.length)) > -1;) {
-            if (allDone) {
-                targetDataLine.stop();
-                return;
-            }
-            float lastPeak = 0f;
-            for (int i = 0, s = 0; i < b;) {
-                int sample = 0;
+        byte[] buf = new byte[frameSize];
+        float[] Chanel1 = new float[frameSize / targetDataLine.getFormat().getChannels()];
+        int b = targetDataLine.read(buf, 0, buf.length);
+        if (allDone) {
+            targetDataLine.stop();
+            return;
+        }
 
-                sample |= buf[i++] & 0xFF;
-                sample |= buf[i++] << 8;
-                samples[s++] = sample / 32768f;
-            }
+        for (int i = 0, s = 0; i < b;) {
+            int sample = 0;
+            sample |= buf[i++] & 0xFF;
+            sample |= buf[i++] << 8;
+            Chanel1[s++] = sample / 32768f;
+        }
 
-            float rms = 0f;
-            float peak = 0f;
-            for (float sample : samples) {
-                float abs = Math.abs(sample);
-                if (abs > peak) {
-                    peak = abs;
-                }
-                rms += sample * sample;
-            }
+        if (targetDataLine.getFormat().getChannels() == 2) {
+            float RMSch1 = Chanel1[0] * Chanel1[0];
+            float RMSch2 = Chanel1[1] * Chanel1[1];
+            RMSch1 = (float) Math.sqrt(RMSch1 / Chanel1.length);
+            RMSch2 = (float) Math.sqrt(RMSch2 / Chanel1.length);
 
-            rms = (float) Math.sqrt(rms / samples.length);
-            if (lastPeak > peak) {
-                peak = lastPeak * 0.875f;
-            }
-            lastPeak = peak;
-            rmsGlobal = (Math.round(Math.abs(rms) * (500 - 2)));
+            rmsEsquerda = (Math.round(Math.abs(RMSch1) * (500 - 2)));
+            rmsDireita = (Math.round(Math.abs(RMSch2) * (500 - 2)));
+
+            rmsGlobal = rmsDireita + rmsEsquerda;
+
             if (rmsGlobal > 255) {
                 rmsGlobal = 255;
             }
             chamadaMetodosColorir(tempo);
-
+        } else {
+            if (targetDataLine.getFormat().getChannels() == 1) {
+                float RMSch1 = Chanel1[0] * Chanel1[0];
+                RMSch1 = (float) Math.sqrt(RMSch1 / Chanel1.length);
+                rmsEsquerda = (Math.round(Math.abs(RMSch1) * (500 - 2)));
+                rmsDireita = (Math.round(Math.abs(RMSch1) * (500 - 2)));
+                rmsGlobal = rmsDireita + rmsEsquerda;
+            }
         }
+
     }
 
     private void chamadaMetodosColorir(tempoPorVolta tempo) {
@@ -126,7 +131,7 @@ public final class efeitoMusica extends IEfeitos {
 
     @Override
     protected void colorirMotherBoard(IPerifericos motherBoard, ArrayList<Boolean> chegou, int pos) {
-        motherBoard.setCor(getCor());       
+        motherBoard.setCor(getCor());
         motherBoard.colorirDispositivo();
     }
 
@@ -183,789 +188,155 @@ public final class efeitoMusica extends IEfeitos {
         CoolerControl.setCor(getCor());
         CoolerControl.colorirDispositivo();
     }
-  
+
     private int[][] matrixAudio(IPerifericos teclado) {
-        int[][] matrix = new int[6][23];
+        int[][] matrix = new int[((IKeyboard) teclado).getTeclas().length][((IKeyboard) teclado).getTeclas()[0].length];
         for (int i = 0; i < matrix.length; i++) {
             for (int y = 0; y < matrix[i].length; y++) {
-                if (rmsGlobal > 250) {
-                    if (i == 2 || i == 3) {
+                if (y >= (matrix[i].length / 2) - 1) {
+                    matrix = direitaRec(i, y, matrix, 22, 150);
+                } else {
+                    matrix = esquerdaRec(i, y, matrix, 0, 150);
+                }
+            }
+
+        }
+
+        return matrix;
+    }
+
+    private int[][] direitaRec(int i, int y, int[][] matrix, int cordenada, int rms) {
+        if (rmsDireita > rms) {
+            return direita(i, y, matrix, cordenada);
+        } else {
+            return direitaRec(i, y, matrix, cordenada - 1, rms - 10);
+        }
+
+    }
+
+    private int[][] esquerdaRec(int i, int y, int[][] matrix, int cordenada, int rms) {
+        if (rmsDireita > rms) {
+            return esquerda(i, y, matrix, cordenada);
+        } else {
+            return esquerdaRec(i, y, matrix, cordenada + 1, rms - 10);
+        }
+
+    }
+
+    private int[][] direita(int i, int y, int[][] matrix, int cordenada) {
+        if (matrix.length == 6) {
+            if (i == 2 || i == 3) {
+                if (y <= cordenada) {
+                    matrix[i][y] = 1;
+                } else {
+                    matrix[i][y] = 0;
+                }
+
+            } else {
+                if (i == 1 || i == 4) {
+                    if (y <= cordenada + 1) {
                         matrix[i][y] = 1;
                     } else {
-                        if (i == 1 || i == 4) {
-                            if (y <= 21) {
-                                matrix[i][y] = 1;
-                            } else {
-                                matrix[i][y] = 0;
-                            }
-
-                        } else {
-                            if (i == 0 || i == 5) {
-                                if (y <= 20) {
-                                    matrix[i][y] = 1;
-                                } else {
-                                    matrix[i][y] = 0;
-                                }
-
-                            }
-                        }
+                        matrix[i][y] = 0;
                     }
                 } else {
-                    if (rmsGlobal > 240) {
-                        if (i == 2 || i == 3) {
-                            if (y <= 21) {
+                    if (i == 0 || i == 5) {
+                        if (y <= cordenada + 2) {
+                            matrix[i][y] = 1;
+                        } else {
+                            matrix[i][y] = 0;
+                        }
+
+                    }
+                }
+            }
+        } else {
+            if (matrix.length > 6) {
+                if (i == 3 || i == 4) {
+                    if (y <= cordenada) {
+                        matrix[i][y] = 1;
+                    } else {
+                        matrix[i][y] = 0;
+                    }
+
+                } else {
+                    if (i == 1 || i == 2 || i == 5 || i == 6) {
+                        if (y <= cordenada + 1) {
+                            matrix[i][y] = 1;
+                        } else {
+                            matrix[i][y] = 0;
+                        }
+                    } else {
+                        if (i == 0 || i == 7) {
+                            if (y <= cordenada + 2) {
                                 matrix[i][y] = 1;
                             } else {
                                 matrix[i][y] = 0;
                             }
 
-                        } else {
-                            if (i == 1 || i == 4) {
-                                if (y <= 20) {
-                                    matrix[i][y] = 1;
-                                } else {
-                                    matrix[i][y] = 0;
-                                }
-
-                            } else {
-                                if (i == 0 || i == 5) {
-                                    if (y <= 19) {
-                                        matrix[i][y] = 1;
-                                    } else {
-                                        matrix[i][y] = 0;
-                                    }
-
-                                }
-                            }
-                        }
-                    } else {
-                        if (rmsGlobal > 230) {
-                            if (i == 2 || i == 3) {
-                                if (y <= 20) {
-                                    matrix[i][y] = 1;
-                                } else {
-                                    matrix[i][y] = 0;
-                                }
-
-                            } else {
-                                if (i == 1 || i == 4) {
-                                    if (y <= 19) {
-                                        matrix[i][y] = 1;
-                                    } else {
-                                        matrix[i][y] = 0;
-                                    }
-
-                                } else {
-                                    if (i == 0 || i == 5) {
-                                        if (y <= 18) {
-                                            matrix[i][y] = 1;
-                                        } else {
-                                            matrix[i][y] = 0;
-                                        }
-
-                                    }
-                                }
-                            }
-                        } else {
-                            if (rmsGlobal > 220) {
-                                if (i == 2 || i == 3) {
-                                    if (y <= 19) {
-                                        matrix[i][y] = 1;
-                                    } else {
-                                        matrix[i][y] = 0;
-                                    }
-
-                                } else {
-                                    if (i == 1 || i == 4) {
-                                        if (y <= 18) {
-                                            matrix[i][y] = 1;
-                                        } else {
-                                            matrix[i][y] = 0;
-                                        }
-
-                                    } else {
-                                        if (i == 0 || i == 5) {
-                                            if (y <= 17) {
-                                                matrix[i][y] = 1;
-                                            } else {
-                                                matrix[i][y] = 0;
-                                            }
-
-                                        }
-                                    }
-                                }
-                            } else {
-                                if (rmsGlobal > 210) {
-                                    if (i == 2 || i == 3) {
-                                        if (y <= 18) {
-                                            matrix[i][y] = 1;
-                                        } else {
-                                            matrix[i][y] = 0;
-                                        }
-
-                                    } else {
-                                        if (i == 1 || i == 4) {
-                                            if (y <= 17) {
-                                                matrix[i][y] = 1;
-                                            } else {
-                                                matrix[i][y] = 0;
-                                            }
-
-                                        } else {
-                                            if (i == 0 || i == 5) {
-                                                if (y <= 16) {
-                                                    matrix[i][y] = 1;
-                                                } else {
-                                                    matrix[i][y] = 0;
-                                                }
-
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    if (rmsGlobal > 210) {
-                                        if (i == 2 || i == 3) {
-                                            if (y <= 17) {
-                                                matrix[i][y] = 1;
-                                            } else {
-                                                matrix[i][y] = 0;
-                                            }
-
-                                        } else {
-                                            if (i == 1 || i == 4) {
-                                                if (y <= 16) {
-                                                    matrix[i][y] = 1;
-                                                } else {
-                                                    matrix[i][y] = 0;
-                                                }
-
-                                            } else {
-                                                if (i == 0 || i == 5) {
-                                                    if (y <= 15) {
-                                                        matrix[i][y] = 1;
-                                                    } else {
-                                                        matrix[i][y] = 0;
-                                                    }
-
-                                                }
-                                            }
-                                        }
-                                    } else {
-                                        if (rmsGlobal > 200) {
-                                            if (i == 2 || i == 3) {
-                                                if (y <= 16) {
-                                                    matrix[i][y] = 1;
-                                                } else {
-                                                    matrix[i][y] = 0;
-                                                }
-
-                                            } else {
-                                                if (i == 1 || i == 4) {
-                                                    if (y <= 15) {
-                                                        matrix[i][y] = 1;
-                                                    } else {
-                                                        matrix[i][y] = 0;
-                                                    }
-
-                                                } else {
-                                                    if (i == 0 || i == 5) {
-                                                        if (y <= 14) {
-                                                            matrix[i][y] = 1;
-                                                        } else {
-                                                            matrix[i][y] = 0;
-                                                        }
-
-                                                    }
-                                                }
-                                            }
-                                        } else {
-                                            if (rmsGlobal > 190) {
-                                                if (i == 2 || i == 3) {
-                                                    if (y <= 15) {
-                                                        matrix[i][y] = 1;
-                                                    } else {
-                                                        matrix[i][y] = 0;
-                                                    }
-
-                                                } else {
-                                                    if (i == 1 || i == 4) {
-                                                        if (y <= 14) {
-                                                            matrix[i][y] = 1;
-                                                        } else {
-                                                            matrix[i][y] = 0;
-                                                        }
-
-                                                    } else {
-                                                        if (i == 0 || i == 5) {
-                                                            if (y <= 13) {
-                                                                matrix[i][y] = 1;
-                                                            } else {
-                                                                matrix[i][y] = 0;
-                                                            }
-
-                                                        }
-                                                    }
-                                                }
-                                            } else {
-                                                if (rmsGlobal > 180) {
-                                                    if (i == 2 || i == 3) {
-                                                        if (y <= 14) {
-                                                            matrix[i][y] = 1;
-                                                        } else {
-                                                            matrix[i][y] = 0;
-                                                        }
-
-                                                    } else {
-                                                        if (i == 1 || i == 4) {
-                                                            if (y <= 13) {
-                                                                matrix[i][y] = 1;
-                                                            } else {
-                                                                matrix[i][y] = 0;
-                                                            }
-
-                                                        } else {
-                                                            if (i == 0 || i == 5) {
-                                                                if (y <= 12) {
-                                                                    matrix[i][y] = 1;
-                                                                } else {
-                                                                    matrix[i][y] = 0;
-                                                                }
-
-                                                            }
-                                                        }
-                                                    }
-                                                } else {
-                                                    if (rmsGlobal > 170) {
-                                                        if (i == 2 || i == 3) {
-                                                            if (y <= 13) {
-                                                                matrix[i][y] = 1;
-                                                            } else {
-                                                                matrix[i][y] = 0;
-                                                            }
-
-                                                        } else {
-                                                            if (i == 1 || i == 4) {
-                                                                if (y <= 12) {
-                                                                    matrix[i][y] = 1;
-                                                                } else {
-                                                                    matrix[i][y] = 0;
-                                                                }
-
-                                                            } else {
-                                                                if (i == 0 || i == 5) {
-                                                                    if (y <= 11) {
-                                                                        matrix[i][y] = 1;
-                                                                    } else {
-                                                                        matrix[i][y] = 0;
-                                                                    }
-
-                                                                }
-                                                            }
-                                                        }
-                                                    } else {
-                                                        if (rmsGlobal > 160) {
-                                                            if (i == 2 || i == 3) {
-                                                                if (y <= 12) {
-                                                                    matrix[i][y] = 1;
-                                                                } else {
-                                                                    matrix[i][y] = 0;
-                                                                }
-
-                                                            } else {
-                                                                if (i == 1 || i == 4) {
-                                                                    if (y <= 11) {
-                                                                        matrix[i][y] = 1;
-                                                                    } else {
-                                                                        matrix[i][y] = 0;
-                                                                    }
-
-                                                                } else {
-                                                                    if (i == 0 || i == 5) {
-                                                                        if (y <= 10) {
-                                                                            matrix[i][y] = 1;
-                                                                        } else {
-                                                                            matrix[i][y] = 0;
-                                                                        }
-
-                                                                    }
-                                                                }
-                                                            }
-                                                        } else {
-                                                            if (rmsGlobal > 150) {
-                                                                if (i == 2 || i == 3) {
-                                                                    if (y <= 11) {
-                                                                        matrix[i][y] = 1;
-                                                                    } else {
-                                                                        matrix[i][y] = 0;
-                                                                    }
-
-                                                                } else {
-                                                                    if (i == 1 || i == 4) {
-                                                                        if (y <= 10) {
-                                                                            matrix[i][y] = 1;
-                                                                        } else {
-                                                                            matrix[i][y] = 0;
-                                                                        }
-
-                                                                    } else {
-                                                                        if (i == 0 || i == 5) {
-                                                                            if (y <= 9) {
-                                                                                matrix[i][y] = 1;
-                                                                            } else {
-                                                                                matrix[i][y] = 0;
-                                                                            }
-
-                                                                        }
-                                                                    }
-                                                                }
-                                                            } else {
-                                                                if (rmsGlobal > 140) {
-                                                                    if (i == 2 || i == 3) {
-                                                                        if (y <= 10) {
-                                                                            matrix[i][y] = 1;
-                                                                        } else {
-                                                                            matrix[i][y] = 0;
-                                                                        }
-
-                                                                    } else {
-                                                                        if (i == 1 || i == 4) {
-                                                                            if (y <= 9) {
-                                                                                matrix[i][y] = 1;
-                                                                            } else {
-                                                                                matrix[i][y] = 0;
-                                                                            }
-
-                                                                        } else {
-                                                                            if (i == 0 || i == 5) {
-                                                                                if (y <= 8) {
-                                                                                    matrix[i][y] = 1;
-                                                                                } else {
-                                                                                    matrix[i][y] = 0;
-                                                                                }
-
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                } else {
-                                                                    if (rmsGlobal > 130) {
-                                                                        if (i == 2 || i == 3) {
-                                                                            if (y <= 9) {
-                                                                                matrix[i][y] = 1;
-                                                                            } else {
-                                                                                matrix[i][y] = 0;
-                                                                            }
-
-                                                                        } else {
-                                                                            if (i == 1 || i == 4) {
-                                                                                if (y <= 8) {
-                                                                                    matrix[i][y] = 1;
-                                                                                } else {
-                                                                                    matrix[i][y] = 0;
-                                                                                }
-
-                                                                            } else {
-                                                                                if (i == 0 || i == 5) {
-                                                                                    if (y <= 7) {
-                                                                                        matrix[i][y] = 1;
-                                                                                    } else {
-                                                                                        matrix[i][y] = 0;
-                                                                                    }
-
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    } else {
-                                                                        if (rmsGlobal > 120) {
-                                                                            if (i == 2 || i == 3) {
-                                                                                if (y <= 8) {
-                                                                                    matrix[i][y] = 1;
-                                                                                } else {
-                                                                                    matrix[i][y] = 0;
-                                                                                }
-
-                                                                            } else {
-                                                                                if (i == 1 || i == 4) {
-                                                                                    if (y <= 7) {
-                                                                                        matrix[i][y] = 1;
-                                                                                    } else {
-                                                                                        matrix[i][y] = 0;
-                                                                                    }
-
-                                                                                } else {
-                                                                                    if (i == 0 || i == 5) {
-                                                                                        if (y <= 6) {
-                                                                                            matrix[i][y] = 1;
-                                                                                        } else {
-                                                                                            matrix[i][y] = 0;
-                                                                                        }
-
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        } else {
-                                                                            if (rmsGlobal > 110) {
-                                                                                if (i == 2 || i == 3) {
-                                                                                    if (y <= 7) {
-                                                                                        matrix[i][y] = 1;
-                                                                                    } else {
-                                                                                        matrix[i][y] = 0;
-                                                                                    }
-
-                                                                                } else {
-                                                                                    if (i == 1 || i == 4) {
-                                                                                        if (y <= 6) {
-                                                                                            matrix[i][y] = 1;
-                                                                                        } else {
-                                                                                            matrix[i][y] = 0;
-                                                                                        }
-
-                                                                                    } else {
-                                                                                        if (i == 0 || i == 5) {
-                                                                                            if (y <= 5) {
-                                                                                                matrix[i][y] = 1;
-                                                                                            } else {
-                                                                                                matrix[i][y] = 0;
-                                                                                            }
-
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                            } else {
-                                                                                if (rmsGlobal > 100) {
-                                                                                    if (i == 2 || i == 3) {
-                                                                                        if (y <= 6) {
-                                                                                            matrix[i][y] = 1;
-                                                                                        } else {
-                                                                                            matrix[i][y] = 0;
-                                                                                        }
-
-                                                                                    } else {
-                                                                                        if (i == 1 || i == 4) {
-                                                                                            if (y <= 5) {
-                                                                                                matrix[i][y] = 1;
-                                                                                            } else {
-                                                                                                matrix[i][y] = 0;
-                                                                                            }
-
-                                                                                        } else {
-                                                                                            if (i == 0 || i == 5) {
-                                                                                                if (y <= 4) {
-                                                                                                    matrix[i][y] = 1;
-                                                                                                } else {
-                                                                                                    matrix[i][y] = 0;
-                                                                                                }
-
-                                                                                            }
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                                if (rmsGlobal > 90) {
-                                                                                    if (i == 2 || i == 3) {
-                                                                                        if (y <= 5) {
-                                                                                            matrix[i][y] = 1;
-                                                                                        } else {
-                                                                                            matrix[i][y] = 0;
-                                                                                        }
-
-                                                                                    } else {
-                                                                                        if (i == 1 || i == 4) {
-                                                                                            if (y <= 4) {
-                                                                                                matrix[i][y] = 1;
-                                                                                            } else {
-                                                                                                matrix[i][y] = 0;
-                                                                                            }
-
-                                                                                        } else {
-                                                                                            if (i == 0 || i == 5) {
-                                                                                                if (y <= 3) {
-                                                                                                    matrix[i][y] = 1;
-                                                                                                } else {
-                                                                                                    matrix[i][y] = 0;
-                                                                                                }
-
-                                                                                            }
-                                                                                        }
-                                                                                    }
-                                                                                } else {
-                                                                                    if (rmsGlobal > 80) {
-                                                                                        if (i == 2 || i == 3) {
-                                                                                            if (y <= 4) {
-                                                                                                matrix[i][y] = 1;
-                                                                                            } else {
-                                                                                                matrix[i][y] = 0;
-                                                                                            }
-
-                                                                                        } else {
-                                                                                            if (i == 1 || i == 4) {
-                                                                                                if (y <= 3) {
-                                                                                                    matrix[i][y] = 1;
-                                                                                                } else {
-                                                                                                    matrix[i][y] = 0;
-                                                                                                }
-
-                                                                                            } else {
-                                                                                                if (i == 0 || i == 5) {
-                                                                                                    if (y <= 2) {
-                                                                                                        matrix[i][y] = 1;
-                                                                                                    } else {
-                                                                                                        matrix[i][y] = 0;
-                                                                                                    }
-
-                                                                                                }
-                                                                                            }
-                                                                                        }
-                                                                                    } else {
-                                                                                        if (rmsGlobal > 70) {
-                                                                                            if (i == 2 || i == 3) {
-                                                                                                if (y <= 3) {
-                                                                                                    matrix[i][y] = 1;
-                                                                                                } else {
-                                                                                                    matrix[i][y] = 0;
-                                                                                                }
-
-                                                                                            } else {
-                                                                                                if (i == 1 || i == 4) {
-                                                                                                    if (y <= 2) {
-                                                                                                        matrix[i][y] = 1;
-                                                                                                    } else {
-                                                                                                        matrix[i][y] = 0;
-                                                                                                    }
-
-                                                                                                } else {
-                                                                                                    if (i == 0 || i == 5) {
-                                                                                                        if (y <= 1) {
-                                                                                                            matrix[i][y] = 1;
-                                                                                                        } else {
-                                                                                                            matrix[i][y] = 0;
-                                                                                                        }
-
-                                                                                                    }
-                                                                                                }
-                                                                                            }
-                                                                                        } else {
-                                                                                            if (rmsGlobal > 60) {
-                                                                                                if (i == 2 || i == 3) {
-                                                                                                    if (y <= 2) {
-                                                                                                        matrix[i][y] = 1;
-                                                                                                    } else {
-                                                                                                        matrix[i][y] = 0;
-                                                                                                    }
-
-                                                                                                } else {
-                                                                                                    if (i == 1 || i == 4) {
-                                                                                                        if (y <= 1) {
-                                                                                                            matrix[i][y] = 1;
-                                                                                                        } else {
-                                                                                                            matrix[i][y] = 0;
-                                                                                                        }
-
-                                                                                                    } else {
-                                                                                                        if (i == 0 || i == 5) {
-                                                                                                            if (y <= 0) {
-                                                                                                                matrix[i][y] = 1;
-                                                                                                            } else {
-                                                                                                                matrix[i][y] = 0;
-                                                                                                            }
-
-                                                                                                        }
-                                                                                                    }
-                                                                                                }
-                                                                                            } else {
-                                                                                                if (rmsGlobal > 50) {
-                                                                                                    if (i == 2 || i == 3) {
-                                                                                                        if (y <= 1) {
-                                                                                                            matrix[i][y] = 1;
-                                                                                                        } else {
-                                                                                                            matrix[i][y] = 0;
-                                                                                                        }
-
-                                                                                                    } else {
-                                                                                                        if (i == 1 || i == 4) {
-                                                                                                            if (y <= 0) {
-                                                                                                                matrix[i][y] = 1;
-                                                                                                            } else {
-                                                                                                                matrix[i][y] = 0;
-                                                                                                            }
-
-                                                                                                        } else {
-                                                                                                            if (i == 0 || i == 5) {
-                                                                                                                if (y <= -1) {
-                                                                                                                    matrix[i][y] = 1;
-                                                                                                                } else {
-                                                                                                                    matrix[i][y] = 0;
-                                                                                                                }
-
-                                                                                                            }
-                                                                                                        }
-                                                                                                    }
-                                                                                                } else {
-                                                                                                    if (rmsGlobal > 40) {
-                                                                                                        if (i == 2 || i == 3) {
-                                                                                                            if (y <= 0) {
-                                                                                                                matrix[i][y] = 1;
-                                                                                                            } else {
-                                                                                                                matrix[i][y] = 0;
-                                                                                                            }
-
-                                                                                                        } else {
-                                                                                                            if (i == 1 || i == 4) {
-                                                                                                                if (y <= -1) {
-                                                                                                                    matrix[i][y] = 1;
-                                                                                                                } else {
-                                                                                                                    matrix[i][y] = 0;
-                                                                                                                }
-
-                                                                                                            } else {
-                                                                                                                if (i == 0 || i == 5) {
-                                                                                                                    if (y <= -1) {
-                                                                                                                        matrix[i][y] = 1;
-                                                                                                                    } else {
-                                                                                                                        matrix[i][y] = 0;
-                                                                                                                    }
-
-                                                                                                                }
-                                                                                                            }
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        if (rmsGlobal > 30) {
-                                                                                                            if (i == 2 || i == 3) {
-                                                                                                                if (y <= -1) {
-                                                                                                                    matrix[i][y] = 1;
-                                                                                                                } else {
-                                                                                                                    matrix[i][y] = 0;
-                                                                                                                }
-
-                                                                                                            } else {
-                                                                                                                if (i == 1 || i == 4) {
-                                                                                                                    if (y <= -1) {
-                                                                                                                        matrix[i][y] = 1;
-                                                                                                                    } else {
-                                                                                                                        matrix[i][y] = 0;
-                                                                                                                    }
-
-                                                                                                                } else {
-                                                                                                                    if (i == 0 || i == 5) {
-                                                                                                                        if (y <= -1) {
-                                                                                                                            matrix[i][y] = 1;
-                                                                                                                        } else {
-                                                                                                                            matrix[i][y] = 0;
-                                                                                                                        }
-
-                                                                                                                    }
-                                                                                                                }
-                                                                                                            }
-                                                                                                        } else {
-                                                                                                            if (rmsGlobal > 20) {
-                                                                                                                if (i == 2 || i == 3) {
-                                                                                                                    if (y <= -1) {
-                                                                                                                        matrix[i][y] = 1;
-                                                                                                                    } else {
-                                                                                                                        matrix[i][y] = 0;
-                                                                                                                    }
-
-                                                                                                                } else {
-                                                                                                                    if (i == 1 || i == 4) {
-                                                                                                                        if (y <= -1) {
-                                                                                                                            matrix[i][y] = 1;
-                                                                                                                        } else {
-                                                                                                                            matrix[i][y] = 0;
-                                                                                                                        }
-
-                                                                                                                    } else {
-                                                                                                                        if (i == 0 || i == 5) {
-                                                                                                                            if (y <= -1) {
-                                                                                                                                matrix[i][y] = 1;
-                                                                                                                            } else {
-                                                                                                                                matrix[i][y] = 0;
-                                                                                                                            }
-
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                }
-                                                                                                            } else {
-                                                                                                                if (rmsGlobal > 10) {
-                                                                                                                    if (i == 2 || i == 3) {
-                                                                                                                        if (y <= -1) {
-                                                                                                                            matrix[i][y] = 1;
-                                                                                                                        } else {
-                                                                                                                            matrix[i][y] = 0;
-                                                                                                                        }
-
-                                                                                                                    } else {
-                                                                                                                        if (i == 1 || i == 4) {
-                                                                                                                            if (y <= -1) {
-                                                                                                                                matrix[i][y] = 1;
-                                                                                                                            } else {
-                                                                                                                                matrix[i][y] = 0;
-                                                                                                                            }
-
-                                                                                                                        } else {
-                                                                                                                            if (i == 0 || i == 5) {
-                                                                                                                                if (y <= -1) {
-                                                                                                                                    matrix[i][y] = 1;
-                                                                                                                                } else {
-                                                                                                                                    matrix[i][y] = 0;
-                                                                                                                                }
-
-                                                                                                                            }
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                } else {
-                                                                                                                    if (rmsGlobal > 5) {
-                                                                                                                        if (i == 2 || i == 3) {
-                                                                                                                            if (y <= -1) {
-                                                                                                                                matrix[i][y] = 1;
-                                                                                                                            } else {
-                                                                                                                                matrix[i][y] = 0;
-                                                                                                                            }
-
-                                                                                                                        } else {
-                                                                                                                            if (i == 1 || i == 4) {
-                                                                                                                                if (y <= -1) {
-                                                                                                                                    matrix[i][y] = 1;
-                                                                                                                                } else {
-                                                                                                                                    matrix[i][y] = 0;
-                                                                                                                                }
-
-                                                                                                                            } else {
-                                                                                                                                if (i == 0 || i == 5) {
-                                                                                                                                    if (y <= -1) {
-                                                                                                                                        matrix[i][y] = 1;
-                                                                                                                                    } else {
-                                                                                                                                        matrix[i][y] = 0;
-                                                                                                                                    }
-
-                                                                                                                                }
-                                                                                                                            }
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                }
-                                                                                                            }
-                                                                                                        }
-                                                                                                    }
-                                                                                                }
-                                                                                            }
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
                         }
                     }
                 }
             }
+        }
+        return matrix;
+    }
 
+    private int[][] esquerda(int i, int y, int[][] matrix, int cordenada) {
+        if (matrix.length == 6) {
+            if (i == 2 || i == 3) {
+                if (y >= cordenada) {
+                    matrix[i][y] = 1;
+                } else {
+                    matrix[i][y] = 0;
+                }
+
+            } else {
+                if (i == 1 || i == 4) {
+                    if (y - 1 >= cordenada) {
+                        matrix[i][y] = 1;
+                    } else {
+                        matrix[i][y] = 0;
+                    }
+                } else {
+                    if (i == 0 || i == 5) {
+                        if (y - 2 >= cordenada) {
+                            matrix[i][y] = 1;
+                        } else {
+                            matrix[i][y] = 0;
+                        }
+
+                    }
+                }
+            }
+        } else {
+            if (matrix.length > 6) {
+                if (i == 3 || i == 4) {
+                    if (y >= cordenada) {
+                        matrix[i][y] = 1;
+                    } else {
+                        matrix[i][y] = 0;
+                    }
+
+                } else {
+                    if (i == 1 || i == 2 || i == 5 || i == 6) {
+                        if (y - 1 >= cordenada) {
+                            matrix[i][y] = 1;
+                        } else {
+                            matrix[i][y] = 0;
+                        }
+                    } else {
+                        if (i == 0 || i == 7) {
+                            if (y - 2 >= cordenada) {
+                                matrix[i][y] = 1;
+                            } else {
+                                matrix[i][y] = 0;
+                            }
+
+                        }
+                    }
+                }
+            }
         }
         return matrix;
     }
