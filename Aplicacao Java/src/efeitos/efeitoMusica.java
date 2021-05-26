@@ -10,12 +10,18 @@ import javax.sound.sampled.Mixer;
 import IPerifericos.colecaoPerifericos;
 import Metodos.tempoPorVolta;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
 
 public final class efeitoMusica extends IEfeitos {
 
     private int frameSize = 2;
     private final Mixer.Info dispositivoSelecionado;
     private TargetDataLine targetDataLine;
+    private SourceDataLine saida;
     private int rmsGlobal = 0;
     private int rmsDireita = 0;
     private int rmsEsquerda = 0;
@@ -29,42 +35,61 @@ public final class efeitoMusica extends IEfeitos {
     @Override
     public void run() {
         efeitoAudioTrocarCor();
-
     }
 
-    private void iniciarLine() {
+    private void iniciarLine() throws LineUnavailableException {
         Mixer mixer = AudioSystem.getMixer(dispositivoSelecionado);
         Line.Info[] lineInfo = mixer.getTargetLineInfo();
         Line.Info selectedInfo = null;
         for (Line.Info selecionada : lineInfo) {
             selectedInfo = selecionada;
         }
-        try {
-            targetDataLine = (TargetDataLine) mixer.getLine(selectedInfo);
-            frameSize = targetDataLine.getFormat().getFrameSize();
-            targetDataLine.open(targetDataLine.getFormat(), frameSize);
-        } catch (Exception e) {
-        }
+
+        targetDataLine = (TargetDataLine) mixer.getLine(selectedInfo);
+        frameSize =  targetDataLine.getFormat().getFrameSize();
+        targetDataLine.open(targetDataLine.getFormat(),frameSize);//, frameSize);
         targetDataLine.flush();
         targetDataLine.start();
+        //testeCopiadesom();
 
     }
 
+    private void testeCopiadesom() throws LineUnavailableException {
+        Mixer.Info[] mixerInfo = AudioSystem.getMixerInfo();
+        for (Mixer.Info infom : mixerInfo) {
+            if (infom.getName().contains("Alto-falantes (Logitech G933 Gaming Headset)")) {
+                System.out.println(infom.getName());
+                Mixer mixer = AudioSystem.getMixer(infom);
+                mixer.open();
+                System.out.println(mixer.getSourceLineInfo().length);
+                saida = (SourceDataLine) mixer.getLine(mixer.getSourceLineInfo()[0]);
+                mixer.close();
+                saida.open(saida.getFormat());
+                saida.flush();
+                saida.start();
+            }
+        }
+    }
+
     private void efeitoAudioTrocarCor() {
-        iniciarLine();
+        try {
+            iniciarLine();
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(efeitoMusica.class.getName()).log(Level.SEVERE, null, ex);
+        }
         tempoPorVolta tempo = new tempoPorVolta(0);
         while (!allDone) {
-            System.out.println(".");
             escutarMusica(tempo);
         }
         targetDataLine.stop();
-
+      //  saida.stop();
     }
 
     private void escutarMusica(tempoPorVolta tempo) {
         byte[] buf = new byte[frameSize];
         float[] Chanel1 = new float[frameSize / targetDataLine.getFormat().getChannels()];
         int b = targetDataLine.read(buf, 0, buf.length);
+
         if (allDone) {
             targetDataLine.stop();
             return;
