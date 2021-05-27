@@ -25,7 +25,7 @@ public class LogiTechKeyBoardMap {
         G815.add(new LogiTechRowColumn(LogiTechLedId.F12,0,15));
         G815.add(new LogiTechRowColumn(LogiTechLedId.PRINT_SCREEN,0,16));
         G815.add(new LogiTechRowColumn(LogiTechLedId.SCROLL_LOCK,0,17));
-        G815.add(new LogiTechRowColumn(LogiTechLedId.PAUSE_BREAK,0,18));       
+        G815.add(new LogiTechRowColumn(LogiTechLedId.PAUSE_BREAK,0,18));    
         
         G815.add(new LogiTechRowColumn(LogiTechLedId.G_1,1,0));
         G815.add(new LogiTechRowColumn(LogiTechLedId.TILDE,1,1));
@@ -45,7 +45,7 @@ public class LogiTechKeyBoardMap {
         G815.add(new LogiTechRowColumn(LogiTechLedId.INSERT,1,16));
         G815.add(new LogiTechRowColumn(LogiTechLedId.HOME,1,17));
         G815.add(new LogiTechRowColumn(LogiTechLedId.PAGE_UP,1,18));
-        G815.add(new LogiTechRowColumn(LogiTechLedId.NUM_LOCK,1,19));
+        G815.add(new LogiTechRowColumn(LogiTechLedId.NUM_LOCK,1,19)); 
         G815.add(new LogiTechRowColumn(LogiTechLedId.NUM_SLASH,1,20));
         G815.add(new LogiTechRowColumn(LogiTechLedId.NUM_ASTERISK,1,21));
         G815.add(new LogiTechRowColumn(LogiTechLedId.NUM_MINUS,1,22));

@@ -6,9 +6,10 @@ import ca.fiercest.cuesdk.CorsairKeyBoardMap;
 import ca.fiercest.cuesdk.CorsairRowColumn;
 import ca.fiercest.cuesdk.CueSDK;
 import ca.fiercest.cuesdk.enums.LedId;
+import java.util.List;
 
 public class Keyboard extends ICorsair implements IKeyboard {
-    private int[][] teclas= new int[7][25];
+    private int[][] teclas;
     public Keyboard(CueSDK CorsairSDK, CorsairDevice device) {
         super(CorsairSDK, device, 1, 147);
         preencherTeclas();
@@ -28,8 +29,28 @@ public class Keyboard extends ICorsair implements IKeyboard {
     
     private void preencherTeclas() {
         CorsairKeyBoardMap keyboard = new CorsairKeyBoardMap();
-        for (CorsairRowColumn tecla : keyboard.getKeys(super.getNome())) {          
+        List<CorsairRowColumn> mapaRowColum= keyboard.getKeys(super.getNome());
+        int [] size=pegarMaiorColunaMaiorRow(mapaRowColum);
+        teclas = new int[size[0]][size[1]];
+        for (CorsairRowColumn tecla : mapaRowColum) {          
             teclas[tecla.getRow()][tecla.getColumn()] = tecla.getCorsaIdLedId().getId();
         }        
+    }
+    
+    
+       public int[] pegarMaiorColunaMaiorRow(List<CorsairRowColumn> mapaRowColum){
+        int [] size = {0,0};
+        for (CorsairRowColumn tecla :mapaRowColum) {    
+            
+             if(size[1]<tecla.getColumn()+1){
+                size[1]=tecla.getColumn()+1;
+            } 
+             
+            if(size[0]<tecla.getRow()+1){
+                size[0]=tecla.getRow()+1;
+            }      
+        }   
+        
+        return size;
     }
 }

@@ -47,10 +47,11 @@ public final class efeitoArcoIris extends IEfeitos {
 
     @Override
     protected void colorirTeclado(IPerifericos teclado, ArrayList<Boolean> chegou,int pos) {
-        for (int y = 0; y < 25; y++) {
+       int [][] teclas=((IKeyboard) teclado).getTeclas();
+        for (int y = 0; y < teclas[0].length; y++) {
             trocarCor();
             teclado.setCor(getCor());
-            for (int[] sequencia : ((IKeyboard) teclado).getTeclas()) {
+            for (int[] sequencia : teclas) {
                 if (y < sequencia.length) {
                     ((IKeyboard) teclado).colorirPorTecla(sequencia[y]);
                 }

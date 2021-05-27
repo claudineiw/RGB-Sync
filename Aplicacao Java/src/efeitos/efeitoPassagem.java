@@ -49,10 +49,11 @@ public class efeitoPassagem extends IEfeitos {
     @Override
     protected void colorirTeclado(IPerifericos teclado, ArrayList<Boolean> chegou, int pos) {
         teclado.setCor(getCor());
+        int [][] teclas=((IKeyboard) teclado).getTeclas();
         tempoPorVolta tempo = new tempoPorVolta(200);
-        for (int y = 0; y < 25; y++) {
+        for (int y = 0; y < teclas[0].length; y++) {
             tempo.calculo();
-            for (int[] sequencia : ((IKeyboard) teclado).getTeclas()) {
+            for (int[] sequencia : teclas) {
                 if (y < sequencia.length) {
                     ((IKeyboard) teclado).colorirPorTecla(sequencia[y]);
                 }
