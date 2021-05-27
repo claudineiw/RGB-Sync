@@ -32,8 +32,7 @@ public final class Keyboard extends ILogitech implements IKeyboard {
         LogiTechKeyBoardMap mapaTeclas = new LogiTechKeyBoardMap();
         for (LogiTechRowColumn tecla : mapaTeclas.getKeys(getDevice().getModel())) {          
             teclas[tecla.getRow()][tecla.getColumn()] = tecla.getLogiTechLedId().getIndex();
-        }
-        
+        }        
     }
 
     @Override

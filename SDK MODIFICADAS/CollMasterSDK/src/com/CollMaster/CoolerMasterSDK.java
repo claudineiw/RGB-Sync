@@ -1,6 +1,5 @@
 package com.CollMaster;
 
-import com.sun.javafx.application.PlatformImpl;
 import com.sun.jna.Native;
 import java.io.File;
 import java.io.FileNotFoundException;

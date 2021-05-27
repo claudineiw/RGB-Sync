@@ -14,14 +14,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
 
 public final class efeitoMusica extends IEfeitos {
 
     private int frameSize = 2;
     private final Mixer.Info dispositivoSelecionado;
     private TargetDataLine targetDataLine;
-    private SourceDataLine saida;
+    private AudioFormat format;
     private int rmsGlobal = 0;
     private int rmsDireita = 0;
     private int rmsEsquerda = 0;
@@ -44,31 +43,14 @@ public final class efeitoMusica extends IEfeitos {
         for (Line.Info selecionada : lineInfo) {
             selectedInfo = selecionada;
         }
-
+        
         targetDataLine = (TargetDataLine) mixer.getLine(selectedInfo);
-        frameSize =  targetDataLine.getFormat().getFrameSize();
-        targetDataLine.open(targetDataLine.getFormat(),frameSize);//, frameSize);
+        format = targetDataLine.getFormat();
+        frameSize = format.getFrameSize();
+        targetDataLine.open(format, frameSize);
         targetDataLine.flush();
         targetDataLine.start();
-        //testeCopiadesom();
 
-    }
-
-    private void testeCopiadesom() throws LineUnavailableException {
-        Mixer.Info[] mixerInfo = AudioSystem.getMixerInfo();
-        for (Mixer.Info infom : mixerInfo) {
-            if (infom.getName().contains("Alto-falantes (Logitech G933 Gaming Headset)")) {
-                System.out.println(infom.getName());
-                Mixer mixer = AudioSystem.getMixer(infom);
-                mixer.open();
-                System.out.println(mixer.getSourceLineInfo().length);
-                saida = (SourceDataLine) mixer.getLine(mixer.getSourceLineInfo()[0]);
-                mixer.close();
-                saida.open(saida.getFormat());
-                saida.flush();
-                saida.start();
-            }
-        }
     }
 
     private void efeitoAudioTrocarCor() {
@@ -82,12 +64,11 @@ public final class efeitoMusica extends IEfeitos {
             escutarMusica(tempo);
         }
         targetDataLine.stop();
-      //  saida.stop();
     }
 
     private void escutarMusica(tempoPorVolta tempo) {
         byte[] buf = new byte[frameSize];
-        float[] Chanel1 = new float[frameSize / targetDataLine.getFormat().getChannels()];
+        float[] Chanel1 = new float[frameSize / format.getChannels()];
         int b = targetDataLine.read(buf, 0, buf.length);
 
         if (allDone) {
@@ -102,7 +83,7 @@ public final class efeitoMusica extends IEfeitos {
             Chanel1[s++] = sample / 32768f;
         }
 
-        if (targetDataLine.getFormat().getChannels() == 2) {
+        if (format.getChannels() == 2) {
             float RMSch1 = Chanel1[0] * Chanel1[0];
             float RMSch2 = Chanel1[1] * Chanel1[1];
             RMSch1 = (float) Math.sqrt(RMSch1 / Chanel1.length);
@@ -118,7 +99,7 @@ public final class efeitoMusica extends IEfeitos {
             }
             chamadaMetodosColorir(tempo);
         } else {
-            if (targetDataLine.getFormat().getChannels() == 1) {
+            if (format.getChannels() == 1) {
                 float RMSch1 = Chanel1[0] * Chanel1[0];
                 RMSch1 = (float) Math.sqrt(RMSch1 / Chanel1.length);
                 rmsEsquerda = (Math.round(Math.abs(RMSch1) * (500 - 2)));

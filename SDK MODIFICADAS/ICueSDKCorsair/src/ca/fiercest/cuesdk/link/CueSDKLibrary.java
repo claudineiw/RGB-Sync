@@ -27,7 +27,7 @@ public interface CueSDKLibrary extends Library
 		{
 			File f = Native.extractFromResourcePath("CueSDK");
 			System.setProperty("jna.library.path", f.getAbsolutePath());
-			return Native.loadLibrary(JNA_LIBRARY_NAME, CueSDKLibrary.class);
+			return Native.load(JNA_LIBRARY_NAME, CueSDKLibrary.class);
 		}
 		catch (IOException e)
 		{

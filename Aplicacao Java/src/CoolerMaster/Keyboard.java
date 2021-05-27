@@ -5,7 +5,7 @@ import com.CollMaster.CoolerMasterDevice;
 import com.CollMaster.CoolerMasterRowColumn;
 
 public class Keyboard extends ICoolerMaster implements IKeyboard {
-    private int[][] teclas = new int[8][25];
+    private final int[][] teclas = new int[8][25];
     public Keyboard(com.CollMaster.CoolerMasterSDK CoolerMasterSDK,CoolerMasterDevice device) {
         super(CoolerMasterSDK,device);
     }
